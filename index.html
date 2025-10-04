@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Capybara Labs — IA, Agentes y Automatizaciones</title>
+  <meta name="description" content="Capybara Labs: integración de agentes de IA, automatizaciones con n8n y desarrollo de software para operaciones más eficientes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind config (colores de marca editables)
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cb: {
+              bg: '#0B0F1A',     // fondo dark
+              card: '#0F1629',   // tarjetas
+              pri: '#7CFFCB',    // primario (menta)
+              sec: '#7AA2F7',    // secundario (azulado)
+              ink: '#E5E7EB'     // texto
+            }
+          },
+          boxShadow: {
+            glow: '0 0 0 1px rgba(124,255,203,.2), 0 10px 40px -12px rgba(124,255,203,.25)'
+          },
+          backgroundImage: {
+            grid: "radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0)"
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root { color-scheme: dark; }
+    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+    .grad { background: radial-gradient(1200px 600px at 80% -10%, rgba(124,255,203,.15), transparent 60%),
+                        radial-gradient(900px 500px at 10% 10%, rgba(122,162,247,.15), transparent 60%); }
+  </style>
+</head>
+<body class="bg-cb-bg text-cb-ink antialiased selection:bg-cb-pri/30">
+  <!-- NAV -->
+  <header class="fixed inset-x-0 top-0 z-50">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between py-5">
+        <a href="#" class="flex items-center gap-3 font-semibold text-cb-ink">
+          <div class="h-8 w-8 rounded-xl bg-cb-pri/20 ring-1 ring-cb-pri/40 grid place-items-center">
+            <span class="text-cb-pri text-lg">🐹</span>
+          </div>
+          <span>Capybara Labs</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-8 text-sm text-white/80">
+          <a href="#servicios" class="hover:text-white">Servicios</a>
+          <a href="#experimentos" class="hover:text-white">Experiments</a>
+          <a href="#casos" class="hover:text-white">Casos</a>
+          <a href="#precios" class="hover:text-white">Precios</a>
+          <a href="#contacto" class="hover:text-white">Contacto</a>
+          <a href="#contacto" class="inline-flex items-center gap-2 rounded-xl bg-cb-pri/15 px-4 py-2 text-cb-pri ring-1 ring-cb-pri/30 hover:shadow-glow">Hablemos</a>
+        </nav>
+        <button id="menuBtn" class="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg ring-1 ring-white/10 hover:bg-white/5">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M3.75 6.75h16.5v1.5H3.75zM3.75 11.25h16.5v1.5H3.75zM3.75 15.75h16.5v1.5H3.75z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="md:hidden hidden border-t border-white/10 bg-cb-card/80 backdrop-blur">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 grid gap-2 text-sm">
+        <a href="#servicios" class="py-2">Servicios</a>
+        <a href="#experimentos" class="py-2">Experiments</a>
+        <a href="#casos" class="py-2">Casos</a>
+        <a href="#precios" class="py-2">Precios</a>
+        <a href="#contacto" class="py-2">Contacto</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="grad pt-28 md:pt-36 pb-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid items-center gap-10 md:grid-cols-2">
+        <div class="space-y-6">
+          <div class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs ring-1 ring-white/10">
+            <span class="h-2 w-2 rounded-full bg-cb-pri animate-pulse"></span>
+            Agentes de IA • Automatizaciones • n8n
+          </div>
+          <h1 class="text-4xl font-extrabold leading-tight md:text-5xl">
+            Integramos <span class="text-cb-pri">IA</span> y <span class="text-cb-sec">automatizaciones</span> que trabajan mientras tú duermes
+          </h1>
+          <p class="text-white/70 max-w-xl">Diseñamos, conectamos y operamos <strong>agentes de IA</strong> y flujos con <strong>n8n</strong> para que tu negocio responda más rápido, escale procesos y reduzca tareas repetitivas.</p>
+          <div class="flex flex-wrap gap-3">
+            <a href="#contacto" class="inline-flex items-center gap-2 rounded-xl bg-cb-pri px-5 py-3 font-semibold text-cb-bg hover:brightness-110">
+              Empezar un proyecto
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 4.5h6v6h-1.5V7.56l-9.22 9.22-1.06-1.06 9.22-9.22H13.5V4.5z"/></svg>
+            </a>
+            <a href="#servicios" class="inline-flex items-center gap-2 rounded-xl bg-white/5 px-5 py-3 font-medium ring-1 ring-white/10 hover:bg-white/10">Ver servicios</a>
+          </div>
+          <div class="flex items-center gap-6 pt-2 opacity-80">
+            <img alt="n8n" class="h-6" src="https://upload.wikimedia.org/wikipedia/commons/0/0e/N8n-logo.png"/>
+            <img alt="OpenAI" class="h-6" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg"/>
+            <img alt="Vercel" class="h-5" src="https://assets.vercel.com/image/upload/v1662130559/nextjs/Icon_dark_background.png"/>
+            <img alt="Cloudflare" class="h-5" src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Cloudflare_Logo.png"/>
+          </div>
+        </div>
+        <div>
+          <div class="relative rounded-2xl bg-cb-card p-2 ring-1 ring-white/10 shadow-2xl">
+            <div class="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-cb-pri/10 via-transparent to-cb-sec/10 blur-xl"></div>
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop" alt="AI Dashboard" class="relative rounded-xl"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios" class="py-20 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold">Servicios principales</h2>
+        <p class="text-white/70">Enfocados en impacto real y retorno medible</p>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        <!-- Card 1 -->
+        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10 hover:shadow-glow transition-shadow">
+          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cb-pri/20 ring-1 ring-cb-pri/30">🤖</div>
+          <h3 class="text-lg font-semibold mb-2">Agentes de IA a medida</h3>
+          <p class="text-white/70">Diseño e integración de agentes (ventas, soporte, extracción de datos, asistentes internos) conectados a tus sistemas.</p>
+          <ul class="mt-4 space-y-2 text-sm text-white/70 list-disc list-inside">
+            <li>LLMs + RAG con tus documentos</li>
+            <li>Integración con CRMs y ERPs</li>
+            <li>Voicebots / chat embebido</li>
+          </ul>
+        </div>
+        <!-- Card 2 -->
+        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10 hover:shadow-glow transition-shadow">
+          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cb-sec/20 ring-1 ring-cb-sec/30">🔗</div>
+          <h3 class="text-lg font-semibold mb-2">Automatizaciones con n8n</h3>
+          <p class="text-white/70">Flujos robustos para mover datos entre apps, disparar campañas, reconciliar pagos y más.</p>
+          <ul class="mt-4 space-y-2 text-sm text-white/70 list-disc list-inside">
+            <li>Webhooks y colas de trabajo</li>
+            <li>ETL ligero y sincronizaciones</li>
+            <li>Monitoreo y alertas</li>
+          </ul>
+        </div>
+        <!-- Card 3 -->
+        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10 hover:shadow-glow transition-shadow">
+          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/20">🧩</div>
+          <h3 class="text-lg font-semibold mb-2">APIs & Microservicios</h3>
+          <p class="text-white/70">Backends escalables, con autenticación, métricas y buenas prácticas desde el día uno.</p>
+          <ul class="mt-4 space-y-2 text-sm text-white/70 list-disc list-inside">
+            <li>Node/Java + PostgreSQL</li>
+            <li>Observabilidad (logs/metrics)</li>
+            <li>CD/CI y buenas prácticas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIMENTOS -->
+  <section id="experimentos" class="py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="md:flex md:items-center md:justify-between mb-8">
+        <h2 class="text-3xl font-bold">Experiments</h2>
+        <p class="text-white/70 max-w-2xl">Zona de proyectos “locos” y POCs rápidos. Probamos ideas para aprender y compartir resultados.</p>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        <!-- Exp 1 -->
+        <article class="group rounded-2xl bg-cb-card overflow-hidden ring-1 ring-white/10">
+          <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" class="h-44 w-full object-cover opacity-90 group-hover:opacity-100 transition" alt="Podcast IA" />
+          <div class="p-6">
+            <h3 class="font-semibold mb-1">ChIArlando — Podcast con IAs</h3>
+            <p class="text-sm text-white/70">Episodios con dos IAs (Héctor & Aura) debatiendo ciencia, misterio y cultura pop. Guiones generativos + TTS.</p>
+            <div class="mt-4 flex items-center gap-3">
+              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">TTS</span>
+              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">RAG</span>
+              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">Video</span>
+            </div>
+          </div>
+        </article>
+        <!-- Exp 2 -->
+        <article class="group rounded-2xl bg-cb-card overflow-hidden ring-1 ring-white/10">
+          <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" class="h-44 w-full object-cover opacity-90 group-hover:opacity-100 transition" alt="Agent Ops" />
+          <div class="p-6">
+            <h3 class="font-semibold mb-1">Agent Ops Lab</h3>
+            <p class="text-sm text-white/70">Pruebas de agentes autónomos con herramientas controladas, memoria y límites de seguridad.</p>
+            <div class="mt-4 flex items-center gap-3">
+              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">Tools</span>
+              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">Memory</span>
+              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">Eval</span>
+            </div>
+          </div>
+        </article>
+        <!-- Exp 3 -->
+        <article class="group rounded-2xl bg-cb-card overflow-hidden ring-1 ring-white/10">
+          <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" class="h-44 w-full object-cover opacity-90 group-hover:opacity-100 transition" alt="n8n" />
+          <div class="p-6">
+            <h3 class="font-semibold mb-1">n8n Recipes</h3>
+            <p class="text-sm text-white/70">Colección de flujos reutilizables para CRM, marketing, finanzas y operaciones.</p>
+            <div class="mt-4 flex items-center gap-3">
+              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">CRM</span>
+              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">Ops</span>
+              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">ETL</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASOS -->
+  <section id="casos" class="py-20 bg-cb-card/40 ring-1 ring-inset ring-white/5">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold">Casos de uso</h2>
+        <p class="text-white/70">Algunas aplicaciones comunes que implementamos</p>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10">
+          <h3 class="font-semibold mb-2">Soporte 24/7</h3>
+          <p class="text-white/70 text-sm">Agentes conectados a tu base de conocimiento que resuelven el 60–80% de tickets sin humanos.</p>
+        </div>
+        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10">
+          <h3 class="font-semibold mb-2">Ventas asistidas</h3>
+          <p class="text-white/70 text-sm">Cualificación de leads, mensajes personalizados y seguimiento automático multicanal.</p>
+        </div>
+        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10">
+          <h3 class="font-semibold mb-2">Operaciones y finanzas</h3>
+          <p class="text-white/70 text-sm">Conciliaciones, informes, alertas y tareas repetitivas orquestadas con n8n.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRECIOS / CTA -->
+  <section id="precios" class="py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div>
+          <h2 class="text-3xl font-bold mb-3">Arranca con un piloto</h2>
+          <p class="text-white/70">Validamos rápido el impacto: 2–4 semanas, objetivos claros y métricas de éxito. Si aporta valor, escalamos.</p>
+          <ul class="mt-6 space-y-3 text-white/80">
+            <li class="flex items-start gap-3"><span class="mt-1">✅</span><span>Discovery + mapa de oportunidades</span></li>
+            <li class="flex items-start gap-3"><span class="mt-1">✅</span><span>POC de agente o automatización crítica</span></li>
+            <li class="flex items-start gap-3"><span class="mt-1">✅</span><span>Plan de despliegue y ROI estimado</span></li>
+          </ul>
+        </div>
+        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10">
+          <div class="text-sm text-white/60">Desde</div>
+          <div class="text-4xl font-extrabold">€1.490 <span class="text-base font-medium text-white/60">+ IVA</span></div>
+          <p class="text-white/60 mt-2">Piloto de bajo riesgo para demostrar valor antes de escalar</p>
+          <a href="#contacto" class="mt-6 inline-flex items-center justify-center w-full rounded-xl bg-cb-pri px-5 py-3 font-semibold text-cb-bg hover:brightness-110">Solicitar propuesta</a>
+          <p class="text-xs text-white/50 mt-3">También trabajamos por bolsa de horas o proyecto cerrado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="py-20">
+    <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold mb-3">¿Hablamos?</h2>
+      <p class="text-white/70">Cuéntanos tu caso y preparamos un plan en 48h.</p>
+      <form class="mt-8 grid gap-4 text-left">
+        <div>
+          <label class="block text-sm mb-1">Nombre</label>
+          <input type="text" placeholder="Tu nombre" class="w-full rounded-xl border border-white/10 bg-cb-card px-4 py-3 outline-none focus:ring-2 focus:ring-cb-pri/50" />
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm mb-1">Email</label>
+            <input type="email" placeholder="tu@email.com" class="w-full rounded-xl border border-white/10 bg-cb-card px-4 py-3 outline-none focus:ring-2 focus:ring-cb-pri/50" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1">Empresa</label>
+            <input type="text" placeholder="Nombre de la empresa" class="w-full rounded-xl border border-white/10 bg-cb-card px-4 py-3 outline-none focus:ring-2 focus:ring-cb-pri/50" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Mensaje</label>
+          <textarea rows="4" placeholder="Cuéntanos qué necesitas…" class="w-full rounded-xl border border-white/10 bg-cb-card px-4 py-3 outline-none focus:ring-2 focus:ring-cb-pri/50"></textarea>
+        </div>
+        <button type="button" class="rounded-xl bg-cb-pri px-6 py-3 font-semibold text-cb-bg hover:brightness-110">Enviar</button>
+        <p class="text-xs text-white/50">Si prefieres, escríbenos a contacto@capybara.tech</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 py-10">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-white/50 text-sm">© <span id="year"></span> Capybara Labs LLC — Wyoming, USA · Málaga, ES</p>
+      <div class="flex items-center gap-4 text-white/60 text-sm">
+        <a href="#" class="hover:text-white">Privacidad</a>
+        <a href="#" class="hover:text-white">Términos</a>
+        <a href="#" class="hover:text-white">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const btn = document.getElementById('menuBtn');
+    const menu = document.getElementById('mobileMenu');
+    btn?.addEventListener('click', () => menu.classList.toggle('hidden'));
+  </script>
+</body>
+</html>
