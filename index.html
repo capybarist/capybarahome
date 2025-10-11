@@ -1,308 +1,275 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Capybara Labs — IA, Agentes y Automatizaciones</title>
-  <meta name="description" content="Capybara Labs: integración de agentes de IA, automatizaciones con n8n y desarrollo de software para operaciones más eficientes." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    // Tailwind config (colores de marca editables)
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            cb: {
-              bg: '#0B0F1A',     // fondo dark
-              card: '#0F1629',   // tarjetas
-              pri: '#7CFFCB',    // primario (menta)
-              sec: '#7AA2F7',    // secundario (azulado)
-              ink: '#E5E7EB'     // texto
-            }
-          },
-          boxShadow: {
-            glow: '0 0 0 1px rgba(124,255,203,.2), 0 10px 40px -12px rgba(124,255,203,.25)'
-          },
-          backgroundImage: {
-            grid: "radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0)"
-          }
-        }
-      }
-    }
-  </script>
+  <title>Capybara Labs – Soluciones IT, Desarrollo de Software y Automatización con IA</title>
+  <meta name="description" content="Capybara Labs: desarrollo de software, automatización con n8n y agentes de IA, consultoría e integración de sistemas para pymes y empresas globales." />
+  <link rel="icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f99a.svg" />
+  <!-- SEO / Social -->
+  <meta property="og:title" content="Capybara Labs – IT • Software • IA" />
+  <meta property="og:description" content="Desarrollo de software, n8n + agentes de IA, y automatización de procesos end‑to‑end." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.capybaralabs.tech/" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop" />
+  <meta name="theme-color" content="#0f172a" />
   <style>
-    :root { color-scheme: dark; }
-    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
-    .grad { background: radial-gradient(1200px 600px at 80% -10%, rgba(124,255,203,.15), transparent 60%),
-                        radial-gradient(900px 500px at 10% 10%, rgba(122,162,247,.15), transparent 60%); }
+    :root{
+      --bg:#0b1220; --card:#0f172a; --muted:#94a3b8; --text:#e2e8f0; --brand:#22d3ee; --accent:#a78bfa;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(1200px 600px at 70% -10%, #13223d 0%, transparent 60%) , var(--bg);color:var(--text)}
+    a{color:var(--brand);text-decoration:none}
+    .container{max-width:1120px;margin:0 auto;padding:24px}
+    header{position:sticky;top:0;background:linear-gradient(180deg,rgba(11,18,32,.9),rgba(11,18,32,.6));backdrop-filter:blur(8px);z-index:20;border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .logo{display:flex;align-items:center;gap:12px;font-weight:700}
+    .logo img{width:28px;height:28px}
+    .lang{display:flex;gap:8px}
+    .lang button{background:#0b1220;border:1px solid rgba(255,255,255,.12);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
+    .lang button.active{border-color:var(--brand);box-shadow:0 0 0 3px rgba(34,211,238,.15)}
+
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:56px 0}
+    .hero h1{font-size: clamp(32px, 5vw, 56px); line-height:1.05;margin:0}
+    .hero p{font-size: clamp(16px, 2.2vw, 20px); color:var(--muted)}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn{background:linear-gradient(135deg,var(--brand),var(--accent));color:#0b1220;font-weight:700;border:0;border-radius:12px;padding:12px 16px;cursor:pointer}
+    .btn.secondary{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.18)}
+    .hero-card{background:linear-gradient(180deg,#0f172a,rgba(15,23,42,.6));border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden}
+    .hero-card img{width:100%;height:100%;object-fit:cover;display:block;aspect-ratio: 16/11}
+
+    .trust{display:flex;gap:22px;flex-wrap:wrap;align-items:center;opacity:.9}
+    .pill{border:1px solid rgba(255,255,255,.16);padding:10px 14px;border-radius:999px;font-size:14px;color:var(--muted)}
+
+    .grid{display:grid;gap:18px}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .card{background:linear-gradient(180deg,#0f172a,rgba(15,23,42,.5));border:1px solid rgba(255,255,255,.08);padding:20px;border-radius:16px}
+    .card h3{margin:8px 0 6px;font-size:20px}
+    .card p{margin:0;color:var(--muted)}
+    .card img{width:100%;border-radius:12px;margin-top:10px;aspect-ratio: 16/10;object-fit:cover}
+
+    .section{padding:40px 0}
+    .section h2{font-size: clamp(22px,3.2vw,34px);margin:0 0 6px}
+    .section p.lead{color:var(--muted);margin:0 0 18px}
+
+    .stack{display:flex;gap:10px;flex-wrap:wrap}
+    .tag{border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 10px;color:#dbeafe;background:rgba(59,130,246,.08)}
+
+    .cta-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;background:linear-gradient(90deg,rgba(34,211,238,.08),rgba(167,139,250,.08));border:1px solid rgba(255,255,255,.12);padding:18px;border-radius:14px}
+
+    footer{border-top:1px solid rgba(255,255,255,.06);padding:24px 0;color:var(--muted)}
+
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr}
+    }
   </style>
 </head>
-<body class="bg-cb-bg text-cb-ink antialiased selection:bg-cb-pri/30">
-  <!-- NAV -->
-  <header class="fixed inset-x-0 top-0 z-50">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between py-5">
-        <a href="#" class="flex items-center gap-3 font-semibold text-cb-ink">
-          <div class="h-8 w-8 rounded-xl bg-cb-pri/20 ring-1 ring-cb-pri/40 grid place-items-center">
-            <span class="text-cb-pri text-lg">🐹</span>
-          </div>
-          <span>Capybara Labs</span>
-        </a>
-        <nav class="hidden md:flex items-center gap-8 text-sm text-white/80">
-          <a href="#servicios" class="hover:text-white">Servicios</a>
-          <a href="#experimentos" class="hover:text-white">Experiments</a>
-          <a href="#casos" class="hover:text-white">Casos</a>
-          <a href="#precios" class="hover:text-white">Precios</a>
-          <a href="#contacto" class="hover:text-white">Contacto</a>
-          <a href="#contacto" class="inline-flex items-center gap-2 rounded-xl bg-cb-pri/15 px-4 py-2 text-cb-pri ring-1 ring-cb-pri/30 hover:shadow-glow">Hablemos</a>
-        </nav>
-        <button id="menuBtn" class="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg ring-1 ring-white/10 hover:bg-white/5">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M3.75 6.75h16.5v1.5H3.75zM3.75 11.25h16.5v1.5H3.75zM3.75 15.75h16.5v1.5H3.75z"/></svg>
-        </button>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f99a.svg" alt="Capybara"/>
+        <span>Capybara Labs</span>
       </div>
-    </div>
-    <div id="mobileMenu" class="md:hidden hidden border-t border-white/10 bg-cb-card/80 backdrop-blur">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 grid gap-2 text-sm">
-        <a href="#servicios" class="py-2">Servicios</a>
-        <a href="#experimentos" class="py-2">Experiments</a>
-        <a href="#casos" class="py-2">Casos</a>
-        <a href="#precios" class="py-2">Precios</a>
-        <a href="#contacto" class="py-2">Contacto</a>
-      </div>
+      <nav class="lang" aria-label="Language switcher">
+        <button id="btn-es" class="active" data-lang="es">ES</button>
+        <button id="btn-en" data-lang="en">EN</button>
+      </nav>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="grad pt-28 md:pt-36 pb-12">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="grid items-center gap-10 md:grid-cols-2">
-        <div class="space-y-6">
-          <div class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs ring-1 ring-white/10">
-            <span class="h-2 w-2 rounded-full bg-cb-pri animate-pulse"></span>
-            Agentes de IA • Automatizaciones • n8n
-          </div>
-          <h1 class="text-4xl font-extrabold leading-tight md:text-5xl">
-            Integramos <span class="text-cb-pri">IA</span> y <span class="text-cb-sec">automatizaciones</span> que trabajan mientras tú duermes
-          </h1>
-          <p class="text-white/70 max-w-xl">Diseñamos, conectamos y operamos <strong>agentes de IA</strong> y flujos con <strong>n8n</strong> para que tu negocio responda más rápido, escale procesos y reduzca tareas repetitivas.</p>
-          <div class="flex flex-wrap gap-3">
-            <a href="#contacto" class="inline-flex items-center gap-2 rounded-xl bg-cb-pri px-5 py-3 font-semibold text-cb-bg hover:brightness-110">
-              Empezar un proyecto
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 4.5h6v6h-1.5V7.56l-9.22 9.22-1.06-1.06 9.22-9.22H13.5V4.5z"/></svg>
-            </a>
-            <a href="#servicios" class="inline-flex items-center gap-2 rounded-xl bg-white/5 px-5 py-3 font-medium ring-1 ring-white/10 hover:bg-white/10">Ver servicios</a>
-          </div>
-          <div class="flex items-center gap-6 pt-2 opacity-80">
-            <img alt="n8n" class="h-6" src="https://upload.wikimedia.org/wikipedia/commons/0/0e/N8n-logo.png"/>
-            <img alt="OpenAI" class="h-6" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg"/>
-            <img alt="Vercel" class="h-5" src="https://assets.vercel.com/image/upload/v1662130559/nextjs/Icon_dark_background.png"/>
-            <img alt="Cloudflare" class="h-5" src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Cloudflare_Logo.png"/>
-          </div>
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <h1 data-i18n="hero_title">Automatizamos tu negocio con IA, construimos software sólido y lo integramos todo.</h1>
+        <p data-i18n="hero_sub">Soluciones IT end‑to‑end: desde microservicios y APIs hasta automatización con n8n y agentes de IA. Implementamos rápido, medimos impacto y escalamos contigo.</p>
+        <div class="cta">
+          <a class="btn" href="#contact" data-i18n="cta_start">Hablemos de tu proyecto</a>
+          <a class="btn secondary" href="#services" data-i18n="cta_services">Ver servicios</a>
         </div>
+        <div class="trust" style="margin-top:18px">
+          <span class="pill" data-i18n="pill_time">Entrega ágil (semanas, no meses)</span>
+          <span class="pill" data-i18n="pill_secure">Seguridad y cumplimiento</span>
+          <span class="pill" data-i18n="pill_stack">Stack moderno: Java/TS/Python + n8n + OpenAI</span>
+        </div>
+      </div>
+      <div class="hero-card">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop" alt="Panel de automatización y dashboards"/>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="section">
+      <h2 data-i18n="svc_title">Qué hacemos</h2>
+      <p class="lead" data-i18n="svc_lead">Servicios modulares que puedes combinar según tu objetivo.</p>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3 data-i18n="svc_1_t">Automatización con IA (n8n + agentes)</h3>
+          <p data-i18n="svc_1_d">Orquestamos flujos con n8n y agentes de IA para reducir tareas manuales: ingestión de datos, respuestas inteligentes, CRM, reporting y más.</p>
+          <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1200&auto=format&fit=crop" alt="Automatizaciones con n8n y agentes de IA"/>
+        </div>
+        <div class="card">
+          <h3 data-i18n="svc_2_t">Desarrollo de software</h3>
+          <p data-i18n="svc_2_d">Backends robustos (Java/Kotlin, Spring Boot), APIs, microservicios, integraciones y frontends modernos en React/React Native.</p>
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop" alt="Desarrollo de software y microservicios"/>
+        </div>
+        <div class="card">
+          <h3 data-i18n="svc_3_t">Consultoría e integración</h3>
+          <p data-i18n="svc_3_d">Auditoría de arquitectura, DevOps (CI/CD), seguridad y cumplimiento. Integramos tus sistemas con proveedores externos de forma segura.</p>
+          <img src="https://images.unsplash.com/photo-1551836022-4c4c79ecde51?q=80&w=1200&auto=format&fit=crop" alt="Consultoría técnica e integración de sistemas"/>
+        </div>
+      </div>
+    </section>
+
+    <!-- HIGHLIGHTS / VALUE -->
+    <section class="section">
+      <h2 data-i18n="val_title">Valor en semanas, no en trimestres</h2>
+      <p class="lead" data-i18n="val_lead">Trabajamos por entregas cortas y medibles. Prototipo → piloto → producción. Cada hito aporta ROI claro.</p>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3 data-i18n="val_1_t">Diseño de flujo y KPIs</h3>
+          <p data-i18n="val_1_d">Mapeamos procesos y definimos métricas de éxito antes de construir.</p>
+        </div>
+        <div class="card">
+          <h3 data-i18n="val_2_t">Seguridad por defecto</h3>
+          <p data-i18n="val_2_d">Control de accesos, cifrado, registros y buenas prácticas desde el día 0.</p>
+        </div>
+        <div class="card">
+          <h3 data-i18n="val_3_t">Mantenimiento sencillo</h3>
+          <p data-i18n="val_3_d">Documentación y hand‑off para tu equipo. Soporte opcional.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section class="section">
+      <h2 data-i18n="stack_title">Tecnologías</h2>
+      <p class="lead" data-i18n="stack_lead">Elegimos la herramienta adecuada, no la moda.</p>
+      <div class="stack">
+        <span class="tag">n8n</span>
+        <span class="tag">OpenAI / GPT</span>
+        <span class="tag">Java • Spring Boot</span>
+        <span class="tag">TypeScript • React</span>
+        <span class="tag">React Native</span>
+        <span class="tag">Python</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">Docker</span>
+        <span class="tag">CI/CD</span>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <h2 data-i18n="cta_title">¿Hablamos?</h2>
+      <p class="lead" data-i18n="cta_desc">Cuéntanos tu caso y te proponemos un plan en 48 h.</p>
+      <div class="cta-bar">
         <div>
-          <div class="relative rounded-2xl bg-cb-card p-2 ring-1 ring-white/10 shadow-2xl">
-            <div class="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-cb-pri/10 via-transparent to-cb-sec/10 blur-xl"></div>
-            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop" alt="AI Dashboard" class="relative rounded-xl"/>
-          </div>
+          <strong data-i18n="cta_mail_label">Escríbenos:</strong>
+          <a href="mailto:info@capybaralabs.tech">info@capybaralabs.tech</a>
         </div>
+        <a class="btn" href="mailto:info@capybaralabs.tech" data-i18n="cta_mail_btn">Agendar una llamada</a>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- SERVICIOS -->
-  <section id="servicios" class="py-20 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold">Servicios principales</h2>
-        <p class="text-white/70">Enfocados en impacto real y retorno medible</p>
-      </div>
-      <div class="grid gap-6 md:grid-cols-3">
-        <!-- Card 1 -->
-        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10 hover:shadow-glow transition-shadow">
-          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cb-pri/20 ring-1 ring-cb-pri/30">🤖</div>
-          <h3 class="text-lg font-semibold mb-2">Agentes de IA a medida</h3>
-          <p class="text-white/70">Diseño e integración de agentes (ventas, soporte, extracción de datos, asistentes internos) conectados a tus sistemas.</p>
-          <ul class="mt-4 space-y-2 text-sm text-white/70 list-disc list-inside">
-            <li>LLMs + RAG con tus documentos</li>
-            <li>Integración con CRMs y ERPs</li>
-            <li>Voicebots / chat embebido</li>
-          </ul>
-        </div>
-        <!-- Card 2 -->
-        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10 hover:shadow-glow transition-shadow">
-          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cb-sec/20 ring-1 ring-cb-sec/30">🔗</div>
-          <h3 class="text-lg font-semibold mb-2">Automatizaciones con n8n</h3>
-          <p class="text-white/70">Flujos robustos para mover datos entre apps, disparar campañas, reconciliar pagos y más.</p>
-          <ul class="mt-4 space-y-2 text-sm text-white/70 list-disc list-inside">
-            <li>Webhooks y colas de trabajo</li>
-            <li>ETL ligero y sincronizaciones</li>
-            <li>Monitoreo y alertas</li>
-          </ul>
-        </div>
-        <!-- Card 3 -->
-        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10 hover:shadow-glow transition-shadow">
-          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/20">🧩</div>
-          <h3 class="text-lg font-semibold mb-2">APIs & Microservicios</h3>
-          <p class="text-white/70">Backends escalables, con autenticación, métricas y buenas prácticas desde el día uno.</p>
-          <ul class="mt-4 space-y-2 text-sm text-white/70 list-disc list-inside">
-            <li>Node/Java + PostgreSQL</li>
-            <li>Observabilidad (logs/metrics)</li>
-            <li>CD/CI y buenas prácticas</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXPERIMENTOS -->
-  <section id="experimentos" class="py-20">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="md:flex md:items-center md:justify-between mb-8">
-        <h2 class="text-3xl font-bold">Experiments</h2>
-        <p class="text-white/70 max-w-2xl">Zona de proyectos “locos” y POCs rápidos. Probamos ideas para aprender y compartir resultados.</p>
-      </div>
-      <div class="grid gap-6 md:grid-cols-3">
-        <!-- Exp 1 -->
-        <article class="group rounded-2xl bg-cb-card overflow-hidden ring-1 ring-white/10">
-          <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" class="h-44 w-full object-cover opacity-90 group-hover:opacity-100 transition" alt="Podcast IA" />
-          <div class="p-6">
-            <h3 class="font-semibold mb-1">ChIArlando — Podcast con IAs</h3>
-            <p class="text-sm text-white/70">Episodios con dos IAs (Héctor & Aura) debatiendo ciencia, misterio y cultura pop. Guiones generativos + TTS.</p>
-            <div class="mt-4 flex items-center gap-3">
-              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">TTS</span>
-              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">RAG</span>
-              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">Video</span>
-            </div>
-          </div>
-        </article>
-        <!-- Exp 2 -->
-        <article class="group rounded-2xl bg-cb-card overflow-hidden ring-1 ring-white/10">
-          <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" class="h-44 w-full object-cover opacity-90 group-hover:opacity-100 transition" alt="Agent Ops" />
-          <div class="p-6">
-            <h3 class="font-semibold mb-1">Agent Ops Lab</h3>
-            <p class="text-sm text-white/70">Pruebas de agentes autónomos con herramientas controladas, memoria y límites de seguridad.</p>
-            <div class="mt-4 flex items-center gap-3">
-              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">Tools</span>
-              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">Memory</span>
-              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">Eval</span>
-            </div>
-          </div>
-        </article>
-        <!-- Exp 3 -->
-        <article class="group rounded-2xl bg-cb-card overflow-hidden ring-1 ring-white/10">
-          <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" class="h-44 w-full object-cover opacity-90 group-hover:opacity-100 transition" alt="n8n" />
-          <div class="p-6">
-            <h3 class="font-semibold mb-1">n8n Recipes</h3>
-            <p class="text-sm text-white/70">Colección de flujos reutilizables para CRM, marketing, finanzas y operaciones.</p>
-            <div class="mt-4 flex items-center gap-3">
-              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">CRM</span>
-              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">Ops</span>
-              <span class="rounded-lg bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10">ETL</span>
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- CASOS -->
-  <section id="casos" class="py-20 bg-cb-card/40 ring-1 ring-inset ring-white/5">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold">Casos de uso</h2>
-        <p class="text-white/70">Algunas aplicaciones comunes que implementamos</p>
-      </div>
-      <div class="grid gap-6 md:grid-cols-3">
-        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10">
-          <h3 class="font-semibold mb-2">Soporte 24/7</h3>
-          <p class="text-white/70 text-sm">Agentes conectados a tu base de conocimiento que resuelven el 60–80% de tickets sin humanos.</p>
-        </div>
-        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10">
-          <h3 class="font-semibold mb-2">Ventas asistidas</h3>
-          <p class="text-white/70 text-sm">Cualificación de leads, mensajes personalizados y seguimiento automático multicanal.</p>
-        </div>
-        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10">
-          <h3 class="font-semibold mb-2">Operaciones y finanzas</h3>
-          <p class="text-white/70 text-sm">Conciliaciones, informes, alertas y tareas repetitivas orquestadas con n8n.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRECIOS / CTA -->
-  <section id="precios" class="py-20">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="grid md:grid-cols-2 gap-8 items-center">
-        <div>
-          <h2 class="text-3xl font-bold mb-3">Arranca con un piloto</h2>
-          <p class="text-white/70">Validamos rápido el impacto: 2–4 semanas, objetivos claros y métricas de éxito. Si aporta valor, escalamos.</p>
-          <ul class="mt-6 space-y-3 text-white/80">
-            <li class="flex items-start gap-3"><span class="mt-1">✅</span><span>Discovery + mapa de oportunidades</span></li>
-            <li class="flex items-start gap-3"><span class="mt-1">✅</span><span>POC de agente o automatización crítica</span></li>
-            <li class="flex items-start gap-3"><span class="mt-1">✅</span><span>Plan de despliegue y ROI estimado</span></li>
-          </ul>
-        </div>
-        <div class="rounded-2xl bg-cb-card p-6 ring-1 ring-white/10">
-          <div class="text-sm text-white/60">Desde</div>
-          <div class="text-4xl font-extrabold">€1.490 <span class="text-base font-medium text-white/60">+ IVA</span></div>
-          <p class="text-white/60 mt-2">Piloto de bajo riesgo para demostrar valor antes de escalar</p>
-          <a href="#contacto" class="mt-6 inline-flex items-center justify-center w-full rounded-xl bg-cb-pri px-5 py-3 font-semibold text-cb-bg hover:brightness-110">Solicitar propuesta</a>
-          <p class="text-xs text-white/50 mt-3">También trabajamos por bolsa de horas o proyecto cerrado.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACTO -->
-  <section id="contacto" class="py-20">
-    <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-3xl font-bold mb-3">¿Hablamos?</h2>
-      <p class="text-white/70">Cuéntanos tu caso y preparamos un plan en 48h.</p>
-      <form class="mt-8 grid gap-4 text-left">
-        <div>
-          <label class="block text-sm mb-1">Nombre</label>
-          <input type="text" placeholder="Tu nombre" class="w-full rounded-xl border border-white/10 bg-cb-card px-4 py-3 outline-none focus:ring-2 focus:ring-cb-pri/50" />
-        </div>
-        <div class="grid md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm mb-1">Email</label>
-            <input type="email" placeholder="tu@email.com" class="w-full rounded-xl border border-white/10 bg-cb-card px-4 py-3 outline-none focus:ring-2 focus:ring-cb-pri/50" />
-          </div>
-          <div>
-            <label class="block text-sm mb-1">Empresa</label>
-            <input type="text" placeholder="Nombre de la empresa" class="w-full rounded-xl border border-white/10 bg-cb-card px-4 py-3 outline-none focus:ring-2 focus:ring-cb-pri/50" />
-          </div>
-        </div>
-        <div>
-          <label class="block text-sm mb-1">Mensaje</label>
-          <textarea rows="4" placeholder="Cuéntanos qué necesitas…" class="w-full rounded-xl border border-white/10 bg-cb-card px-4 py-3 outline-none focus:ring-2 focus:ring-cb-pri/50"></textarea>
-        </div>
-        <button type="button" class="rounded-xl bg-cb-pri px-6 py-3 font-semibold text-cb-bg hover:brightness-110">Enviar</button>
-        <p class="text-xs text-white/50">Si prefieres, escríbenos a contacto@capybara.tech</p>
-      </form>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="border-t border-white/10 py-10">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
-      <p class="text-white/50 text-sm">© <span id="year"></span> Capybara Labs LLC — Wyoming, USA · Málaga, ES</p>
-      <div class="flex items-center gap-4 text-white/60 text-sm">
-        <a href="#" class="hover:text-white">Privacidad</a>
-        <a href="#" class="hover:text-white">Términos</a>
-        <a href="#" class="hover:text-white">Contacto</a>
+  <footer>
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div>© <span id="y"></span> Capybara Labs LLC</div>
+        <div><a href="/privacy.html" data-i18n="foot_privacy">Privacidad</a> · <a href="/legal.html" data-i18n="foot_legal">Aviso legal</a></div>
       </div>
     </div>
   </footer>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    const btn = document.getElementById('menuBtn');
-    const menu = document.getElementById('mobileMenu');
-    btn?.addEventListener('click', () => menu.classList.toggle('hidden'));
+    // Simple i18n con detección automática del navegador + persistencia
+    const dict = {
+      es: {
+        hero_title: "Automatizamos tu negocio con IA, construimos software sólido y lo integramos todo.",
+        hero_sub: "Soluciones IT end-to-end: desde microservicios y APIs hasta automatización con n8n y agentes de IA. Implementamos rápido, medimos impacto y escalamos contigo.",
+        cta_start: "Hablemos de tu proyecto",
+        cta_services: "Ver servicios",
+        pill_time: "Entrega ágil (semanas, no meses)",
+        pill_secure: "Seguridad y cumplimiento",
+        pill_stack: "Stack moderno: Java/TS/Python + n8n + OpenAI",
+        svc_title: "Qué hacemos",
+        svc_lead: "Servicios modulares que puedes combinar según tu objetivo.",
+        svc_1_t: "Automatización con IA (n8n + agentes)",
+        svc_1_d: "Orquestamos flujos con n8n y agentes de IA para reducir tareas manuales: ingestión de datos, respuestas inteligentes, CRM, reporting y más.",
+        svc_2_t: "Desarrollo de software",
+        svc_2_d: "Backends robustos (Java/Kotlin, Spring Boot), APIs, microservicios, integraciones y frontends modernos en React/React Native.",
+        svc_3_t: "Consultoría e integración",
+        svc_3_d: "Auditoría de arquitectura, DevOps (CI/CD), seguridad y cumplimiento. Integramos tus sistemas con proveedores externos de forma segura.",
+        val_title: "Valor en semanas, no en trimestres",
+        val_lead: "Trabajamos por entregas cortas y medibles. Prototipo → piloto → producción. Cada hito aporta ROI claro.",
+        val_1_t: "Diseño de flujo y KPIs",
+        val_1_d: "Mapeamos procesos y definimos métricas de éxito antes de construir.",
+        val_2_t: "Seguridad por defecto",
+        val_2_d: "Control de accesos, cifrado, registros y buenas prácticas desde el día 0.",
+        val_3_t: "Mantenimiento sencillo",
+        val_3_d: "Documentación y hand-off para tu equipo. Soporte opcional.",
+        stack_title: "Tecnologías",
+        stack_lead: "Elegimos la herramienta adecuada, no la moda.",
+        cta_title: "¿Hablamos?",
+        cta_desc: "Cuéntanos tu caso y te proponemos un plan en 48 h.",
+        cta_mail_label: "Escríbenos:",
+        cta_mail_btn: "Agendar una llamada",
+        foot_privacy: "Privacidad",
+        foot_legal: "Aviso legal"
+      },
+      en: {
+        hero_title: "We automate your business with AI, build solid software, and integrate everything.",
+        hero_sub: "End-to-end IT solutions: from microservices and APIs to n8n automation and AI agents. We deliver fast, measure impact, and scale with you.",
+        cta_start: "Let's talk about your project",
+        cta_services: "See services",
+        pill_time: "Fast delivery (weeks, not months)",
+        pill_secure: "Security & compliance",
+        pill_stack: "Modern stack: Java/TS/Python + n8n + OpenAI",
+        svc_title: "What we do",
+        svc_lead: "Modular services you can mix and match.",
+        svc_1_t: "AI Automation (n8n + agents)",
+        svc_1_d: "We orchestrate n8n flows and AI agents to cut manual work: data ingestion, smart replies, CRM, reporting and more.",
+        svc_2_t: "Software development",
+        svc_2_d: "Robust backends (Java/Kotlin, Spring Boot), APIs, microservices, integrations and modern frontends in React/React Native.",
+        svc_3_t: "Consulting & integration",
+        svc_3_d: "Architecture audits, DevOps (CI/CD), security and compliance. We integrate your systems with external providers safely.",
+        val_title: "Value in weeks, not quarters",
+        val_lead: "Short, measurable iterations. Prototype → pilot → production. Every milestone brings clear ROI.",
+        val_1_t: "Flow design & KPIs",
+        val_1_d: "We map processes and define success metrics before building.",
+        val_2_t: "Security by default",
+        val_2_d: "Access control, encryption, logging and best practices from day one.",
+        val_3_t: "Easy maintenance",
+        val_3_d: "Documentation and hand-off for your team. Optional support.",
+        stack_title: "Tech stack",
+        stack_lead: "We pick the right tool, not the trend.",
+        cta_title: "Shall we talk?",
+        cta_desc: "Tell us about your case and we'll propose a plan within 48h.",
+        cta_mail_label: "Write to us:",
+        cta_mail_btn: "Book a call",
+        foot_privacy: "Privacy",
+        foot_legal: "Legal"
+      }
+    };
+
+    const els = document.querySelectorAll('[data-i18n]');
+    function setLang(lang){
+      els.forEach(el=>{ const key=el.getAttribute('data-i18n'); if(dict[lang] && dict[lang][key]) el.textContent = dict[lang][key]; });
+      document.documentElement.lang = lang;
+      document.getElementById('btn-es').classList.toggle('active', lang==='es');
+      document.getElementById('btn-en').classList.toggle('active', lang==='en');
+      localStorage.setItem('lang', lang);
+    }
+    document.getElementById('btn-es').onclick=()=>setLang('es');
+    document.getElementById('btn-en').onclick=()=>setLang('en');
+
+    // Idioma por defecto: preferencia guardada o detectado del navegador
+    const saved = localStorage.getItem('lang');
+    const detected = navigator.language?.toLowerCase().startsWith('en') ? 'en' : 'es';
+    setLang(saved || detected || 'es');
+
+    document.getElementById('y').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
