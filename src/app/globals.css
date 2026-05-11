@@ -1,29 +1,30 @@
 @import "tailwindcss";
 
+/* ── Light mode (default) ─────────────────────────────────────────────────── */
 :root {
-  --bg: #09090f;
-  --surface: #0f0f18;
-  --surface2: #16162a;
-  --border: #1e1e32;
-  --brand: #22d3ee;
-  --brand-dim: rgba(34,211,238,.12);
-  --accent: #a855f7;
-  --accent-dim: rgba(168,85,247,.12);
-  --text: #e8e8f4;
-  --muted: #64748b;
+  --bg:          #ffffff;
+  --bg-subtle:   #f8fafc;
+  --bg-muted:    #f1f5f9;
+  --surface:     #ffffff;
+  --border:      #e2e8f0;
+  --border-dark: #cbd5e1;
+  --brand:       #0ea5e9;
+  --brand-dark:  #0284c7;
+  --brand-bg:    #e0f2fe;
+  --accent:      #8b5cf6;
+  --accent-dark: #7c3aed;
+  --accent-bg:   #ede9fe;
+  --text:        #0f172a;
+  --text-2:      #334155;
+  --muted:       #64748b;
+  --muted-light: #94a3b8;
+  --green:       #10b981;
+  --radius:      12px;
 }
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-surface2: var(--surface2);
-  --color-border: var(--border);
-  --color-brand: var(--brand);
-  --color-accent: var(--accent);
-  --color-txt: var(--text);
-  --color-muted: var(--muted);
 }
 
 html { scroll-behavior: smooth; }
@@ -33,42 +34,44 @@ body {
   color: var(--text);
   font-family: var(--font-sans, system-ui, sans-serif);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Subtle animated grid background for hero sections */
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(34,211,238,.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34,211,238,.03) 1px, transparent 1px);
-  background-size: 60px 60px;
+/* ── Gradient text ────────────────────────────────────────────────────────── */
+.g-brand {
+  background: linear-gradient(135deg, var(--brand) 0%, #38bdf8 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.g-accent {
+  background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.g-hero {
+  background: linear-gradient(160deg, #f1f5f9 0%, #93c5fd 45%, #c4b5fd 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.g-dark {
+  background: linear-gradient(135deg, var(--text) 0%, var(--brand) 60%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, var(--text) 0%, var(--brand) 50%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ── Subtle dot grid ──────────────────────────────────────────────────────── */
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(148,163,184,.25) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
-.gradient-text-brand {
-  background: linear-gradient(135deg, var(--brand) 0%, #67e8f9 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ── Card transitions ─────────────────────────────────────────────────────── */
+.card-hover {
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
 }
-
-.gradient-text-hive {
-  background: linear-gradient(135deg, #818cf8 0%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.card-hover:hover {
+  box-shadow: 0 4px 24px rgba(14,165,233,.15);
+  border-color: var(--brand) !important;
+  transform: translateY(-2px);
 }
-
-/* Card glow effect */
-.card-glow:hover {
-  box-shadow: 0 0 0 1px var(--brand), 0 8px 32px rgba(34,211,238,.1);
-}
-
-.card-glow-accent:hover {
-  box-shadow: 0 0 0 1px var(--accent), 0 8px 32px rgba(168,85,247,.1);
+.card-hover-accent:hover {
+  box-shadow: 0 4px 24px rgba(139,92,246,.15);
+  border-color: var(--accent) !important;
+  transform: translateY(-2px);
 }

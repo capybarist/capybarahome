@@ -15,46 +15,39 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-[var(--border)]">
       <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between gap-8">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 font-semibold text-lg text-[var(--text)] hover:text-[var(--brand)] transition-colors">
-          <span className="text-2xl" aria-hidden>🦫</span>
-          <span>Capybara Labs</span>
+        <Link href="/" className="flex items-center gap-2.5 font-bold text-[var(--text)] hover:text-[var(--brand)] transition-colors">
+          <span className="text-2xl">🦫</span>
+          <span className="text-base tracking-tight">Capybara Labs</span>
         </Link>
 
-        {/* Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-7">
           {navLinks.map(({ key, href }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`text-sm transition-colors ${
-                path === href
-                  ? "text-[var(--brand)]"
-                  : "text-[var(--muted)] hover:text-[var(--text)]"
-              }`}
-            >
+            <Link key={href} href={href}
+              className={`text-sm font-medium transition-colors ${
+                path === href ? "text-[var(--brand)]" : "text-[var(--muted)] hover:text-[var(--text)]"
+              }`}>
               {t(key)}
             </Link>
           ))}
         </nav>
 
-        {/* Lang switcher */}
-        <div className="flex items-center gap-1 bg-[var(--surface)] border border-[var(--border)] rounded-lg p-1">
-          {(["es", "en"] as Lang[]).map((l) => (
-            <button
-              key={l}
-              onClick={() => setLang(l)}
-              className={`px-3 py-1.5 rounded-md text-xs font-semibold uppercase transition-all ${
-                lang === l
-                  ? "bg-[var(--brand)] text-[var(--bg)]"
-                  : "text-[var(--muted)] hover:text-[var(--text)]"
-              }`}
-            >
-              {l}
-            </button>
-          ))}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center rounded-lg border border-[var(--border)] overflow-hidden">
+            {(["es", "en"] as Lang[]).map((l) => (
+              <button key={l} onClick={() => setLang(l)}
+                className={`px-3 py-1.5 text-xs font-bold uppercase transition-all ${
+                  lang === l ? "bg-[var(--text)] text-white" : "text-[var(--muted)] hover:bg-[var(--bg-muted)]"
+                }`}>
+                {l}
+              </button>
+            ))}
+          </div>
+          <a href="#contact"
+            className="hidden md:inline-flex items-center rounded-lg bg-[var(--text)] text-white text-sm font-medium px-4 py-2 hover:bg-[var(--brand)] transition-colors">
+            {t("contact_cta")}
+          </a>
         </div>
       </div>
     </header>
