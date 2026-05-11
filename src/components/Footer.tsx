@@ -18,7 +18,7 @@ export function Footer() {
             </p>
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-4">Proyectos</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-4">{t("foot_projects")}</p>
             <div className="flex flex-col gap-2.5 text-sm">
               <Link href="/hive" className="hover:text-white transition-colors">HIVE</Link>
               <a href="https://github.com/capybarist" target="_blank" rel="noopener" className="hover:text-white transition-colors">GitHub</a>
@@ -34,7 +34,7 @@ export function Footer() {
           </div>
         </div>
         <div className="pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between gap-3 text-xs text-slate-600">
-          <span>© {new Date().getFullYear()} Capybara Labs LLC. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Capybara Labs LLC. {t("foot_rights")}</span>
           <div className="flex gap-5">
             {["Twitter/X", "LinkedIn", "GitHub", "YouTube"].map(s => (
               <a key={s} href="#" className="hover:text-slate-400 transition-colors">{s}</a>

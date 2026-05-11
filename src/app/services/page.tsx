@@ -25,7 +25,7 @@ export default function ServicesPage() {
       <section className="relative bg-[#06090f] overflow-hidden border-b border-slate-800">
         <div className="absolute inset-0 dot-grid opacity-30" />
         <div className="relative mx-auto max-w-6xl px-6 py-24">
-          <p className="text-xs font-bold uppercase tracking-widest text-sky-400 mb-4">Servicios</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-sky-400 mb-4">{t("section_services")}</p>
           <h1 className="text-5xl md:text-6xl font-black tracking-tight g-hero mb-5">{t("svc_hero_title")}</h1>
           <p className="text-slate-400 text-xl max-w-xl">{t("svc_hero_sub")}</p>
         </div>
@@ -69,7 +69,7 @@ export default function ServicesPage() {
       <section className="bg-[var(--bg-subtle)] border-y border-[var(--border)] py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-12">
-            <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand)] mb-3">Proceso</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand)] mb-3">{t("section_process")}</p>
             <h2 className="text-3xl font-black text-[var(--text)] tracking-tight">{t("process_title")}</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

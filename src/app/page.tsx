@@ -101,7 +101,7 @@ export default function Home() {
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-4 py-1.5 text-xs text-sky-300 mb-7">
                 <span className="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse" />
-                AI automation · Software · Open Source
+                {t("hero_badge")}
               </div>
               <h1 className="text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6 g-hero">
                 {t("hero_title")}
@@ -140,7 +140,7 @@ export default function Home() {
       <section className="bg-[var(--bg)] py-24">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand)] mb-3">Servicios</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand)] mb-3">{t("section_services")}</p>
             <h2 className="text-4xl font-black text-[var(--text)] mb-4 tracking-tight">
               {t("svc_hero_sub")}
             </h2>
@@ -257,7 +257,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-10">
             <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand)] mb-3">{t("nav_community")}</p>
-            <h2 className="text-3xl font-black text-[var(--text)] tracking-tight">Síguenos</h2>
+            <h2 className="text-3xl font-black text-[var(--text)] tracking-tight">{t("section_follow")}</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {socialLinks.map(({ Icon, label, href, color }) => (

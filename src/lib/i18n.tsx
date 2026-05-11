@@ -72,6 +72,28 @@ const translations = {
     foot_privacy: "Privacidad",
     foot_legal: "Aviso legal",
     foot_tagline: "Construido con ☕ y demasiadas líneas de TypeScript.",
+    foot_projects: "Proyectos",
+    foot_rights: "Todos los derechos reservados.",
+
+    // Section labels (hardcoded en componentes)
+    section_services: "Servicios",
+    section_process: "Proceso",
+    section_follow: "Síguenos",
+    hero_badge: "Automatización IA · Software · Open Source",
+
+    // HIVE section labels
+    hive_badge_tagline: "Open Source · P2P · Conocimiento verificado",
+    hive_section_problem: "El problema",
+    hive_section_what: "Qué es",
+    hive_section_how: "Cómo funciona",
+    hive_section_why: "Por qué importa",
+    hive_section_tech: "Tecnología",
+    hive_section_status: "Estado",
+    hive_section_run: "Ejecuta un BEE",
+    hive_status_badge: "v0.2 activo",
+    hive_planned_title: "Planificado — v0.3",
+    hive_no_blockchain: "Sin blockchain. Sin tokens por ahora. Sin servidor central.",
+    hive_github_cta: "Ver en GitHub",
 
     // HIVE page
     hive_hero_title: "HIVE",
@@ -195,6 +217,28 @@ const translations = {
     foot_privacy: "Privacy",
     foot_legal: "Legal",
     foot_tagline: "Built with ☕ and too many lines of TypeScript.",
+    foot_projects: "Projects",
+    foot_rights: "All rights reserved.",
+
+    // Section labels
+    section_services: "Services",
+    section_process: "Process",
+    section_follow: "Follow us",
+    hero_badge: "AI Automation · Software · Open Source",
+
+    // HIVE section labels
+    hive_badge_tagline: "Open Source · P2P · Verified Knowledge",
+    hive_section_problem: "The problem",
+    hive_section_what: "What",
+    hive_section_how: "How",
+    hive_section_why: "Why",
+    hive_section_tech: "Technology",
+    hive_section_status: "Status",
+    hive_section_run: "Run a BEE",
+    hive_status_badge: "v0.2 live",
+    hive_planned_title: "Planned — v0.3",
+    hive_no_blockchain: "No blockchain. No tokens yet. No central server.",
+    hive_github_cta: "View on GitHub",
 
     // HIVE page
     hive_hero_title: "HIVE",

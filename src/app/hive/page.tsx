@@ -54,7 +54,7 @@ export default function HivePage() {
         <div className="relative mx-auto max-w-5xl px-6 py-28 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs text-violet-300 mb-7">
             <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
-            Open Source · P2P · Verified Knowledge
+            {t("hive_badge_tagline")}
           </div>
           <h1 className="text-7xl md:text-9xl font-black tracking-tighter mb-5 g-accent">HIVE</h1>
           <p className="text-xl text-slate-300 mb-3 max-w-2xl mx-auto">{t("hive_hero_sub")}</p>
@@ -62,7 +62,7 @@ export default function HivePage() {
           <div className="flex flex-wrap gap-3 justify-center">
             <a href="https://github.com/capybarist/hive" target="_blank" rel="noopener"
               className="inline-flex items-center gap-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm px-7 py-3.5 transition-colors">
-              View on GitHub <ArrowRight size={15} />
+              {t("hive_github_cta")} <ArrowRight size={15} />
             </a>
             <a href="#how-it-works"
               className="inline-flex items-center gap-2 rounded-xl border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white font-semibold text-sm px-7 py-3.5 transition-colors">
@@ -75,7 +75,7 @@ export default function HivePage() {
       {/* ── Problem ──────────────────────────────────────────────────────── */}
       <section className="bg-[var(--bg)] py-20">
         <div className="mx-auto max-w-4xl px-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-4">The problem</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-4">{t("hive_section_problem")}</p>
           <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-8">{t("hive_problem_title")}</h2>
           <div className="space-y-5">
             {t("hive_problem_desc").split("\n\n").map((p, i) => (
@@ -90,7 +90,7 @@ export default function HivePage() {
         <div className="mx-auto max-w-5xl px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-4">What</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-4">{t("hive_section_what")}</p>
               <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-5">{t("hive_what_title")}</h2>
               <p className="text-[var(--muted)] leading-relaxed">{t("hive_what_desc")}</p>
             </div>
@@ -117,7 +117,7 @@ export default function HivePage() {
       {/* ── How it works ─────────────────────────────────────────────────── */}
       <section id="how-it-works" className="bg-[var(--bg)] py-20">
         <div className="mx-auto max-w-5xl px-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-4">How</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-4">{t("hive_section_how")}</p>
           <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-4">{t("hive_how_title")}</h2>
           <p className="text-[var(--muted)] leading-relaxed mb-10 max-w-xl">{t("hive_how_desc")}</p>
 
@@ -152,7 +152,7 @@ export default function HivePage() {
       {/* ── Why it matters ───────────────────────────────────────────────── */}
       <section className="bg-[var(--bg-subtle)] border-y border-[var(--border)] py-20">
         <div className="mx-auto max-w-5xl px-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-4">Why</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-4">{t("hive_section_why")}</p>
           <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-10">{t("hive_why_title")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -175,7 +175,7 @@ export default function HivePage() {
       {/* ── Technology ───────────────────────────────────────────────────── */}
       <section className="bg-[var(--bg)] py-20">
         <div className="mx-auto max-w-5xl px-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand)] mb-4">Technology</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand)] mb-4">{t("hive_section_tech")}</p>
           <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-3">{t("hive_tech_title")}</h2>
           <p className="text-[var(--muted)] mb-10">{t("hive_tech_desc")}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -200,7 +200,7 @@ export default function HivePage() {
               )
             ))}
           </div>
-          <p className="text-sm text-[var(--muted)] italic">No blockchain. No tokens yet. No central server.</p>
+          <p className="text-sm text-[var(--muted)] italic">{t("hive_no_blockchain")}</p>
         </div>
       </section>
 
@@ -208,8 +208,8 @@ export default function HivePage() {
       <section className="bg-[var(--bg-subtle)] border-y border-[var(--border)] py-20">
         <div className="mx-auto max-w-5xl px-6">
           <div className="flex items-baseline gap-3 mb-3">
-            <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">Estado</p>
-            <span className="text-xs font-bold text-white bg-[var(--green)] rounded-full px-2.5 py-0.5">v0.2 live</span>
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">{t("hive_section_status")}</p>
+            <span className="text-xs font-bold text-white bg-[var(--green)] rounded-full px-2.5 py-0.5">{t("hive_status_badge")}</span>
           </div>
           <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-3">{t("hive_status_title")}</h2>
           <p className="text-[var(--muted)] mb-8">{t("hive_status_desc")}</p>
@@ -227,7 +227,7 @@ export default function HivePage() {
           </div>
 
           <div className="rounded-xl border border-[var(--border)] bg-white p-5">
-            <h4 className="text-sm font-bold text-[var(--text)] mb-3">Planned — v0.3</h4>
+            <h4 className="text-sm font-bold text-[var(--text)] mb-3">{t("hive_planned_title")}</h4>
             <div className="flex flex-wrap gap-2">
               {["Replication factor ≥3", "Semantic routing (VecDHT)", "Token incentives", "Sybil resistance"].map(f => (
                 <span key={f} className="text-xs text-[var(--muted)] border border-[var(--border)] rounded-full px-3 py-1">{f}</span>
@@ -240,7 +240,7 @@ export default function HivePage() {
       {/* ── Install ──────────────────────────────────────────────────────── */}
       <section className="bg-[#06090f] py-20">
         <div className="mx-auto max-w-3xl px-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-violet-400 mb-4">Run a BEE</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-violet-400 mb-4">{t("hive_section_run")}</p>
           <h2 className="text-3xl font-black g-hero mb-4 tracking-tight">{t("hive_install_title")}</h2>
           <p className="text-slate-400 mb-10">{t("hive_install_desc")}</p>
           <div className="flex flex-col gap-3 mb-8">
@@ -250,7 +250,7 @@ export default function HivePage() {
           <div className="flex flex-wrap gap-3">
             <a href="https://github.com/capybarist/hive" target="_blank" rel="noopener"
               className="inline-flex items-center gap-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm px-7 py-3.5 transition-colors">
-              View on GitHub <ArrowRight size={15} />
+              {t("hive_github_cta")} <ArrowRight size={15} />
             </a>
             <Link href="/#contact"
               className="inline-flex items-center gap-2 rounded-xl border border-slate-700 hover:border-slate-500 text-slate-400 hover:text-white font-semibold text-sm px-7 py-3.5 transition-colors">
