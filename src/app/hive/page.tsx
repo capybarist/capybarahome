@@ -1,11 +1,202 @@
 "use client";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n";
+import { useState, useEffect, useRef } from "react";
 import {
-  CheckCircle2, ArrowRight, Copy,
+  CheckCircle2, ArrowRight, Copy, Search, Loader2,
   Shield, FileText, Globe, Network,
-  Users, Code2, Leaf,
+  Users, Code2, Leaf, ExternalLink,
 } from "lucide-react";
+
+const AGGREGATOR = process.env.NEXT_PUBLIC_HIVE_AGGREGATOR_URL ?? "";
+
+// ── Types ─────────────────────────────────────────────────────────────────────
+interface Fragment {
+  id: string; title?: string; source: string; score: number;
+  confidence: number; doi?: string; text: string; node_id?: string; arxiv_id?: string;
+}
+interface QueryResult { answer?: string; mode?: string; fragments?: Fragment[]; has_hive_data?: boolean; }
+interface Stats { fragments?: number; bees?: number; topics?: number; }
+
+// ── Try HIVE widget ───────────────────────────────────────────────────────────
+function TryHive() {
+  const { t } = useI18n();
+  const [query, setQuery] = useState("");
+  const [result, setResult] = useState<QueryResult | null>(null);
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!AGGREGATOR) return;
+    fetch(`${AGGREGATOR}/api/stats`, { signal: AbortSignal.timeout(4000) })
+      .then(r => r.ok ? r.json() : null)
+      .then(d => d && setStats(d))
+      .catch(() => {});
+  }, []);
+
+  const ask = async () => {
+    const q = query.trim();
+    if (!q || loading) return;
+    setLoading(true);
+    setError(null);
+    setResult(null);
+    try {
+      const res = await fetch(`${AGGREGATOR}/api/query`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: q, top_k: 5, use_llm: true }),
+        signal: AbortSignal.timeout(30_000),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setResult(await res.json());
+    } catch {
+      setError(t("try_offline"));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const sourceUrl = (f: Fragment) => {
+    if (f.arxiv_id) return `https://arxiv.org/abs/${f.arxiv_id}`;
+    const m = f.source?.match(/arXiv:(\S+)/i);
+    if (m) return `https://arxiv.org/abs/${m[1]}`;
+    if (f.doi) return `https://doi.org/${f.doi}`;
+    return null;
+  };
+
+  // No aggregator configured (dev / pre-deploy)
+  if (!AGGREGATOR) {
+    return (
+      <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
+        <div className="text-3xl mb-3">🐝</div>
+        <p className="text-[var(--muted)] text-sm max-w-sm mx-auto">{t("try_no_config")}</p>
+        <Link href="https://github.com/capybarist/hive" target="_blank"
+          className="inline-flex items-center gap-2 mt-5 text-sm text-[var(--accent)] hover:underline">
+          View on GitHub <ArrowRight size={14} />
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Stats bar */}
+      {stats && (
+        <div className="flex flex-wrap gap-4 justify-center">
+          {[
+            { val: stats.fragments?.toLocaleString() ?? "—", label: t("try_stat_fragments") },
+            { val: stats.bees ?? "—", label: t("try_stat_bees") },
+            { val: stats.topics ?? "—", label: t("try_stat_topics") },
+          ].map(({ val, label }) => (
+            <div key={label} className="flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--bg)] border border-[var(--border)] text-sm">
+              <span className="font-bold text-[var(--text)]">{val}</span>
+              <span className="text-[var(--muted)]">{label}</span>
+            </div>
+          ))}
+          <div className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs text-green-600 bg-green-50 border border-green-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+            live
+          </div>
+        </div>
+      )}
+
+      {/* Search bar */}
+      <div className="flex gap-2">
+        <div className="flex-1 flex items-center gap-3 rounded-xl border border-[var(--border)] bg-white px-4 focus-within:border-[var(--accent)] focus-within:shadow-[0_0_0_3px_rgba(139,92,246,.1)] transition-all">
+          <Search size={16} className="text-[var(--muted)] shrink-0" />
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && ask()}
+            placeholder={t("try_placeholder")}
+            className="flex-1 py-3.5 text-sm outline-none bg-transparent text-[var(--text)] placeholder:text-[var(--muted)]"
+          />
+        </div>
+        <button
+          onClick={ask}
+          disabled={loading || !query.trim()}
+          className="flex items-center gap-2 rounded-xl bg-[var(--accent)] hover:bg-[var(--accent-dark)] disabled:opacity-40 text-white font-semibold text-sm px-5 py-3.5 transition-colors shrink-0"
+        >
+          {loading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
+          {loading ? t("try_loading") : t("try_btn")}
+        </button>
+      </div>
+
+      {/* Error */}
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">{error}</div>
+      )}
+
+      {/* Results */}
+      {result && (
+        <div className="flex flex-col gap-5">
+          {/* Mode badge */}
+          <div className={`inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full w-fit ${
+            result.has_hive_data
+              ? "bg-green-50 text-green-700 border border-green-200"
+              : "bg-amber-50 text-amber-700 border border-amber-200"
+          }`}>
+            {result.has_hive_data ? t("try_verified") : t("try_llm_fallback")}
+          </div>
+
+          {/* Answer */}
+          {result.answer && (
+            <div className="rounded-xl border border-[var(--border)] bg-white p-6">
+              <p className="text-sm text-[var(--text)] leading-relaxed whitespace-pre-wrap"
+                dangerouslySetInnerHTML={{ __html: result.answer
+                  .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+                  .replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>")
+                  .replace(/\*(.+?)\*/g,"<em>$1</em>")
+                }} />
+            </div>
+          )}
+
+          {/* Sources */}
+          {(result.fragments ?? []).length > 0 && (
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-[var(--muted)] mb-3">{t("try_sources")}</p>
+              <div className="flex flex-col gap-2">
+                {(result.fragments ?? []).slice(0, 4).map(f => {
+                  const url = sourceUrl(f);
+                  return (
+                    <div key={f.id} className="flex items-start gap-3 p-3 rounded-lg border border-[var(--border)] bg-white text-sm">
+                      <CheckCircle2 size={14} className="text-green-500 mt-0.5 shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-[var(--text)] truncate">{f.title ?? f.source}</p>
+                        <p className="text-xs text-[var(--muted)]">{f.source}</p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-xs text-[var(--muted)]">{Math.round(f.score * 100)}%</span>
+                        {url && (
+                          <a href={url} target="_blank" rel="noopener"
+                            className="text-[var(--accent)] hover:text-[var(--accent-dark)] transition-colors">
+                            <ExternalLink size={13} />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* No results CTA */}
+          {!result.has_hive_data && (
+            <Link href="#run-bee"
+              className="text-sm text-[var(--accent)] hover:underline inline-flex items-center gap-1">
+              {t("try_run_bee")} <ArrowRight size={13} />
+            </Link>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 const techStack = [
   { name: "Hypercore", desc: "Append-only cryptographic log (same tech as Keet)", href: "https://github.com/holepunchto/hypercore" },
@@ -69,6 +260,18 @@ export default function HivePage() {
               {t("hive_hero_cta_secondary")}
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* ── Try HIVE widget ──────────────────────────────────────────────── */}
+      <section className="bg-[var(--bg-subtle)] border-b border-[var(--border)]">
+        <div className="mx-auto max-w-3xl px-6 py-16">
+          <div className="text-center mb-8">
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-3">Live demo</p>
+            <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-3">{t("try_title")}</h2>
+            <p className="text-[var(--muted)] max-w-xl mx-auto text-sm leading-relaxed">{t("try_sub")}</p>
+          </div>
+          <TryHive />
         </div>
       </section>
 
@@ -238,7 +441,7 @@ export default function HivePage() {
       </section>
 
       {/* ── Install ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#06090f] py-20">
+      <section id="run-bee" className="bg-[#06090f] py-20">
         <div className="mx-auto max-w-3xl px-6">
           <p className="text-xs font-bold uppercase tracking-widest text-violet-400 mb-4">{t("hive_section_run")}</p>
           <h2 className="text-3xl font-black g-hero mb-4 tracking-tight">{t("hive_install_title")}</h2>

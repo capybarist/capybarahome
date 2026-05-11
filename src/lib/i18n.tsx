@@ -75,6 +75,23 @@ const translations = {
     foot_projects: "Proyectos",
     foot_rights: "Todos los derechos reservados.",
 
+    // Try HIVE widget
+    try_title: "Prueba HIVE",
+    try_sub: "Demo en vivo conectada al aggregator público. Cada respuesta viene de fragmentos firmados criptográficamente por BEEs reales.",
+    try_placeholder: "Pregunta algo sobre ciencia, IA, investigación...",
+    try_btn: "Preguntar",
+    try_loading: "Buscando en HIVE...",
+    try_offline: "El aggregator público no está disponible en este momento. Vuelve pronto o lanza tu propio BEE.",
+    try_no_config: "El aggregator público aún no está configurado. Vuelve pronto — estamos desplegándolo.",
+    try_no_results: "No se encontraron resultados en HIVE para esta consulta. ¿Quieres contribuir?",
+    try_verified: "✓ Verificado por HIVE",
+    try_llm_fallback: "⚠ Fuera de HIVE — conocimiento del LLM",
+    try_sources: "Fuentes",
+    try_stat_fragments: "fragmentos indexados",
+    try_stat_bees: "BEEs activos",
+    try_stat_topics: "tópicos cubiertos",
+    try_run_bee: "¿No encuentras lo que buscas? Contribuye lanzando un BEE →",
+
     // Section labels (hardcoded en componentes)
     section_services: "Servicios",
     section_process: "Proceso",
@@ -219,6 +236,23 @@ const translations = {
     foot_tagline: "Built with ☕ and too many lines of TypeScript.",
     foot_projects: "Projects",
     foot_rights: "All rights reserved.",
+
+    // Try HIVE widget
+    try_title: "Try HIVE",
+    try_sub: "Live demo connected to the public aggregator. Every answer comes from cryptographically signed fragments by real BEEs.",
+    try_placeholder: "Ask anything about science, AI, research...",
+    try_btn: "Ask",
+    try_loading: "Searching HIVE...",
+    try_offline: "The public aggregator is not available right now. Come back soon or run your own BEE.",
+    try_no_config: "The public aggregator is not configured yet. Come back soon — we're deploying it.",
+    try_no_results: "No results found in HIVE for this query. Want to contribute?",
+    try_verified: "✓ Verified by HIVE",
+    try_llm_fallback: "⚠ Outside HIVE — LLM knowledge",
+    try_sources: "Sources",
+    try_stat_fragments: "fragments indexed",
+    try_stat_bees: "active BEEs",
+    try_stat_topics: "topics covered",
+    try_run_bee: "Not finding what you need? Contribute by running a BEE →",
 
     // Section labels
     section_services: "Services",
