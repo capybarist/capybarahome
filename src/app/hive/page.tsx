@@ -8,7 +8,7 @@ import {
   Users, Code2, Leaf, ExternalLink,
 } from "lucide-react";
 
-const AGGREGATOR = process.env.NEXT_PUBLIC_HIVE_AGGREGATOR_URL ?? "";
+const AGGREGATOR = (process.env.NEXT_PUBLIC_HIVE_AGGREGATOR_URL ?? "").replace(/\/+$/, "");
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface Fragment {
