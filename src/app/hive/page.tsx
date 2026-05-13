@@ -432,7 +432,7 @@ export default function HivePage() {
           <div className="rounded-xl border border-[var(--border)] bg-white p-5">
             <h4 className="text-sm font-bold text-[var(--text)] mb-3">{t("hive_planned_title")}</h4>
             <div className="flex flex-wrap gap-2">
-              {["Replication factor ≥3", "Semantic routing (VecDHT)", "Token incentives", "Sybil resistance"].map(f => (
+              {["Signature verification on receive", "Replication factor ≥3", "Multi-agent consensus", "QVAC local inference", "WDK payments"].map(f => (
                 <span key={f} className="text-xs text-[var(--muted)] border border-[var(--border)] rounded-full px-3 py-1">{f}</span>
               ))}
             </div>
