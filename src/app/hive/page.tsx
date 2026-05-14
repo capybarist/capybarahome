@@ -8,8 +8,6 @@ import {
   Users, Code2, Leaf, ExternalLink,
 } from "lucide-react";
 
-// Calls go through Next.js proxy routes — no NEXT_PUBLIC needed, HTTP works fine.
-const AGGREGATOR = "";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface Fragment {
@@ -66,19 +64,6 @@ function TryHive() {
     return null;
   };
 
-  // No aggregator configured (dev / pre-deploy)
-  if (!AGGREGATOR) {
-    return (
-      <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
-        <div className="text-3xl mb-3">🐝</div>
-        <p className="text-[var(--muted)] text-sm max-w-sm mx-auto">{t("try_no_config")}</p>
-        <Link href="https://github.com/capybarist/hive" target="_blank"
-          className="inline-flex items-center gap-2 mt-5 text-sm text-[var(--accent)] hover:underline">
-          View on GitHub <ArrowRight size={14} />
-        </Link>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col gap-6">

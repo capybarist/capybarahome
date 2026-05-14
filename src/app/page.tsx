@@ -135,6 +135,49 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ═══════════════════════════════════════════ HIVE feature (subtle bg) ═ */}
+      <section className="bg-[var(--bg-subtle)] border-y border-[var(--border)]">
+        <div className="mx-auto max-w-6xl px-6 py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+            {/* text — 3 cols */}
+            <div className="lg:col-span-3">
+              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--accent)] border border-[var(--accent)]/30 bg-[var(--accent-bg)] rounded-full px-4 py-1.5 mb-6">
+                {t("hive_preview_badge")}
+              </span>
+              <h2 className="text-4xl font-black tracking-tight mb-5 g-accent">
+                HIVE
+              </h2>
+              <p className="text-2xl font-semibold text-[var(--text)] mb-4 leading-snug">
+                {t("hive_preview_title").replace("HIVE — ", "")}
+              </p>
+              <p className="text-[var(--muted)] leading-relaxed mb-8 max-w-lg">{t("hive_preview_desc")}</p>
+              <Link href="/hive"
+                className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-semibold text-sm px-6 py-3 transition-colors">
+                {t("hive_preview_cta")} <ArrowRight size={15} />
+              </Link>
+            </div>
+            {/* stats — 2 cols */}
+            <div className="lg:col-span-2 flex flex-col gap-4">
+              {[
+                { Icon: Globe, sKey: "hive_preview_stat1" as const, dKey: "hive_preview_stat1_desc" as const, bg: "bg-violet-50 border-violet-100", ic: "text-violet-600" },
+                { Icon: Lock, sKey: "hive_preview_stat2" as const, dKey: "hive_preview_stat2_desc" as const, bg: "bg-blue-50 border-blue-100", ic: "text-blue-600" },
+                { Icon: Network, sKey: "hive_preview_stat3" as const, dKey: "hive_preview_stat3_desc" as const, bg: "bg-sky-50 border-sky-100", ic: "text-sky-600" },
+              ].map(({ Icon, sKey, dKey, bg, ic }) => (
+                <div key={sKey} className={`flex items-center gap-4 p-5 rounded-xl border ${bg}`}>
+                  <div className="w-10 h-10 rounded-lg bg-white/70 flex items-center justify-center shrink-0">
+                    <Icon size={18} className={ic} />
+                  </div>
+                  <div>
+                    <div className="font-bold text-[var(--text)] text-sm">{t(sKey)}</div>
+                    <div className="text-xs text-[var(--muted)]">{t(dKey)}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ═══════════════════════════════════════════════════ SERVICES (light) ═ */}
       <section className="bg-[var(--bg)] py-24">
         <div className="mx-auto max-w-6xl px-6">
@@ -186,49 +229,6 @@ export default function Home() {
             <Link href="/services" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--brand)] hover:underline">
               {t("nav_services")} <ArrowRight size={14} />
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════ HIVE feature (subtle bg) ═ */}
-      <section className="bg-[var(--bg-subtle)] border-y border-[var(--border)]">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
-            {/* text — 3 cols */}
-            <div className="lg:col-span-3">
-              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--accent)] border border-[var(--accent)]/30 bg-[var(--accent-bg)] rounded-full px-4 py-1.5 mb-6">
-                {t("hive_preview_badge")}
-              </span>
-              <h2 className="text-4xl font-black tracking-tight mb-5 g-accent">
-                HIVE
-              </h2>
-              <p className="text-2xl font-semibold text-[var(--text)] mb-4 leading-snug">
-                {t("hive_preview_title").replace("HIVE — ", "")}
-              </p>
-              <p className="text-[var(--muted)] leading-relaxed mb-8 max-w-lg">{t("hive_preview_desc")}</p>
-              <Link href="/hive"
-                className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white font-semibold text-sm px-6 py-3 transition-colors">
-                {t("hive_preview_cta")} <ArrowRight size={15} />
-              </Link>
-            </div>
-            {/* stats — 2 cols */}
-            <div className="lg:col-span-2 flex flex-col gap-4">
-              {[
-                { Icon: Globe, sKey: "hive_preview_stat1" as const, dKey: "hive_preview_stat1_desc" as const, bg: "bg-violet-50 border-violet-100", ic: "text-violet-600" },
-                { Icon: Lock, sKey: "hive_preview_stat2" as const, dKey: "hive_preview_stat2_desc" as const, bg: "bg-blue-50 border-blue-100", ic: "text-blue-600" },
-                { Icon: Network, sKey: "hive_preview_stat3" as const, dKey: "hive_preview_stat3_desc" as const, bg: "bg-sky-50 border-sky-100", ic: "text-sky-600" },
-              ].map(({ Icon, sKey, dKey, bg, ic }) => (
-                <div key={sKey} className={`flex items-center gap-4 p-5 rounded-xl border ${bg}`}>
-                  <div className="w-10 h-10 rounded-lg bg-white/70 flex items-center justify-center shrink-0">
-                    <Icon size={18} className={ic} />
-                  </div>
-                  <div>
-                    <div className="font-bold text-[var(--text)] text-sm">{t(sKey)}</div>
-                    <div className="text-xs text-[var(--muted)]">{t(dKey)}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
