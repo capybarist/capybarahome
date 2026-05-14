@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const HIVE_URL = process.env.HIVE_AGGREGATOR_URL;
-
 export async function POST(req: NextRequest) {
+  const HIVE_URL = process.env.HIVE_AGGREGATOR_URL;
   if (!HIVE_URL) return NextResponse.json({ error: "not_configured" }, { status: 503 });
   try {
     const body = await req.json();
