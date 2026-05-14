@@ -8,7 +8,8 @@ import {
   Users, Code2, Leaf, ExternalLink,
 } from "lucide-react";
 
-const AGGREGATOR = (process.env.NEXT_PUBLIC_HIVE_AGGREGATOR_URL ?? "").replace(/\/+$/, "");
+// Calls go through Next.js proxy routes — no NEXT_PUBLIC needed, HTTP works fine.
+const AGGREGATOR = "";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface Fragment {
@@ -29,10 +30,9 @@ function TryHive() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!AGGREGATOR) return;
-    fetch(`${AGGREGATOR}/api/stats`, { signal: AbortSignal.timeout(4000) })
+    fetch("/api/hive/stats", { signal: AbortSignal.timeout(4000) })
       .then(r => r.ok ? r.json() : null)
-      .then(d => d && setStats(d))
+      .then(d => d && !d.error && setStats(d))
       .catch(() => {});
   }, []);
 
@@ -43,7 +43,7 @@ function TryHive() {
     setError(null);
     setResult(null);
     try {
-      const res = await fetch(`${AGGREGATOR}/api/query`, {
+      const res = await fetch("/api/hive/query", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: q, top_k: 5, use_llm: true }),
