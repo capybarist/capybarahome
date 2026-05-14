@@ -185,15 +185,16 @@ function TryHive() {
 
 const techStack = [
   { name: "Hypercore", desc: "Append-only cryptographic log (same tech as Keet)", href: "https://github.com/holepunchto/hypercore" },
-  { name: "Hyperswarm", desc: "P2P DHT for node discovery", href: "https://github.com/holepunchto/hyperswarm" },
-  { name: "sentence-transformers", desc: "Local semantic embeddings (~80MB, runs on CPU)", href: "https://github.com/UKPLab/sentence-transformers" },
-  { name: "Gemini / Claude / OpenAI", desc: "Autonomous extraction agent — any LLM with function calling", href: "" },
+  { name: "Hyperswarm", desc: "P2P DHT for node discovery and NAT hole-punching", href: "https://github.com/holepunchto/hyperswarm" },
+  { name: "sentence-transformers", desc: "Local semantic embeddings (all-MiniLM-L6-v2, ~80MB, runs on CPU)", href: "https://github.com/UKPLab/sentence-transformers" },
+  { name: "Qdrant", desc: "Vector database for the aggregator node — scalable search across the full network", href: "https://qdrant.tech" },
+  { name: "Ollama / Groq / Gemini / Claude / OpenAI", desc: "Autonomous extraction agent — any LLM with function calling. Ollama runs fully local, no API key needed.", href: "https://ollama.com" },
 ];
 
 const installSteps = [
   { num: "1", label: "Clone", cmd: "git clone https://github.com/capybarist/hive.git && cd hive" },
   { num: "2", label: "Install", cmd: "npm install && pip install -r packages/embeddings/requirements.txt" },
-  { num: "3", label: "Configure", cmd: "echo 'LLM_PROVIDER=gemini\\nLLM_API_KEY=your_key' > .env" },
+  { num: "3", label: "Configure", cmd: "# Ollama (free, local — default):\necho 'LLM_PROVIDER=ollama' > .env\n# Or cloud (faster):\necho 'LLM_PROVIDER=groq\\nLLM_API_KEY=your_key' > .env" },
   { num: "4", label: "Run", cmd: "bash hive.sh" },
 ];
 
@@ -330,8 +331,9 @@ export default function HivePage() {
               <p>→ Reads <span className="text-slate-300">topic_tree.json</span> (95 topics, 9 domains)</p>
               <p>→ Scans peers: which topics are covered</p>
               <p>→ Claims 3 uncovered topics (or least-covered ones)</p>
-              <p>→ Loop every 5 min: extract → sign → store → sync</p>
-              <p>→ Renews claims (TTL 30 min)</p>
+              <p>→ <span className="text-slate-300">wikipedia_fetch</span>: indexes all sections of each article</p>
+              <p>→ Loop ~continuous: extract → sign → store → sync</p>
+              <p>→ TTL dedup: skips fresh content (wiki 7d · rss 24h · arXiv 30d)</p>
             </div>
           </div>
         </div>
@@ -417,7 +419,7 @@ export default function HivePage() {
           <div className="rounded-xl border border-[var(--border)] bg-white p-5">
             <h4 className="text-sm font-bold text-[var(--text)] mb-3">{t("hive_planned_title")}</h4>
             <div className="flex flex-wrap gap-2">
-              {["Signature verification on receive", "Replication factor ≥3", "Multi-agent consensus", "QVAC local inference", "WDK payments"].map(f => (
+              {["LLM-free verbatim extraction", "Signature verification on receive", "Replication factor ≥3", "Multi-agent consensus", "BulkImporter (Wikipedia-scale)", "QVAC local inference", "WDK payments"].map(f => (
                 <span key={f} className="text-xs text-[var(--muted)] border border-[var(--border)] rounded-full px-3 py-1">{f}</span>
               ))}
             </div>
