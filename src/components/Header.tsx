@@ -9,7 +9,9 @@ export function Header() {
 
   const navLinks = [
     { key: "nav_hive" as const, href: "/hive" },
-    { key: "nav_capy" as const, href: "/capy" },
+    // nav_capy removed from menu while strategy is being validated.
+    // /capy page still exists at the URL but is intentionally not discoverable
+    // from navigation until a backtest honestly passes the Phase 1 gate.
     { key: "nav_services" as const, href: "/services" },
     { key: "nav_community" as const, href: "/#community" },
     { key: "nav_contact" as const, href: "/#contact" },
