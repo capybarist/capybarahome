@@ -9,6 +9,7 @@ export function Header() {
 
   const navLinks = [
     { key: "nav_hive" as const, href: "/hive" },
+    { key: "nav_capy" as const, href: "/capy" },
     { key: "nav_services" as const, href: "/services" },
     { key: "nav_community" as const, href: "/#community" },
     { key: "nav_contact" as const, href: "/#contact" },

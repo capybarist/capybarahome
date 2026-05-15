@@ -167,6 +167,47 @@ const translations = {
     hive_install_desc: "Tu BEE arrancará, encontrará un área de conocimiento sin cubrir y comenzará a indexar. Sin configuración necesaria.",
 
     hive_license: "Licencia Business Source (BUSL-1.1). Gratuito para uso no comercial. Se convierte en MIT en 4 años.",
+
+    // ── cAPY ──────────────────────────────────────────────────────────────
+    nav_capy: "cAPY",
+    capy_status_badge: "Alpha · Fase de backtest",
+    capy_tagline: "Trading algorítmico de perpetuos en Hyperliquid.",
+    capy_subhead:
+      "Estrategia adaptativa que opera BTC y ETH long y short según el régimen de mercado. Backtesteado con fees, funding, slippage y simulación de liquidación reales. Estos resultados son históricos — no constituyen promesa ni garantía de rendimiento futuro.",
+    capy_metric_return: "Retorno (24m)",
+    capy_metric_vs_btc: "vs BTC HODL",
+    capy_metric_cagr: "CAGR anualizado",
+    capy_metric_dd: "Max drawdown",
+    capy_chart_loading: "Cargando datos del backtest…",
+    capy_chart_error: "No se pudo cargar el backtest",
+
+    capy_roadmap_eyebrow: "Roadmap",
+    capy_roadmap_title: "Fases hasta el vault público",
+    capy_roadmap_desc:
+      "Validamos cada fase antes de avanzar. Sin atajos: si una fase no cumple sus métricas objetivo, iteramos hasta que las cumple.",
+
+    capy_phase_backtest_title: "Backtest",
+    capy_phase_backtest_desc: "Walk-forward 24m sobre datos reales. Métricas objetivo superadas.",
+    capy_phase_alpha_title: "Alpha (actual)",
+    capy_phase_alpha_desc: "Refinando estrategias y stress-testing antes de exponer capital.",
+    capy_phase_testnet_title: "Testnet",
+    capy_phase_testnet_desc: "Ejecución en vivo contra Hyperliquid testnet. Mínimo 2 semanas estables.",
+    capy_phase_mainnet_title: "Mainnet single",
+    capy_phase_mainnet_desc: "Capital propio durante 4+ semanas. Skin in the game.",
+    capy_phase_vault_title: "Vault público",
+    capy_phase_vault_desc: "Apertura de vault en Hyperliquid para depositantes externos.",
+
+    capy_disclaimer_title: "Aviso importante",
+    capy_disclaimer_1:
+      "Los resultados mostrados son de un backtest sobre datos históricos. Trading apalancado de perpetuos conlleva riesgo de pérdida total del capital. Rendimientos pasados no garantizan rendimientos futuros.",
+    capy_disclaimer_2:
+      "Actualmente NO aceptamos depósitos. Esta página existe para mostrar transparencia sobre el desarrollo. El vault solo se abrirá tras superar todas las fases del roadmap.",
+
+    capy_contact_title: "¿Te interesa cuando abramos el vault?",
+    capy_contact_desc:
+      "Escríbenos y te avisaremos cuando estemos listos para aceptar depositantes. También nos puedes contactar para feedback sobre la estrategia o preguntas técnicas.",
+    capy_contact_cta: "Notifícame",
+    capy_data_updated: "Datos actualizados",
   },
 
   en: {
@@ -329,6 +370,47 @@ const translations = {
     hive_install_desc: "Your BEE will start, find a knowledge area nobody is covering, and begin extracting. No configuration needed.",
 
     hive_license: "Business Source License (BUSL-1.1). Free for non-commercial use. Converts to MIT in 4 years.",
+
+    // ── cAPY ──────────────────────────────────────────────────────────────
+    nav_capy: "cAPY",
+    capy_status_badge: "Alpha · Backtest phase",
+    capy_tagline: "Algorithmic perpetuals trading on Hyperliquid.",
+    capy_subhead:
+      "Adaptive regime-based strategy that trades BTC and ETH long and short. Backtested with real fees, funding, slippage and liquidation simulation. Past performance shown here is historical and does not constitute a guarantee of future returns.",
+    capy_metric_return: "Return (24m)",
+    capy_metric_vs_btc: "vs BTC HODL",
+    capy_metric_cagr: "Annualized CAGR",
+    capy_metric_dd: "Max drawdown",
+    capy_chart_loading: "Loading backtest data…",
+    capy_chart_error: "Failed to load backtest",
+
+    capy_roadmap_eyebrow: "Roadmap",
+    capy_roadmap_title: "Phases to public vault",
+    capy_roadmap_desc:
+      "Every phase is validated before moving on. No shortcuts: if a phase doesn't hit its target metrics, we iterate until it does.",
+
+    capy_phase_backtest_title: "Backtest",
+    capy_phase_backtest_desc: "Walk-forward 24m on real data. All target metrics passed.",
+    capy_phase_alpha_title: "Alpha (current)",
+    capy_phase_alpha_desc: "Refining strategies and stress-testing before risking capital.",
+    capy_phase_testnet_title: "Testnet",
+    capy_phase_testnet_desc: "Live execution on Hyperliquid testnet. Minimum 2 stable weeks.",
+    capy_phase_mainnet_title: "Mainnet single",
+    capy_phase_mainnet_desc: "Own capital for 4+ weeks. Skin in the game.",
+    capy_phase_vault_title: "Public vault",
+    capy_phase_vault_desc: "Vault opens on Hyperliquid for external depositors.",
+
+    capy_disclaimer_title: "Important notice",
+    capy_disclaimer_1:
+      "Results shown are from a backtest on historical data. Leveraged perpetuals trading carries risk of full capital loss. Past performance does not guarantee future results.",
+    capy_disclaimer_2:
+      "We do NOT accept deposits at this time. This page exists for development transparency. The vault will only open once every roadmap phase has been cleared.",
+
+    capy_contact_title: "Interested when the vault opens?",
+    capy_contact_desc:
+      "Drop us a line and we'll notify you when we're ready to accept depositors. You can also reach out for feedback on the strategy or technical questions.",
+    capy_contact_cta: "Notify me",
+    capy_data_updated: "Data updated",
   },
 } as const;
 
