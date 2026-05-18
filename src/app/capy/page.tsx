@@ -6,6 +6,7 @@ import {
   CheckCircle2, Clock, Mail,
 } from "lucide-react";
 import { CapyChart } from "./CapyChart";
+import { LiveBotPanel } from "./LiveBotPanel";
 
 type Point = { time: string; value: number };
 
@@ -120,6 +121,9 @@ export default function CapyPage() {
           )}
         </div>
       </section>
+
+      {/* ── LIVE BOT PANEL (Sprint 3 testnet) ──────────────────────────────── */}
+      <LiveBotPanel />
 
       {/* ── ROADMAP / PHASE STATUS ─────────────────────────────────────────── */}
       <section className="bg-[var(--bg)] py-20">
