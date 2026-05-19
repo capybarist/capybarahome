@@ -9,8 +9,10 @@ import {
 } from "lightweight-charts";
 import { Activity, AlertTriangle, CheckCircle2, Wifi, WifiOff } from "lucide-react";
 
-const API_BASE =
-  process.env.NEXT_PUBLIC_CAPY_API_URL || "http://178.105.140.134:8001";
+// Fetch via same-origin Next.js route handlers (server-side proxy to the bot).
+// Avoids mixed-content blocking that would otherwise hide our HTTP backend
+// behind the HTTPS site. Mirrors HIVE's approach (/api/hive/*).
+const API_BASE = "/api/capy";
 const POLL_MS = 30_000;
 const STATUS_FRESH_S = 360; // 6 min — bot writes status every 5 min
 
@@ -118,8 +120,8 @@ export function LiveBotPanel() {
               Bot en tiempo real
             </h2>
             <p className="text-[var(--muted)] text-sm max-w-2xl mt-2">
-              Datos publicados por el bot cada 5 minutos desde testnet (
-              <code className="text-xs">{API_BASE}</code>).
+              Datos publicados por el bot cada 5 minutos desde testnet.
+              La página consulta el bot vía proxy para mantener la conexión segura.
             </p>
           </div>
           <HealthBadge health={health} status={status} />
