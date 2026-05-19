@@ -30,6 +30,8 @@ type Position = {
 type Status = {
   schema_version: number;
   updated_at: string;
+  version_sha?: string;
+  built_at?: string;
   env: string;
   mode: string;
   assets: string[];
@@ -124,6 +126,22 @@ export function LiveBotPanel() {
             <p className="text-[var(--muted)] text-sm max-w-2xl mt-2">
               {t("capy_live_subtitle")}
             </p>
+            {status?.version_sha && status.version_sha !== "dev" && (
+              <p className="text-[var(--muted)] text-xs font-mono mt-2 opacity-70">
+                build{" "}
+                <a
+                  href={`https://github.com/capybarist/cAPY/commit/${status.version_sha}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[var(--text)] underline-offset-2 hover:underline"
+                >
+                  {status.version_sha.slice(0, 7)}
+                </a>
+                {status.built_at && status.built_at !== "unknown" && (
+                  <> · {new Date(status.built_at).toLocaleString()}</>
+                )}
+              </p>
+            )}
           </div>
           <HealthBadge health={health} status={status} t={t} />
         </div>
