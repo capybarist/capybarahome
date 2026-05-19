@@ -7,7 +7,8 @@ import {
   type IChartApi,
   type Time,
 } from "lightweight-charts";
-import { Activity, AlertTriangle, CheckCircle2, Wifi, WifiOff } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Wifi, WifiOff } from "lucide-react";
+import { useI18n, type TranslationKey } from "@/lib/i18n";
 
 // Fetch via same-origin Next.js route handlers (server-side proxy to the bot).
 // Avoids mixed-content blocking that would otherwise hide our HTTP backend
@@ -60,6 +61,7 @@ type EquityPoint = { ts: string; nav: number; peak: number; dd_pct: number };
 type Health = "live" | "halted" | "stale" | "offline" | "loading";
 
 export function LiveBotPanel() {
+  const { t } = useI18n();
   const [status, setStatus] = useState<Status | null>(null);
   const [trades, setTrades] = useState<Trade[]>([]);
   const [equity, setEquity] = useState<EquityPoint[]>([]);
@@ -114,37 +116,36 @@ export function LiveBotPanel() {
         <div className="mb-8 flex items-end justify-between flex-wrap gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand)] mb-3">
-              Live · Testnet
+              {t("capy_live_eyebrow")}
             </p>
             <h2 className="text-3xl md:text-4xl font-black text-[var(--text)] tracking-tight">
-              Bot en tiempo real
+              {t("capy_live_title")}
             </h2>
             <p className="text-[var(--muted)] text-sm max-w-2xl mt-2">
-              Datos publicados por el bot cada 5 minutos desde testnet.
-              La página consulta el bot vía proxy para mantener la conexión segura.
+              {t("capy_live_subtitle")}
             </p>
           </div>
-          <HealthBadge health={health} status={status} />
+          <HealthBadge health={health} status={status} t={t} />
         </div>
 
         {/* Snapshot cards */}
         {status && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
             <SnapshotCard
-              label="NAV actual"
+              label={t("capy_live_card_nav")}
               value={`$${status.nav_usd.toFixed(2)}`}
             />
             <SnapshotCard
-              label="Pico NAV"
+              label={t("capy_live_card_peak")}
               value={`$${status.peak_nav_usd.toFixed(2)}`}
             />
             <SnapshotCard
-              label="Drawdown"
+              label={t("capy_live_card_dd")}
               value={`${status.drawdown_pct.toFixed(2)}%`}
               tone={status.drawdown_pct > 15 ? "danger" : "neutral"}
             />
             <SnapshotCard
-              label="Posiciones abiertas"
+              label={t("capy_live_card_open")}
               value={status.open_positions.length.toString()}
             />
           </div>
@@ -155,39 +156,45 @@ export function LiveBotPanel() {
           <div className="rounded-xl border border-rose-300/60 bg-rose-50 p-4 mb-6 flex items-start gap-3">
             <AlertTriangle size={18} className="text-rose-700 shrink-0 mt-0.5" />
             <div className="text-sm text-rose-900">
-              <strong>Bot detenido.</strong> Razón:{" "}
-              <code className="text-xs">{status.halt_reason}</code>. Requiere
-              intervención manual.
+              <strong>{t("capy_live_halt_banner")}</strong>{" "}
+              {t("capy_live_halt_reason")}{" "}
+              <code className="text-xs">{status.halt_reason}</code>.{" "}
+              {t("capy_live_halt_action")}
             </div>
           </div>
         )}
 
         {/* Equity mini-chart */}
-        {equity.length > 1 && <EquityChart points={equity} />}
+        {equity.length > 1 && (
+          <EquityChart
+            points={equity}
+            label={t("capy_live_equity_label")
+              .replace("{n}", String(equity.length))
+              .replace("{h}", String(Math.round((equity.length * 5) / 60)))}
+          />
+        )}
 
         {/* Open positions table */}
         {status && status.open_positions.length > 0 && (
           <div className="mb-6">
             <h3 className="text-sm font-bold text-[var(--text)] mb-3">
-              Posiciones abiertas
+              {t("capy_live_positions_title")}
             </h3>
-            <PositionsTable positions={status.open_positions} />
+            <PositionsTable positions={status.open_positions} t={t} />
           </div>
         )}
 
         {/* Trades table */}
         <div>
           <h3 className="text-sm font-bold text-[var(--text)] mb-3">
-            Últimas transacciones
+            {t("capy_live_trades_title")}
           </h3>
           {trades.length === 0 ? (
             <div className="rounded-xl border border-[var(--border)] bg-white p-6 text-center text-sm text-[var(--muted)]">
-              Sin transacciones todavía. El bot abrirá su primera posición
-              cuando una señal cumpla el filtro de calidad (
-              <code className="text-xs">score ≥ 70</code>).
+              {t("capy_live_trades_empty")}
             </div>
           ) : (
-            <TradesTable trades={trades} />
+            <TradesTable trades={trades} t={t} />
           )}
         </div>
       </div>
@@ -195,15 +202,17 @@ export function LiveBotPanel() {
   );
 }
 
+type Translate = (k: TranslationKey) => string;
+
 /* ── Subcomponents ────────────────────────────────────────────────────── */
 
-function HealthBadge({ health, status }: { health: Health; status: Status | null }) {
+function HealthBadge({ health, status, t }: { health: Health; status: Status | null; t: Translate }) {
   const map: Record<Health, { label: string; tone: string; Icon: typeof CheckCircle2 }> = {
-    live: { label: "Activo", tone: "border-emerald-300 bg-emerald-50 text-emerald-700", Icon: CheckCircle2 },
-    halted: { label: "Detenido", tone: "border-rose-300 bg-rose-50 text-rose-700", Icon: AlertTriangle },
-    stale: { label: "Sin updates", tone: "border-amber-300 bg-amber-50 text-amber-700", Icon: WifiOff },
-    offline: { label: "Sin conexión", tone: "border-rose-300 bg-rose-50 text-rose-700", Icon: WifiOff },
-    loading: { label: "Cargando…", tone: "border-slate-300 bg-slate-50 text-slate-600", Icon: Wifi },
+    live: { label: t("capy_live_health_live"), tone: "border-emerald-300 bg-emerald-50 text-emerald-700", Icon: CheckCircle2 },
+    halted: { label: t("capy_live_health_halted"), tone: "border-rose-300 bg-rose-50 text-rose-700", Icon: AlertTriangle },
+    stale: { label: t("capy_live_health_stale"), tone: "border-amber-300 bg-amber-50 text-amber-700", Icon: WifiOff },
+    offline: { label: t("capy_live_health_offline"), tone: "border-rose-300 bg-rose-50 text-rose-700", Icon: WifiOff },
+    loading: { label: t("capy_live_health_loading"), tone: "border-slate-300 bg-slate-50 text-slate-600", Icon: Wifi },
   };
   const { label, tone, Icon } = map[health];
   return (
@@ -241,14 +250,19 @@ function SnapshotCard({
   );
 }
 
-function PositionsTable({ positions }: { positions: Position[] }) {
+function PositionsTable({ positions, t }: { positions: Position[]; t: Translate }) {
   return (
     <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-white">
       <table className="w-full text-sm">
         <thead className="bg-[var(--bg-subtle)] text-xs uppercase text-[var(--muted)]">
           <tr>
-            <Th>Asset</Th><Th>Side</Th><Th>Origen</Th><Th>Tamaño USD</Th>
-            <Th>Entry</Th><Th>Stop</Th><Th>Lev</Th>
+            <Th>{t("capy_live_col_asset")}</Th>
+            <Th>{t("capy_live_col_side")}</Th>
+            <Th>{t("capy_live_col_origin")}</Th>
+            <Th>{t("capy_live_col_size")}</Th>
+            <Th>{t("capy_live_col_entry")}</Th>
+            <Th>{t("capy_live_col_stop")}</Th>
+            <Th>{t("capy_live_col_lev")}</Th>
           </tr>
         </thead>
         <tbody>
@@ -271,15 +285,20 @@ function PositionsTable({ positions }: { positions: Position[] }) {
   );
 }
 
-function TradesTable({ trades }: { trades: Trade[] }) {
+function TradesTable({ trades, t }: { trades: Trade[]; t: Translate }) {
   const reversed = [...trades].reverse();
   return (
     <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-white">
       <table className="w-full text-sm">
         <thead className="bg-[var(--bg-subtle)] text-xs uppercase text-[var(--muted)]">
           <tr>
-            <Th>Fecha</Th><Th>Acción</Th><Th>Asset</Th><Th>Side</Th>
-            <Th>Tamaño</Th><Th>Precio</Th><Th>PnL</Th>
+            <Th>{t("capy_live_col_date")}</Th>
+            <Th>{t("capy_live_col_action")}</Th>
+            <Th>{t("capy_live_col_asset")}</Th>
+            <Th>{t("capy_live_col_side")}</Th>
+            <Th>{t("capy_live_col_size_short")}</Th>
+            <Th>{t("capy_live_col_price")}</Th>
+            <Th>{t("capy_live_col_pnl")}</Th>
           </tr>
         </thead>
         <tbody>
@@ -319,7 +338,7 @@ function Td({ children, className = "" }: { children: React.ReactNode; className
   return <td className={`px-4 py-3 ${className}`}>{children}</td>;
 }
 
-function EquityChart({ points }: { points: EquityPoint[] }) {
+function EquityChart({ points, label }: { points: EquityPoint[]; label: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
 
@@ -358,7 +377,7 @@ function EquityChart({ points }: { points: EquityPoint[] }) {
   return (
     <div className="rounded-xl border border-[var(--border)] bg-white p-4 mb-6">
       <div className="text-xs uppercase tracking-wider font-semibold text-[var(--muted)] mb-3">
-        Equity (últimos {points.length} snapshots, ~{Math.round(points.length * 5 / 60)}h)
+        {label}
       </div>
       <div ref={containerRef} style={{ height: 240 }} />
     </div>
