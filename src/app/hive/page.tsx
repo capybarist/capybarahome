@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import {
   CheckCircle2, ArrowRight, Copy, Search, Loader2,
   Shield, FileText, Globe, Network,
-  Users, Code2, Leaf, ExternalLink,
+  Users, Code2, Leaf, ExternalLink, Activity, Database, Clock,
 } from "lucide-react";
 
 
@@ -16,6 +16,14 @@ interface Fragment {
 }
 interface QueryResult { answer?: string; mode?: string; fragments?: Fragment[]; has_hive_data?: boolean; }
 interface Stats { fragments?: number; bees?: number; topics?: number; }
+interface CrawlState {
+  queue_size?: number;
+  visited_size?: number;
+  next_in_queue?: string[];
+  recent_visited?: string[];
+  source_peer?: string;
+  error?: string;
+}
 
 // ── Try HIVE widget ───────────────────────────────────────────────────────────
 function TryHive() {
@@ -217,6 +225,199 @@ function InstallStep({ num, label, cmd }: { num: string; label: string; cmd: str
   );
 }
 
+// ── Spider live widget ────────────────────────────────────────────────────────
+// Polls /api/hive/crawl every 15s to surface what the bee crawler is doing
+// right now: queue depth, what it has already visited, what it will fetch next.
+function SpiderLive() {
+  const { t } = useI18n();
+  const [state, setState] = useState<CrawlState | null>(null);
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [lastTick, setLastTick] = useState<number>(Date.now());
+  const [prevFragments, setPrevFragments] = useState<number | null>(null);
+  const [growthPerMin, setGrowthPerMin] = useState<number | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const tick = async () => {
+      try {
+        const [cRes, sRes] = await Promise.all([
+          fetch("/api/hive/crawl", { cache: "no-store" }),
+          fetch("/api/hive/stats", { cache: "no-store" }),
+        ]);
+        if (cancelled) return;
+        if (cRes.ok) setState(await cRes.json());
+        if (sRes.ok) {
+          const s = (await sRes.json()) as Stats;
+          if (prevFragments != null && s.fragments != null) {
+            const dt = (Date.now() - lastTick) / 1000 / 60; // minutes
+            if (dt > 0) {
+              const delta = s.fragments - prevFragments;
+              setGrowthPerMin(Math.round((delta / dt) * 10) / 10);
+            }
+          }
+          if (s.fragments != null) setPrevFragments(s.fragments);
+          setLastTick(Date.now());
+          setStats(s);
+        }
+      } catch {
+        /* ignore network errors — keep last good state */
+      }
+    };
+    void tick();
+    const id = setInterval(tick, 15_000);
+    return () => { cancelled = true; clearInterval(id); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!state || state.error) return null;
+
+  return (
+    <section className="bg-[var(--bg)] border-b border-[var(--border)]">
+      <div className="mx-auto max-w-5xl px-6 py-12">
+        <div className="flex items-baseline justify-between mb-6 flex-wrap gap-2">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-2">
+              <span className="inline-flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
+                {t("hive_spider_eyebrow")}
+              </span>
+            </p>
+            <h2 className="text-2xl font-black text-[var(--text)] tracking-tight">
+              {t("hive_spider_title")}
+            </h2>
+            <p className="text-xs text-[var(--muted)] mt-1">{t("hive_spider_sub")}</p>
+          </div>
+          <div className="text-xs text-[var(--muted)] font-mono">
+            {t("hive_spider_updated")}: {new Date(lastTick).toLocaleTimeString()}
+          </div>
+        </div>
+
+        {/* Stat cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+          <StatCard
+            Icon={Database}
+            label={t("hive_spider_card_indexed")}
+            value={stats?.fragments?.toLocaleString() ?? "—"}
+            tone="violet"
+          />
+          <StatCard
+            Icon={Clock}
+            label={t("hive_spider_card_queue")}
+            value={(state.queue_size ?? 0).toLocaleString()}
+            tone="sky"
+          />
+          <StatCard
+            Icon={CheckCircle2}
+            label={t("hive_spider_card_visited")}
+            value={(state.visited_size ?? 0).toLocaleString()}
+            tone="green"
+          />
+          <StatCard
+            Icon={Activity}
+            label={t("hive_spider_card_rate")}
+            value={growthPerMin != null ? `${growthPerMin >= 0 ? "+" : ""}${growthPerMin}/min` : "—"}
+            tone="amber"
+          />
+        </div>
+
+        {/* Live lists */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ArticleList
+            title={t("hive_spider_recent_title")}
+            subtitle={t("hive_spider_recent_sub")}
+            items={state.recent_visited ?? []}
+            empty={t("hive_spider_recent_empty")}
+            kind="visited"
+          />
+          <ArticleList
+            title={t("hive_spider_next_title")}
+            subtitle={t("hive_spider_next_sub")}
+            items={state.next_in_queue ?? []}
+            empty={t("hive_spider_next_empty")}
+            kind="queue"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StatCard({
+  Icon,
+  label,
+  value,
+  tone,
+}: {
+  Icon: typeof Database;
+  label: string;
+  value: string;
+  tone: "violet" | "sky" | "green" | "amber";
+}) {
+  const colors = {
+    violet: { bg: "bg-violet-50", text: "text-violet-700", icon: "text-violet-500" },
+    sky:    { bg: "bg-sky-50",    text: "text-sky-700",    icon: "text-sky-500"    },
+    green:  { bg: "bg-green-50",  text: "text-green-700",  icon: "text-green-500"  },
+    amber:  { bg: "bg-amber-50",  text: "text-amber-700",  icon: "text-amber-500"  },
+  }[tone];
+  return (
+    <div className={`rounded-xl border border-[var(--border)] ${colors.bg} p-4`}>
+      <div className="flex items-center gap-2 mb-2">
+        <Icon size={14} className={colors.icon} />
+        <span className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">{label}</span>
+      </div>
+      <div className={`text-2xl font-black tabular-nums ${colors.text}`}>{value}</div>
+    </div>
+  );
+}
+
+function ArticleList({
+  title,
+  subtitle,
+  items,
+  empty,
+  kind,
+}: {
+  title: string;
+  subtitle: string;
+  items: string[];
+  empty: string;
+  kind: "visited" | "queue";
+}) {
+  return (
+    <div className="rounded-xl border border-[var(--border)] bg-white p-5">
+      <div className="mb-3">
+        <h3 className="text-sm font-bold text-[var(--text)]">{title}</h3>
+        <p className="text-xs text-[var(--muted)] mt-0.5">{subtitle}</p>
+      </div>
+      {items.length === 0 ? (
+        <p className="text-sm text-[var(--muted)] italic py-4">{empty}</p>
+      ) : (
+        <ul className="space-y-1.5">
+          {items.slice(0, 10).map((title, i) => {
+            const wikiUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, "_"))}`;
+            return (
+              <li key={`${kind}-${i}-${title}`} className="flex items-center gap-2 text-sm">
+                <span className="text-xs text-[var(--muted)] font-mono w-6 text-right shrink-0">
+                  {i + 1}
+                </span>
+                <a
+                  href={wikiUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--text)] hover:text-[var(--accent)] truncate flex items-center gap-1.5 group"
+                >
+                  <span className="truncate">{title}</span>
+                  <ExternalLink size={11} className="text-[var(--muted)] opacity-0 group-hover:opacity-100 shrink-0" />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 export default function HivePage() {
   const { t } = useI18n();
 
@@ -260,6 +461,9 @@ export default function HivePage() {
           <TryHive />
         </div>
       </section>
+
+      {/* ── Spider live status ───────────────────────────────────────────── */}
+      <SpiderLive />
 
       {/* ── Problem ──────────────────────────────────────────────────────── */}
       <section className="bg-[var(--bg)] py-20">
