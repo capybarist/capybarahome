@@ -225,10 +225,10 @@ function InstallStep({ num, label, cmd }: { num: string; label: string; cmd: str
   );
 }
 
-// ── Spider live widget ────────────────────────────────────────────────────────
+// ── Forager live widget ────────────────────────────────────────────────────────
 // Polls /api/hive/crawl every 15s to surface what the bee crawler is doing
 // right now: queue depth, what it has already visited, what it will fetch next.
-function SpiderLive() {
+function ForagerLive() {
   const { t } = useI18n();
   const [state, setState] = useState<CrawlState | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
@@ -279,16 +279,16 @@ function SpiderLive() {
             <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-2">
               <span className="inline-flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
-                {t("hive_spider_eyebrow")}
+                {t("hive_forager_eyebrow")}
               </span>
             </p>
             <h2 className="text-2xl font-black text-[var(--text)] tracking-tight">
-              {t("hive_spider_title")}
+              {t("hive_forager_title")}
             </h2>
-            <p className="text-xs text-[var(--muted)] mt-1">{t("hive_spider_sub")}</p>
+            <p className="text-xs text-[var(--muted)] mt-1">{t("hive_forager_sub")}</p>
           </div>
           <div className="text-xs text-[var(--muted)] font-mono">
-            {t("hive_spider_updated")}: {new Date(lastTick).toLocaleTimeString()}
+            {t("hive_forager_updated")}: {new Date(lastTick).toLocaleTimeString()}
           </div>
         </div>
 
@@ -296,25 +296,25 @@ function SpiderLive() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           <StatCard
             Icon={Database}
-            label={t("hive_spider_card_indexed")}
+            label={t("hive_forager_card_indexed")}
             value={stats?.fragments?.toLocaleString() ?? "—"}
             tone="violet"
           />
           <StatCard
             Icon={Clock}
-            label={t("hive_spider_card_queue")}
+            label={t("hive_forager_card_queue")}
             value={(state.queue_size ?? 0).toLocaleString()}
             tone="sky"
           />
           <StatCard
             Icon={CheckCircle2}
-            label={t("hive_spider_card_visited")}
+            label={t("hive_forager_card_visited")}
             value={(state.visited_size ?? 0).toLocaleString()}
             tone="green"
           />
           <StatCard
             Icon={Activity}
-            label={t("hive_spider_card_rate")}
+            label={t("hive_forager_card_rate")}
             value={growthPerMin != null ? `${growthPerMin >= 0 ? "+" : ""}${growthPerMin}/min` : "—"}
             tone="amber"
           />
@@ -323,17 +323,17 @@ function SpiderLive() {
         {/* Live lists */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <ArticleList
-            title={t("hive_spider_recent_title")}
-            subtitle={t("hive_spider_recent_sub")}
+            title={t("hive_forager_recent_title")}
+            subtitle={t("hive_forager_recent_sub")}
             items={state.recent_visited ?? []}
-            empty={t("hive_spider_recent_empty")}
+            empty={t("hive_forager_recent_empty")}
             kind="visited"
           />
           <ArticleList
-            title={t("hive_spider_next_title")}
-            subtitle={t("hive_spider_next_sub")}
+            title={t("hive_forager_next_title")}
+            subtitle={t("hive_forager_next_sub")}
             items={state.next_in_queue ?? []}
-            empty={t("hive_spider_next_empty")}
+            empty={t("hive_forager_next_empty")}
             kind="queue"
           />
         </div>
@@ -462,8 +462,8 @@ export default function HivePage() {
         </div>
       </section>
 
-      {/* ── Spider live status ───────────────────────────────────────────── */}
-      <SpiderLive />
+      {/* ── Forager live status ───────────────────────────────────────────── */}
+      <ForagerLive />
 
       {/* ── Problem ──────────────────────────────────────────────────────── */}
       <section className="bg-[var(--bg)] py-20">
