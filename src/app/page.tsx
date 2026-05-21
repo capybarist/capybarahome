@@ -6,6 +6,7 @@ import {
   Play, Briefcase, GitBranch,
   CheckCircle2, Shield, Clock, Star,
   Network, Lock, FileText, Globe,
+  Smartphone, Cpu,
 } from "lucide-react";
 
 const stack = [
@@ -162,6 +163,51 @@ export default function Home() {
                 { Icon: Globe, sKey: "hive_preview_stat1" as const, dKey: "hive_preview_stat1_desc" as const, bg: "bg-violet-50 border-violet-100", ic: "text-violet-600" },
                 { Icon: Lock, sKey: "hive_preview_stat2" as const, dKey: "hive_preview_stat2_desc" as const, bg: "bg-blue-50 border-blue-100", ic: "text-blue-600" },
                 { Icon: Network, sKey: "hive_preview_stat3" as const, dKey: "hive_preview_stat3_desc" as const, bg: "bg-sky-50 border-sky-100", ic: "text-sky-600" },
+              ].map(({ Icon, sKey, dKey, bg, ic }) => (
+                <div key={sKey} className={`flex items-center gap-4 p-5 rounded-xl border ${bg}`}>
+                  <div className="w-10 h-10 rounded-lg bg-white/70 flex items-center justify-center shrink-0">
+                    <Icon size={18} className={ic} />
+                  </div>
+                  <div>
+                    <div className="font-bold text-[var(--text)] text-sm">{t(sKey)}</div>
+                    <div className="text-xs text-[var(--muted)]">{t(dKey)}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════ pixel feature (light) ═ */}
+      <section className="bg-[var(--bg)]">
+        <div className="mx-auto max-w-6xl px-6 py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+            {/* text — 3 cols */}
+            <div className="lg:col-span-3">
+              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--brand)] border border-[var(--brand)]/30 bg-[var(--brand-bg)] rounded-full px-4 py-1.5 mb-6">
+                {t("pixel_preview_badge")}
+              </span>
+              <h2 className="text-4xl font-black tracking-tight mb-5 g-brand">pixel</h2>
+              <p className="text-2xl font-semibold text-[var(--text)] mb-4 leading-snug">
+                {t("pixel_preview_title").replace("pixel — ", "")}
+              </p>
+              <p className="text-[var(--muted)] leading-relaxed mb-8 max-w-lg">
+                {t("pixel_preview_desc")}
+              </p>
+              <Link
+                href="/pixel"
+                className="inline-flex items-center gap-2 rounded-xl bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white font-semibold text-sm px-6 py-3 transition-colors"
+              >
+                {t("pixel_preview_cta")} <ArrowRight size={15} />
+              </Link>
+            </div>
+            {/* stats — 2 cols */}
+            <div className="lg:col-span-2 flex flex-col gap-4">
+              {[
+                { Icon: Code2,      sKey: "pixel_preview_stat1" as const, dKey: "pixel_preview_stat1_desc" as const, bg: "bg-sky-50 border-sky-100",       ic: "text-sky-600" },
+                { Icon: Cpu,        sKey: "pixel_preview_stat2" as const, dKey: "pixel_preview_stat2_desc" as const, bg: "bg-violet-50 border-violet-100", ic: "text-violet-600" },
+                { Icon: Smartphone, sKey: "pixel_preview_stat3" as const, dKey: "pixel_preview_stat3_desc" as const, bg: "bg-blue-50 border-blue-100",     ic: "text-blue-600" },
               ].map(({ Icon, sKey, dKey, bg, ic }) => (
                 <div key={sKey} className={`flex items-center gap-4 p-5 rounded-xl border ${bg}`}>
                   <div className="w-10 h-10 rounded-lg bg-white/70 flex items-center justify-center shrink-0">
