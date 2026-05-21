@@ -11,6 +11,7 @@ const translations = {
     // Nav
     nav_services: "Servicios",
     nav_hive: "HIVE",
+    nav_pixel: "pixel",
     nav_community: "Comunidad",
     nav_contact: "Contacto",
 
@@ -259,12 +260,79 @@ const translations = {
     capy_live_col_pnl: "PnL",
     capy_live_col_size_short: "Tamaño",
     capy_live_equity_label: "Equity (últimos {n} snapshots, ~{h}h)",
+
+    // ── pixel ─────────────────────────────────────────────────────────────
+    // Home preview card (sits next to HIVE preview)
+    pixel_preview_badge: "Nuevo · Alpha pública",
+    pixel_preview_title: "pixel — el Lovable de los videojuegos móviles",
+    pixel_preview_desc:
+      "Describe un juego en lenguaje natural y juégalo en tu navegador en segundos. Itera por chat. Cuando esté listo, expórtalo a APK e IPA bajo tu propia cuenta de developer.",
+    pixel_preview_cta: "Abrir studio →",
+    pixel_preview_stat1: "Phaser 3",
+    pixel_preview_stat1_desc: "motor 2D LLM-friendly",
+    pixel_preview_stat2: "Multi-LLM",
+    pixel_preview_stat2_desc: "Gemini · Claude · OpenAI",
+    pixel_preview_stat3: "APK / IPA",
+    pixel_preview_stat3_desc: "Capacitor wrapper",
+
+    // /pixel page
+    pixel_status_badge: "Fase 1 · Alpha pública",
+    pixel_tagline: "Vibe-coded mobile games.",
+    pixel_subhead:
+      "Del prompt al APK. Describe un juego en lenguaje natural, juégalo en tu navegador y publícalo en las stores cuando esté listo. Sin Unity, sin Godot, sin curva de aprendizaje.",
+    pixel_cta_primary: "Abrir Studio",
+    pixel_cta_secondary: "Ver en GitHub",
+
+    pixel_how_eyebrow: "Cómo funciona",
+    pixel_how_title: "Tres pasos. Sin experiencia previa.",
+    pixel_how_1_title: "Describe",
+    pixel_how_1_desc:
+      "\"Un platformer donde un capibara recoge monedas esquivando aviones.\" Lenguaje natural, sin código.",
+    pixel_how_2_title: "Juega",
+    pixel_how_2_desc:
+      "El studio genera el juego con Phaser 3 y lo corre en un frame de móvil. Itera por chat con cualquier modelo LLM (Gemini, Claude, OpenAI, Groq u Ollama local).",
+    pixel_how_3_title: "Publica",
+    pixel_how_3_desc:
+      "Compilamos a .apk y .ipa reales con Capacitor y los publicas bajo tu propia cuenta de developer. Sin revenue share. (Fase 4)",
+
+    pixel_why_eyebrow: "Por qué pixel",
+    pixel_why_title: "Diseñado para que un LLM lo entienda bien.",
+    pixel_why_1_title: "Phaser 3 + TypeScript",
+    pixel_why_1_desc:
+      "Archivos .ts planos. Sin formatos binarios ni YAML con GUIDs que el modelo pueda corromper.",
+    pixel_why_2_title: "Tu LLM, tu coste",
+    pixel_why_2_desc:
+      "Conecta Gemini gratis para iterar, Claude para producción, o Ollama 100 % local. Pones tu propia API key.",
+    pixel_why_3_title: "Móvil-first",
+    pixel_why_3_desc:
+      "Portrait 360×640. Controles touch. Build de 1–3 MB. No es una web encogida.",
+    pixel_why_4_title: "Assets CC0",
+    pixel_why_4_desc:
+      "Sprites de Kenney.nl licenciados como dominio público. Sin riesgo legal cuando publiques.",
+
+    pixel_cta_final_title: "Construye tu primer juego.",
+    pixel_cta_final_desc: "Gratis durante la alpha. Sin tarjeta.",
+    pixel_cta_final_btn: "Abrir el studio →",
+
+    pixel_phase_eyebrow: "Roadmap",
+    pixel_phase_title: "Fases hasta las stores",
+    pixel_phase_1_title: "Fase 1 — Web demo",
+    pixel_phase_1_desc: "Studio jugable en navegador. Una plantilla platformer. Sin login. ← Estamos aquí.",
+    pixel_phase_2_title: "Fase 2 — Múltiples plantillas + QR",
+    pixel_phase_2_desc: "Platformer, runner, puzzle, top-down. Jugable en tu móvil escaneando un QR.",
+    pixel_phase_3_title: "Fase 3 — Cuentas + dashboard",
+    pixel_phase_3_desc: "Auth, persistencia, sharing público de proyectos.",
+    pixel_phase_4_title: "Fase 4 — Compilación nativa",
+    pixel_phase_4_desc: ".apk y .ipa generados en la nube con Capacitor. Listos para TestFlight y Google Play interno.",
+    pixel_phase_5_title: "Fase 5 — Publicación BYODA",
+    pixel_phase_5_desc: "Flujo guiado para publicar bajo tu cuenta de Apple/Google. Tú te quedas el 100 % de los ingresos.",
   },
 
   en: {
     // Nav
     nav_services: "Services",
     nav_hive: "HIVE",
+    nav_pixel: "pixel",
     nav_community: "Community",
     nav_contact: "Contact",
 
@@ -513,6 +581,70 @@ const translations = {
     capy_live_col_pnl: "PnL",
     capy_live_col_size_short: "Size",
     capy_live_equity_label: "Equity (last {n} snapshots, ~{h}h)",
+
+    // ── pixel ─────────────────────────────────────────────────────────────
+    pixel_preview_badge: "New · Public alpha",
+    pixel_preview_title: "pixel — the Lovable for mobile games",
+    pixel_preview_desc:
+      "Describe a game in plain language and play it in your browser in seconds. Iterate by chat. When it's ready, export to APK and IPA under your own developer account.",
+    pixel_preview_cta: "Open studio →",
+    pixel_preview_stat1: "Phaser 3",
+    pixel_preview_stat1_desc: "LLM-friendly 2D engine",
+    pixel_preview_stat2: "Multi-LLM",
+    pixel_preview_stat2_desc: "Gemini · Claude · OpenAI",
+    pixel_preview_stat3: "APK / IPA",
+    pixel_preview_stat3_desc: "Capacitor wrapper",
+
+    pixel_status_badge: "Phase 1 · Public alpha",
+    pixel_tagline: "Vibe-coded mobile games.",
+    pixel_subhead:
+      "From prompt to APK. Describe a game in plain language, play it in your browser, and ship it to the stores when it's ready. No Unity, no Godot, no learning curve.",
+    pixel_cta_primary: "Open Studio",
+    pixel_cta_secondary: "View on GitHub",
+
+    pixel_how_eyebrow: "How it works",
+    pixel_how_title: "Three steps. No experience required.",
+    pixel_how_1_title: "Describe",
+    pixel_how_1_desc:
+      "\"A platformer where a capybara collects coins while avoiding planes.\" Natural language, no code.",
+    pixel_how_2_title: "Play",
+    pixel_how_2_desc:
+      "The studio generates a Phaser 3 game and runs it in a phone frame. Iterate by chat with any LLM (Gemini, Claude, OpenAI, Groq, or local Ollama).",
+    pixel_how_3_title: "Ship",
+    pixel_how_3_desc:
+      "We compile to real .apk and .ipa with Capacitor and you publish under your own developer account. No revenue share. (Phase 4)",
+
+    pixel_why_eyebrow: "Why pixel",
+    pixel_why_title: "Built so an LLM can actually understand it.",
+    pixel_why_1_title: "Phaser 3 + TypeScript",
+    pixel_why_1_desc:
+      "Plain .ts files. No binary formats or YAML with GUIDs that the model can corrupt.",
+    pixel_why_2_title: "Your LLM, your cost",
+    pixel_why_2_desc:
+      "Plug in Gemini free for iteration, Claude for production, or Ollama 100 % local. Bring your own API key.",
+    pixel_why_3_title: "Mobile-first",
+    pixel_why_3_desc:
+      "Portrait 360×640. Touch controls. 1–3 MB builds. Not a shrunk-down desktop game.",
+    pixel_why_4_title: "CC0 assets",
+    pixel_why_4_desc:
+      "Sprites from Kenney.nl licensed as public domain. Zero legal risk when you publish.",
+
+    pixel_cta_final_title: "Build your first game.",
+    pixel_cta_final_desc: "Free during alpha. No credit card.",
+    pixel_cta_final_btn: "Open the studio →",
+
+    pixel_phase_eyebrow: "Roadmap",
+    pixel_phase_title: "Phases to the stores",
+    pixel_phase_1_title: "Phase 1 — Web demo",
+    pixel_phase_1_desc: "Playable studio in the browser. Single platformer template. No login. ← We are here.",
+    pixel_phase_2_title: "Phase 2 — Multiple templates + QR",
+    pixel_phase_2_desc: "Platformer, runner, puzzle, top-down. Playable on your phone via QR.",
+    pixel_phase_3_title: "Phase 3 — Accounts + dashboard",
+    pixel_phase_3_desc: "Auth, persistence, public sharing of projects.",
+    pixel_phase_4_title: "Phase 4 — Native compilation",
+    pixel_phase_4_desc: ".apk and .ipa generated in the cloud with Capacitor. Ready for TestFlight and Google Play internal.",
+    pixel_phase_5_title: "Phase 5 — BYODA publishing",
+    pixel_phase_5_desc: "Guided flow to publish under your Apple/Google account. You keep 100 % of revenue.",
   },
 } as const;
 

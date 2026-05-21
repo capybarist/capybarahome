@@ -8,6 +8,7 @@ export function Header() {
   const path = usePathname();
 
   const navLinks = [
+    { key: "nav_pixel" as const, href: "/pixel" },
     { key: "nav_hive" as const, href: "/hive" },
     // nav_capy removed from menu while strategy is being validated.
     // /capy page still exists at the URL but is intentionally not discoverable
