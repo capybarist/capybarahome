@@ -8,11 +8,11 @@ export function Header() {
   const path = usePathname();
 
   const navLinks = [
-    { key: "nav_pixel" as const, href: "/pixel" },
     { key: "nav_hive" as const, href: "/hive" },
-    // nav_capy removed from menu while strategy is being validated.
-    // /capy page still exists at the URL but is intentionally not discoverable
-    // from navigation until a backtest honestly passes the Phase 1 gate.
+    // nav_capy and nav_pixel removed from menu until their alpha is mature
+    // enough to demo. The /capy and /pixel pages remain reachable by direct URL
+    // (capybaralabs.tech/pixel still works) but are intentionally not surfaced
+    // in the nav until they pass a "this is shippable" gate.
     { key: "nav_services" as const, href: "/services" },
     { key: "nav_community" as const, href: "/#community" },
     { key: "nav_contact" as const, href: "/#contact" },
