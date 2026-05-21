@@ -232,6 +232,7 @@ function ForagerLive() {
   const { t } = useI18n();
   const [state, setState] = useState<CrawlState | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
+  const [version, setVersion] = useState<string | null>(null);
   const [lastTick, setLastTick] = useState<number>(Date.now());
   const [prevFragments, setPrevFragments] = useState<number | null>(null);
   const [growthPerMin, setGrowthPerMin] = useState<number | null>(null);
@@ -240,12 +241,17 @@ function ForagerLive() {
     let cancelled = false;
     const tick = async () => {
       try {
-        const [cRes, sRes] = await Promise.all([
+        const [cRes, sRes, stRes] = await Promise.all([
           fetch("/api/hive/crawl", { cache: "no-store" }),
           fetch("/api/hive/stats", { cache: "no-store" }),
+          fetch("/api/hive/status", { cache: "no-store" }),
         ]);
         if (cancelled) return;
         if (cRes.ok) setState(await cRes.json());
+        if (stRes.ok) {
+          const st = await stRes.json() as { version?: string };
+          if (st.version) setVersion(st.version);
+        }
         if (sRes.ok) {
           const s = (await sRes.json()) as Stats;
           if (prevFragments != null && s.fragments != null) {
@@ -284,6 +290,14 @@ function ForagerLive() {
             </p>
             <h2 className="text-2xl font-black text-[var(--text)] tracking-tight">
               {t("hive_forager_title")}
+              {version && (
+                <span
+                  className="ml-3 align-middle inline-block px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase rounded-md border border-[var(--border)] bg-[var(--bg-subtle)] text-[var(--muted)] font-mono"
+                  title="HIVE aggregator version"
+                >
+                  v{version}
+                </span>
+              )}
             </h2>
             <p className="text-xs text-[var(--muted)] mt-1">{t("hive_forager_sub")}</p>
           </div>
