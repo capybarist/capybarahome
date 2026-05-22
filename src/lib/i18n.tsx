@@ -78,12 +78,12 @@ const translations = {
 
     // Try HIVE widget
     try_title: "Prueba HIVE",
-    try_sub: "Demo en vivo conectada al aggregator público. Cada respuesta viene de fragmentos firmados criptográficamente por BEEs reales.",
+    try_sub: "Demo en vivo conectada a la queen pública. Cada respuesta viene de fragmentos firmados criptográficamente por BEEs reales.",
     try_placeholder: "Pregunta algo sobre ciencia, IA, investigación...",
     try_btn: "Preguntar",
     try_loading: "Buscando en HIVE...",
-    try_offline: "El aggregator público no está disponible en este momento. Vuelve pronto o lanza tu propio BEE.",
-    try_no_config: "El aggregator público aún no está configurado. Vuelve pronto — estamos desplegándolo.",
+    try_offline: "La queen pública no está disponible en este momento. Vuelve pronto o lanza tu propio BEE.",
+    try_no_config: "La queen pública aún no está configurada. Vuelve pronto — estamos desplegándola.",
     try_no_results: "No se encontraron resultados en HIVE para esta consulta. ¿Quieres contribuir?",
     try_verified: "✓ Verificado por HIVE",
     try_llm_fallback: "⚠ Fuera de HIVE — conocimiento del LLM",
@@ -399,12 +399,12 @@ const translations = {
 
     // Try HIVE widget
     try_title: "Try HIVE",
-    try_sub: "Live demo connected to the public aggregator. Every answer comes from cryptographically signed fragments by real BEEs.",
+    try_sub: "Live demo connected to the public queen. Every answer comes from cryptographically signed fragments by real BEEs.",
     try_placeholder: "Ask anything about science, AI, research...",
     try_btn: "Ask",
     try_loading: "Searching HIVE...",
-    try_offline: "The public aggregator is not available right now. Come back soon or run your own BEE.",
-    try_no_config: "The public aggregator is not configured yet. Come back soon — we're deploying it.",
+    try_offline: "The public queen is not available right now. Come back soon or run your own BEE.",
+    try_no_config: "The public queen is not configured yet. Come back soon — we're deploying it.",
     try_no_results: "No results found in HIVE for this query. Want to contribute?",
     try_verified: "✓ Verified by HIVE",
     try_llm_fallback: "⚠ Outside HIVE — LLM knowledge",

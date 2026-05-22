@@ -195,15 +195,16 @@ const techStack = [
   { name: "Hypercore", desc: "Append-only cryptographic log (same tech as Keet)", href: "https://github.com/holepunchto/hypercore" },
   { name: "Hyperswarm", desc: "P2P DHT for node discovery and NAT hole-punching", href: "https://github.com/holepunchto/hyperswarm" },
   { name: "sentence-transformers", desc: "Local semantic embeddings (all-MiniLM-L6-v2, ~80MB, runs on CPU)", href: "https://github.com/UKPLab/sentence-transformers" },
-  { name: "Qdrant", desc: "Vector database for the aggregator node — scalable search across the full network", href: "https://qdrant.tech" },
+  { name: "Qdrant", desc: "Vector database for the queen node — scalable search across the full network", href: "https://qdrant.tech" },
   { name: "Ollama / Groq / Gemini / Claude / OpenAI", desc: "Autonomous extraction agent — any LLM with function calling. Ollama runs fully local, no API key needed.", href: "https://ollama.com" },
 ];
 
 const installSteps = [
   { num: "1", label: "Clone", cmd: "git clone https://github.com/capybarist/hive.git && cd hive" },
   { num: "2", label: "Install", cmd: "npm install && pip install -r packages/embeddings/requirements.txt" },
-  { num: "3", label: "Configure", cmd: "# Ollama (free, local — default):\necho 'LLM_PROVIDER=ollama' > .env\n# Or cloud (faster):\necho 'LLM_PROVIDER=groq\\nLLM_API_KEY=your_key' > .env" },
-  { num: "4", label: "Run", cmd: "bash hive.sh" },
+  { num: "3", label: "Configure", cmd: "# Cloud LLM (recommended — fast, default):\necho 'LLM_PROVIDER=gemini\\nLLM_API_KEY=your_key' > .env\n# Or fully local with Ollama:\necho 'LLM_PROVIDER=ollama' > .env" },
+  // v0.7: bash hive.sh runs an all-in-one node (HIVE_MODE=hive = v0.6 behaviour). For split topology run `bash queen.sh` + `bash hive.sh` on separate hosts.
+  { num: "4", label: "Run", cmd: "bash hive.sh   # v0.7: all-in-one node. For split bee+queen on a VPS, use 'docker compose up -d'." },
 ];
 
 function InstallStep({ num, label, cmd }: { num: string; label: string; cmd: string }) {
@@ -293,7 +294,7 @@ function ForagerLive() {
               {version && (
                 <span
                   className="ml-3 align-middle inline-block px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase rounded-md border border-[var(--border)] bg-[var(--bg-subtle)] text-[var(--muted)] font-mono"
-                  title="HIVE aggregator version"
+                  title="HIVE queen version"
                 >
                   v{version}
                 </span>
