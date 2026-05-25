@@ -194,9 +194,10 @@ function TryHive() {
 const techStack = [
   { name: "Hypercore", desc: "Append-only cryptographic log (same tech as Keet)", href: "https://github.com/holepunchto/hypercore" },
   { name: "Hyperswarm", desc: "P2P DHT for node discovery and NAT hole-punching", href: "https://github.com/holepunchto/hyperswarm" },
+  { name: "ForagerSource", desc: "Source-driven extraction interface (v0.7.3) — Wikipedia, arXiv, RSS, web. Each BEE publishes a signed BeeManifest declaring its sources.", href: "https://github.com/capybarist/hive" },
   { name: "sentence-transformers", desc: "Local semantic embeddings (all-MiniLM-L6-v2, ~80MB, runs on CPU)", href: "https://github.com/UKPLab/sentence-transformers" },
   { name: "Qdrant", desc: "Vector database for the queen node — scalable search across the full network", href: "https://qdrant.tech" },
-  { name: "Ollama / Groq / Gemini / Claude / OpenAI", desc: "Autonomous extraction agent — any LLM with function calling. Ollama runs fully local, no API key needed.", href: "https://ollama.com" },
+  { name: "Ollama / Groq / Gemini / Claude / OpenAI", desc: "Query synthesis only (v0.6+). Extraction is LLM-free — verbatim from source APIs, signed with ed25519.", href: "https://ollama.com" },
 ];
 
 const installSteps = [
