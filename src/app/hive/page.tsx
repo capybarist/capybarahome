@@ -6,6 +6,7 @@ import {
   CheckCircle2, ArrowRight, Copy, Search, Loader2,
   Shield, FileText, Globe, Network,
   Users, Code2, Leaf, ExternalLink, Activity, Database, Clock,
+  Lock, Cpu, Layers, Puzzle, GraduationCap, Building2,
 } from "lucide-react";
 
 
@@ -200,13 +201,108 @@ const techStack = [
   { name: "Ollama / Groq / Gemini / Claude / OpenAI", desc: "Query synthesis only (v0.6+). Extraction is LLM-free — verbatim from source APIs, signed with ed25519.", href: "https://ollama.com" },
 ];
 
+// A BEE is the lightest node — no LLM, no API key, no Python. This is the
+// quickstart the "Run a BEE" section shows. Queen / full-stack instructions
+// live in the README (linked from the section).
 const installSteps = [
   { num: "1", label: "Clone", cmd: "git clone https://github.com/capybarist/hive.git && cd hive" },
-  { num: "2", label: "Install", cmd: "npm install && pip install -r packages/embeddings/requirements.txt" },
-  { num: "3", label: "Configure", cmd: "# Cloud LLM (recommended — fast, default):\necho 'LLM_PROVIDER=gemini\\nLLM_API_KEY=your_key' > .env\n# Or fully local with Ollama:\necho 'LLM_PROVIDER=ollama' > .env" },
-  // v0.7: bash hive.sh runs an all-in-one node (HIVE_MODE=hive = v0.6 behaviour). For split topology run `bash queen.sh` + `bash hive.sh` on separate hosts.
-  { num: "4", label: "Run", cmd: "bash hive.sh   # v0.7: all-in-one node. For split bee+queen on a VPS, use 'docker compose up -d'." },
+  { num: "2", label: "Install", cmd: "npm install" },
+  { num: "3", label: "Run a BEE", cmd: "bash hive.sh   # bee on :8080 — no key, no LLM, no Python" },
+  { num: "4", label: "Or Docker", cmd: "docker compose up -d bee-1   # same bee, nothing to install but Docker" },
 ];
+
+// ── Live production nodes ───────────────────────────────────────────────────
+// Real queen + bee running on the Hetzner box. Plain HTTP dashboards — these
+// are the actual nodes the Try-HIVE widget and Forager widget read from.
+const LIVE_NODES = {
+  queen: "http://178.105.140.134:8090/",
+  bee: "http://178.105.140.134:8080/",
+};
+
+// ── Technical deep-dive ─────────────────────────────────────────────────────
+// For readers who want the primitives. Bilingual; rendered by the deep-dive
+// section. Kept here (not in i18n) because it's long-form, page-specific copy.
+const techDetails: Record<"es" | "en", { name: string; sub: string; body: string; href?: string }[]> = {
+  en: [
+    { name: "Hypercore", sub: "Append-only signed log", href: "https://github.com/holepunchto/hypercore",
+      body: "Each node owns a Hypercore: an append-only log where every block is hashed into a Merkle tree and signed by the node's key. Blocks are immutable and verifiable in isolation — a peer can prove block N belongs to the log without trusting anyone. This is the same core that powers Keet." },
+    { name: "Hyperbee", sub: "B-tree over Hypercore", href: "https://github.com/holepunchto/hyperbee",
+      body: "Fragments, claims and the bee manifest are stored in a Hyperbee — an ordered key-value B-tree layered on the Hypercore. It gives range queries and history streams while inheriting the log's append-only, signed guarantees. The queen's replication reads a Hyperbee history stream to ingest fragments in order." },
+    { name: "ed25519 + SHA-256", sub: "Per-fragment provenance",
+      body: "Every fragment is hashed (SHA-256) over its payload and signed (ed25519) by the producing bee. On receive, a queen recomputes the hash and verifies the signature against the bee's published public key before indexing — a tampered or unsigned fragment is dropped. Provenance survives replication and even cross-swarm merges." },
+    { name: "Hyperswarm DHT", sub: "Discovery + NAT traversal", href: "https://github.com/holepunchto/hyperswarm",
+      body: "Nodes find each other by joining a topic (a 32-byte key) on the Hyperswarm DHT — no central registry, no bootstrap server you have to run. The DHT introduces peers and hole-punches through NATs; from there native Hypercore replication takes over the connection." },
+    { name: "Encryption & allowlists", sub: "Private swarms",
+      body: "A public swarm is a known topic hash. A private one flips three knobs: a random 32-byte topic (2²⁵⁶ search space), Hypercore encryption keys so cores are ciphertext at rest and on the wire, and a pubkey allowlist that drops any unauthorized connection. Same protocol, sealed perimeter." },
+    { name: "Qdrant + MiniLM", sub: "Query side", href: "https://qdrant.tech",
+      body: "The queen embeds fragment text locally with all-MiniLM-L6-v2 (~80 MB, CPU) and indexes the vectors in Qdrant. A query embeds the question, pulls top-K by cosine similarity, gates them by score + keyword match, and passes the survivors to one LLM call for synthesis. The LLM is the only non-local, non-deterministic step — and the only place a key is used." },
+  ],
+  es: [
+    { name: "Hypercore", sub: "Log firmado append-only", href: "https://github.com/holepunchto/hypercore",
+      body: "Cada nodo posee un Hypercore: un log append-only donde cada bloque se hashea en un árbol de Merkle y se firma con la clave del nodo. Los bloques son inmutables y verificables de forma aislada — un peer puede probar que el bloque N pertenece al log sin confiar en nadie. Es el mismo core que mueve Keet." },
+    { name: "Hyperbee", sub: "B-tree sobre Hypercore", href: "https://github.com/holepunchto/hyperbee",
+      body: "Los fragmentos, claims y el manifiesto de la abeja se guardan en un Hyperbee — un árbol B clave-valor ordenado sobre el Hypercore. Da consultas por rango y streams de historial heredando las garantías firmadas y append-only del log. La replicación de la reina lee un stream de historial del Hyperbee para ingerir fragmentos en orden." },
+    { name: "ed25519 + SHA-256", sub: "Procedencia por fragmento",
+      body: "Cada fragmento se hashea (SHA-256) sobre su payload y se firma (ed25519) con la abeja que lo produjo. Al recibirlo, la reina recalcula el hash y verifica la firma contra la clave pública publicada de la abeja antes de indexar — un fragmento manipulado o sin firmar se descarta. La procedencia sobrevive a la replicación e incluso a fusiones entre swarms." },
+    { name: "Hyperswarm DHT", sub: "Descubrimiento + NAT", href: "https://github.com/holepunchto/hyperswarm",
+      body: "Los nodos se encuentran uniéndose a un topic (una clave de 32 bytes) en la DHT de Hyperswarm — sin registro central, sin servidor de bootstrap que tengas que correr. La DHT presenta a los peers y atraviesa NATs; a partir de ahí la replicación nativa de Hypercore toma la conexión." },
+    { name: "Cifrado y allowlists", sub: "Swarms privados",
+      body: "Un swarm público es un hash de topic conocido. Uno privado activa tres palancas: un topic aleatorio de 32 bytes (espacio de 2²⁵⁶), claves de cifrado Hypercore para que los cores sean texto cifrado en reposo y en tránsito, y una allowlist de claves públicas que rechaza cualquier conexión no autorizada. Mismo protocolo, perímetro sellado." },
+    { name: "Qdrant + MiniLM", sub: "Lado de consulta", href: "https://qdrant.tech",
+      body: "La reina embebe el texto del fragmento localmente con all-MiniLM-L6-v2 (~80 MB, CPU) e indexa los vectores en Qdrant. Una consulta embebe la pregunta, saca el top-K por similitud coseno, los filtra por score + coincidencia de palabras, y pasa los supervivientes a una sola llamada al LLM para sintetizar. El LLM es el único paso no local y no determinista — y el único sitio donde se usa una clave." },
+  ],
+};
+
+// ── Use cases ───────────────────────────────────────────────────────────────
+// The 7 deployment patterns. Bilingual, page-specific long-form copy.
+const useCases: Record<"es" | "en", { n: string; tag: string; title: string; body: string; chips: string[] }[]> = {
+  en: [
+    { n: "01", tag: "Public", title: "Join the public swarm with one topic hash",
+      body: "A queen joins the public HIVE by hashing a known string — sha256(\"hive-network-v0.1\") — and calling swarm.join(topic). Hyperswarm's DHT introduces it to every BEE on that topic; native Hypercore replication brings their signed fragments down with no central registry in between. Specialized public meshes are just a different string — \"hive-medical-v0.1\", \"hive-legal-v0.1\" — same protocol, narrower swarm.",
+      chips: ["hyperswarm topic", "DHT discovery", "ed25519 fragments", "no registry"] },
+    { n: "02", tag: "Private", title: "Run a private swarm for internal use",
+      body: "Same BEEs and queens, three config knobs flip the network private: a random 32-byte swarm topic (2²⁵⁶ search space), Hypercore encryption keys so cores are ciphertext at rest and on the wire, and a peer allowlist by pubkey that drops any unauthorized connection on sight. Internal BEEs index company wikis, tickets, repos, contracts; a queen indexes them and serves /api/query — no traffic ever leaves the perimeter.",
+      chips: ["random topic", "encrypted cores", "pubkey allowlist", "air-gapped"] },
+    { n: "03", tag: "B2B", title: "Share private keys between companies",
+      body: "Two organisations exchange three values out-of-band — swarm topic, Hypercore encryption key, and each side's queen pubkey for the allowlist. Both queens join the same private swarm and replicate only the BEEs the other party chose to expose. No copy, no third-party broker, no merge of hives: each company keeps its own queen, its own Qdrant index, its own audit trail. Revocation is a key roll or an allowlist edit.",
+      chips: ["shared swarm", "encryption key", "selective exposure", "revocable"] },
+    { n: "04", tag: "Hybrid", title: "One queen in many swarms — composed coverage",
+      body: "Cases 01–03 compose at the queen layer. A single queen can join as many topics as it has credentials for — public mesh, its own private swarm, every partner swarm — and replicate BEEs from all of them into one Qdrant index. One query, one LLM synthesis, sources drawn from every swarm the queen belongs to. Every fragment keeps its origin pubkey and signature, so provenance survives the merge. Nothing crosses between swarms — the queen is the only place they meet.",
+      chips: ["multi-swarm queen", "single index", "provenance preserved", "no cross-leak"] },
+    { n: "05", tag: "Extensibility", title: "Custom connectors as ForagerSource plugins",
+      body: "Anything not already covered — a legacy ERP, an in-house REST API, a proprietary archive — is wired in by implementing the ForagerSource interface (seed / fetch / normalize / owns), publishing it as an npm package and adding its id to the BEE's manifest. On next start the forager picks it up, drains its queue mechanically and signs every emitted fragment. No fork of HIVE core, no central registry to update — the connector lives in the customer's repo.",
+      chips: ["ForagerSource", "npm package", "BeeManifest.sources", "no fork"] },
+    { n: "06", tag: "Local AI", title: "Queen with a local LLM — full offline stack",
+      body: "The queen's LLM client is pluggable; point it at Ollama (or any local runtime) and the entire stack runs on-prem — BEEs extracting, Qdrant indexing, embedder local, synthesis local. No API key, no traffic leaves the box. A small model has narrow parametric memory; the queen's retrieval gives it grounded, signed context at query time — the combination behaves like a much larger model on domain-bounded tasks while preserving privacy. The natural knowledge layer for QVAC-style local agents.",
+      chips: ["ollama / local LLM", "on-prem", "zero cloud", "grounded small model"] },
+    { n: "07", tag: "Training", title: "Training corpus with cryptographic provenance",
+      body: "BEEs store extraction verbatim — no LLM in the loop, no paraphrase. Every fragment carries source URL, scope, timestamp and an ed25519 signature. That makes a HIVE an unusually clean training source: stream fragments straight off the queen's replicated Hypercores into a pre-training, SFT or distillation pipeline. Filter by source, scope, language or signing BEE to build a broad generalist corpus or a narrow specialist one. Provenance is per-fragment and verifiable — useful for licence propagation and dataset audit.",
+      chips: ["verbatim · signed", "filter by scope", "pre-train / SFT", "distillation"] },
+  ],
+  es: [
+    { n: "01", tag: "Público", title: "Únete al swarm público con un hash de topic",
+      body: "Una reina se une al HIVE público hasheando una cadena conocida — sha256(\"hive-network-v0.1\") — y llamando a swarm.join(topic). La DHT de Hyperswarm la presenta a cada BEE en ese topic; la replicación nativa de Hypercore baja sus fragmentos firmados sin ningún registro central en medio. Las mallas públicas especializadas son solo otra cadena — \"hive-medical-v0.1\", \"hive-legal-v0.1\" — mismo protocolo, swarm más estrecho.",
+      chips: ["topic hyperswarm", "descubrimiento DHT", "fragmentos ed25519", "sin registro"] },
+    { n: "02", tag: "Privado", title: "Monta un swarm privado para uso interno",
+      body: "Las mismas BEEs y reinas; tres ajustes vuelven la red privada: un topic aleatorio de 32 bytes (espacio de 2²⁵⁶), claves de cifrado Hypercore para que los cores sean texto cifrado en reposo y en tránsito, y una allowlist de peers por clave pública que rechaza cualquier conexión no autorizada. Las BEEs internas indexan wikis, tickets, repos y contratos de la empresa; una reina los indexa y sirve /api/query — ningún tráfico sale del perímetro.",
+      chips: ["topic aleatorio", "cores cifrados", "allowlist de claves", "aislado"] },
+    { n: "03", tag: "B2B", title: "Comparte claves privadas entre empresas",
+      body: "Dos organizaciones intercambian tres valores fuera de banda — topic del swarm, clave de cifrado Hypercore y la clave pública de la reina de cada lado para la allowlist. Ambas reinas se unen al mismo swarm privado y replican solo las BEEs que la otra parte decidió exponer. Sin copia, sin broker externo, sin fusión de hives: cada empresa conserva su reina, su índice Qdrant y su rastro de auditoría. Revocar es rotar una clave o editar la allowlist.",
+      chips: ["swarm compartido", "clave de cifrado", "exposición selectiva", "revocable"] },
+    { n: "04", tag: "Híbrido", title: "Una reina en muchos swarms — cobertura compuesta",
+      body: "Los casos 01–03 se componen en la capa de la reina. Una sola reina puede unirse a tantos topics como credenciales tenga — malla pública, su swarm privado, cada swarm de partner — y replicar BEEs de todos ellos en un único índice Qdrant. Una consulta, una síntesis del LLM, fuentes de cada swarm al que pertenece la reina. Cada fragmento mantiene su clave de origen y su firma, así que la procedencia sobrevive a la fusión. Nada cruza entre swarms — la reina es el único punto donde se encuentran.",
+      chips: ["reina multi-swarm", "índice único", "procedencia intacta", "sin fugas"] },
+    { n: "05", tag: "Extensibilidad", title: "Conectores a medida como plugins ForagerSource",
+      body: "Cualquier cosa no cubierta — un ERP heredado, una API REST interna, un archivo propietario — se integra implementando la interfaz ForagerSource (seed / fetch / normalize / owns), publicándola como paquete npm y añadiendo su id al manifiesto de la BEE. En el siguiente arranque el forager la recoge, drena su cola mecánicamente y firma cada fragmento emitido. Sin forkear el core de HIVE, sin registro central que actualizar — el conector vive en el repo del cliente.",
+      chips: ["ForagerSource", "paquete npm", "BeeManifest.sources", "sin fork"] },
+    { n: "06", tag: "IA Local", title: "Reina con LLM local — stack offline completo",
+      body: "El cliente LLM de la reina es enchufable; apúntalo a Ollama (o cualquier runtime local) y todo el stack corre on-prem — BEEs extrayendo, Qdrant indexando, embedder local, síntesis local. Sin API key, sin tráfico que salga de la máquina. Un modelo pequeño tiene memoria paramétrica estrecha; la recuperación de la reina le da contexto firmado y con fuentes en tiempo de consulta — la combinación se comporta como un modelo mucho mayor en tareas acotadas a un dominio, preservando la privacidad. La capa de conocimiento natural para agentes locales tipo QVAC.",
+      chips: ["ollama / LLM local", "on-prem", "cero nube", "modelo pequeño con fuentes"] },
+    { n: "07", tag: "Entrenamiento", title: "Corpus de entrenamiento con procedencia criptográfica",
+      body: "Las BEEs guardan la extracción verbatim — sin LLM de por medio, sin parafraseo. Cada fragmento lleva URL de origen, scope, timestamp y firma ed25519. Eso hace de un HIVE una fuente de entrenamiento inusualmente limpia: streamea fragmentos directamente desde los Hypercores replicados de la reina hacia un pipeline de pre-training, SFT o destilación. Filtra por fuente, scope, idioma o BEE firmante para construir un corpus generalista amplio o uno especialista estrecho. La procedencia es por fragmento y verificable — útil para propagación de licencias y auditoría de datasets.",
+      chips: ["verbatim · firmado", "filtra por scope", "pre-train / SFT", "destilación"] },
+  ],
+};
 
 function InstallStep({ num, label, cmd }: { num: string; label: string; cmd: string }) {
   const copy = () => navigator.clipboard.writeText(cmd);
@@ -434,8 +530,13 @@ function ArticleList({
   );
 }
 
+// Icon per use-case tag, by index 0–6.
+const USE_CASE_ICONS = [Globe, Lock, Building2, Layers, Puzzle, Cpu, GraduationCap];
+
 export default function HivePage() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const ucList = useCases[lang === "en" ? "en" : "es"];
+  const techList = techDetails[lang === "en" ? "en" : "es"];
 
   return (
     <div>
@@ -452,7 +553,12 @@ export default function HivePage() {
           </div>
           <h1 className="text-7xl md:text-9xl font-black tracking-tighter mb-5 g-accent">HIVE</h1>
           <p className="text-xl text-slate-300 mb-3 max-w-2xl mx-auto">{t("hive_hero_sub")}</p>
-          <p className="text-base text-slate-500 italic mb-10">&ldquo;{t("hive_hero_tagline")}&rdquo;</p>
+          <p className="text-base text-slate-500 italic mb-6">&ldquo;{t("hive_hero_tagline")}&rdquo;</p>
+          <p className="text-lg md:text-xl font-semibold text-violet-200 max-w-2xl mx-auto mb-10 leading-snug">
+            {lang === "en"
+              ? "Build your own RAG — or share knowledge with anyone — with no servers in between."
+              : "Crea tu propio RAG — o comparte conocimiento con cualquiera — sin servidores de por medio."}
+          </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a href="https://github.com/capybarist/hive" target="_blank" rel="noopener"
               className="inline-flex items-center gap-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm px-7 py-3.5 transition-colors">
@@ -480,6 +586,64 @@ export default function HivePage() {
 
       {/* ── Forager live status ───────────────────────────────────────────── */}
       <ForagerLive />
+
+      {/* ── Live production nodes ─────────────────────────────────────────── */}
+      <section className="bg-[var(--bg-subtle)] border-b border-[var(--border)] py-16">
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="text-center mb-8">
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-3">
+              <span className="inline-flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                {lang === "en" ? "Live nodes" : "Nodos en vivo"}
+              </span>
+            </p>
+            <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-3">
+              {lang === "en" ? "A queen and a bee, running right now" : "Una reina y una abeja, ahora mismo"}
+            </h2>
+            <p className="text-[var(--muted)] max-w-xl mx-auto text-sm leading-relaxed">
+              {lang === "en"
+                ? "Not a canned demo — two real nodes in production. Open their dashboards and watch them work."
+                : "No es una demo enlatada — dos nodos reales en producción. Abre sus paneles y míralos trabajar."}
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { Icon: Database, href: LIVE_NODES.queen, port: ":8090",
+                title: lang === "en" ? "Queen dashboard" : "Panel de la reina",
+                desc: lang === "en"
+                  ? "Queries the Qdrant index, answers /api/query with verified sources."
+                  : "Consulta el índice Qdrant, responde /api/query con fuentes verificadas." },
+              { Icon: Activity, href: LIVE_NODES.bee, port: ":8080",
+                title: lang === "en" ? "Bee dashboard" : "Panel de la abeja",
+                desc: lang === "en"
+                  ? "Extracts from Wikipedia live, signs and publishes fragments to its Hypercore."
+                  : "Extrae de Wikipedia en vivo, firma y publica fragmentos en su Hypercore." },
+            ].map(({ Icon, href, port, title, desc }) => (
+              <a key={href} href={href} target="_blank" rel="noopener noreferrer"
+                className="group flex items-start gap-4 p-6 rounded-2xl border border-[var(--border)] bg-white card-hover">
+                <div className="w-11 h-11 rounded-xl bg-violet-50 flex items-center justify-center shrink-0">
+                  <Icon size={20} className="text-violet-600" />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="font-bold text-[var(--text)]">{title}</h3>
+                    <span className="text-[10px] font-mono text-[var(--muted)] border border-[var(--border)] rounded px-1.5 py-0.5">{port}</span>
+                  </div>
+                  <p className="text-sm text-[var(--muted)] leading-relaxed mb-2">{desc}</p>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--accent)] group-hover:gap-2 transition-all">
+                    {lang === "en" ? "Open dashboard" : "Abrir panel"} <ExternalLink size={12} />
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+          <p className="text-center text-xs text-[var(--muted)] mt-4">
+            {lang === "en"
+              ? "Plain HTTP, no TLS — your browser may warn. These are the same nodes the live demo above reads from."
+              : "HTTP plano, sin TLS — tu navegador puede avisar. Son los mismos nodos que lee la demo de arriba."}
+          </p>
+        </div>
+      </section>
 
       {/* ── Problem ──────────────────────────────────────────────────────── */}
       <section className="bg-[var(--bg)] py-20">
@@ -582,8 +746,49 @@ export default function HivePage() {
         </div>
       </section>
 
-      {/* ── Technology ───────────────────────────────────────────────────── */}
+      {/* ── Use cases ────────────────────────────────────────────────────── */}
       <section className="bg-[var(--bg)] py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-4">
+            {lang === "en" ? "Use cases" : "Casos de uso"}
+          </p>
+          <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-4">
+            {lang === "en" ? "What it's for" : "Para qué sirve"}
+          </h2>
+          <p className="text-[var(--muted)] leading-relaxed mb-10 max-w-2xl">
+            {lang === "en"
+              ? "Distributed RAG — public and private, specialized and general, for local or cloud LLMs. Run your own knowledge base, or share it peer-to-peer with no server in the middle. The same protocol composes into seven deployment patterns."
+              : "RAG distribuido — público y privado, especializado y general, para LLMs locales o en la nube. Monta tu propia base de conocimiento, o compártela peer-to-peer sin ningún servidor de por medio. El mismo protocolo se compone en siete patrones de despliegue."}
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {ucList.map((uc, i) => {
+              const Icon = USE_CASE_ICONS[i] ?? Globe;
+              return (
+                <div key={uc.n} className="flex flex-col p-6 rounded-2xl border border-[var(--border)] bg-white card-hover">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="font-black text-sm text-[var(--accent)]/40 tabular-nums">{uc.n}</span>
+                    <div className="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center">
+                      <Icon size={15} className="text-violet-600" />
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-violet-600 bg-violet-50 rounded-full px-2.5 py-1">{uc.tag}</span>
+                  </div>
+                  <h3 className="font-bold text-[var(--text)] mb-2 leading-snug">{uc.title}</h3>
+                  <p className="text-sm text-[var(--muted)] leading-relaxed mb-4 flex-1">{uc.body}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {uc.chips.map((c) => (
+                      <span key={c} className="text-[11px] font-mono text-[var(--text-2)] bg-[var(--bg-subtle)] border border-[var(--border)] rounded px-2 py-0.5">{c}</span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Technology ───────────────────────────────────────────────────── */}
+      <section className="bg-[var(--bg-subtle)] border-y border-[var(--border)] py-20">
         <div className="mx-auto max-w-5xl px-6">
           <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand)] mb-4">{t("hive_section_tech")}</p>
           <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-3">{t("hive_tech_title")}</h2>
@@ -611,6 +816,42 @@ export default function HivePage() {
             ))}
           </div>
           <p className="text-sm text-[var(--muted)] italic">{t("hive_no_blockchain")}</p>
+        </div>
+      </section>
+
+      {/* ── Technical deep-dive ──────────────────────────────────────────── */}
+      <section className="bg-[var(--bg)] py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-4">
+            {lang === "en" ? "Under the hood" : "Por dentro"}
+          </p>
+          <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-4">
+            {lang === "en" ? "How it works underneath" : "Cómo funciona por dentro"}
+          </h2>
+          <p className="text-[var(--muted)] leading-relaxed mb-10 max-w-2xl">
+            {lang === "en"
+              ? "For readers who want the detail — the cryptographic and P2P primitives HIVE is built on."
+              : "Para quien quiera el detalle — las primitivas criptográficas y P2P sobre las que se construye HIVE."}
+          </p>
+
+          <div className="space-y-3">
+            {techList.map(({ name, sub, body, href }) => (
+              <div key={name} className="p-6 rounded-2xl border border-[var(--border)] bg-white">
+                <div className="flex items-baseline gap-3 mb-2 flex-wrap">
+                  <h3 className="font-bold text-[var(--text)]">
+                    {href ? (
+                      <a href={href} target="_blank" rel="noopener noreferrer"
+                        className="hover:text-[var(--accent)] inline-flex items-center gap-1.5">
+                        {name} <ExternalLink size={12} className="text-[var(--muted)]" />
+                      </a>
+                    ) : name}
+                  </h3>
+                  <span className="text-xs font-mono text-[var(--muted)]">{sub}</span>
+                </div>
+                <p className="text-sm text-[var(--muted)] leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
