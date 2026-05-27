@@ -27,14 +27,39 @@ interface CrawlState {
 }
 
 // ── Try HIVE widget ───────────────────────────────────────────────────────────
+// v0.7.7.6 — conversational. Keeps a thread of turns and sends prior turns as
+// `history` so the user can ask follow-ups organically instead of one-shot.
+interface Turn {
+  q: string;
+  answer?: string;
+  has_hive_data?: boolean;
+  fragments?: Fragment[];
+  error?: boolean;
+}
+
+function sourceUrl(f: Fragment): string | null {
+  if (f.arxiv_id) return `https://arxiv.org/abs/${f.arxiv_id}`;
+  const m = f.source?.match(/arXiv:(\S+)/i);
+  if (m) return `https://arxiv.org/abs/${m[1]}`;
+  if (f.doi) return `https://doi.org/${f.doi}`;
+  return null;
+}
+
+function renderMarkdown(s: string): string {
+  return s
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.+?)\*/g, "<em>$1</em>");
+}
+
 function TryHive() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const [query, setQuery] = useState("");
-  const [result, setResult] = useState<QueryResult | null>(null);
+  const [turns, setTurns] = useState<Turn[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const threadRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch("/api/hive/stats", { signal: AbortSignal.timeout(4000) })
@@ -43,36 +68,42 @@ function TryHive() {
       .catch(() => {});
   }, []);
 
+  useEffect(() => {
+    threadRef.current?.scrollTo({ top: threadRef.current.scrollHeight, behavior: "smooth" });
+  }, [turns, loading]);
+
   const ask = async () => {
     const q = query.trim();
     if (!q || loading) return;
+    setQuery("");
     setLoading(true);
-    setError(null);
-    setResult(null);
+    // Flatten completed turns into role/content history (last 4 exchanges).
+    const history = turns
+      .flatMap(tn => tn.answer ? [{ role: "user", content: tn.q }, { role: "assistant", content: tn.answer }] : [])
+      .slice(-8);
+    const idx = turns.length;
+    setTurns(prev => [...prev, { q }]);
     try {
       const res = await fetch("/api/hive/query", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: q, top_k: 5, use_llm: true }),
-        signal: AbortSignal.timeout(30_000),
+        body: JSON.stringify({ question: q, top_k: 8, use_llm: true, history }),
+        signal: AbortSignal.timeout(40_000),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      setResult(await res.json());
+      const data = (await res.json()) as QueryResult;
+      setTurns(prev => prev.map((tn, i) => i === idx
+        ? { ...tn, answer: data.answer ?? "", has_hive_data: data.has_hive_data, fragments: data.fragments }
+        : tn));
     } catch {
-      setError(t("try_offline"));
+      setTurns(prev => prev.map((tn, i) => i === idx ? { ...tn, error: true } : tn));
     } finally {
       setLoading(false);
+      inputRef.current?.focus();
     }
   };
 
-  const sourceUrl = (f: Fragment) => {
-    if (f.arxiv_id) return `https://arxiv.org/abs/${f.arxiv_id}`;
-    const m = f.source?.match(/arXiv:(\S+)/i);
-    if (m) return `https://arxiv.org/abs/${m[1]}`;
-    if (f.doi) return `https://doi.org/${f.doi}`;
-    return null;
-  };
-
+  const hasThread = turns.length > 0;
 
   return (
     <div className="flex flex-col gap-6">
@@ -96,7 +127,80 @@ function TryHive() {
         </div>
       )}
 
-      {/* Search bar */}
+      {/* Conversation thread */}
+      {hasThread && (
+        <div ref={threadRef} className="flex flex-col gap-6 max-h-[65vh] overflow-y-auto pr-1">
+          {turns.map((tn, i) => (
+            <div key={i} className="flex flex-col gap-3">
+              {/* User question */}
+              <div className="self-end max-w-[85%] rounded-2xl rounded-br-sm bg-[var(--accent)] text-white px-4 py-2.5 text-sm leading-relaxed">
+                {tn.q}
+              </div>
+
+              {/* Assistant turn: error / answer / pending */}
+              {tn.error ? (
+                <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">{t("try_offline")}</div>
+              ) : tn.answer !== undefined ? (
+                <div className="flex flex-col gap-3">
+                  <div className={`inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full w-fit ${
+                    tn.has_hive_data
+                      ? "bg-green-50 text-green-700 border border-green-200"
+                      : "bg-amber-50 text-amber-700 border border-amber-200"
+                  }`}>
+                    {tn.has_hive_data ? t("try_verified") : t("try_llm_fallback")}
+                  </div>
+                  {tn.answer && (
+                    <div className="rounded-xl border border-[var(--border)] bg-white p-6">
+                      <p className="text-sm text-[var(--text)] leading-relaxed whitespace-pre-wrap"
+                        dangerouslySetInnerHTML={{ __html: renderMarkdown(tn.answer) }} />
+                    </div>
+                  )}
+                  {(tn.fragments ?? []).length > 0 && (
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-widest text-[var(--muted)] mb-3">{t("try_sources")}</p>
+                      <div className="flex flex-col gap-2">
+                        {(tn.fragments ?? []).slice(0, 6).map(f => {
+                          const url = sourceUrl(f);
+                          return (
+                            <div key={f.id} className="flex items-start gap-3 p-3 rounded-lg border border-[var(--border)] bg-white text-sm">
+                              <CheckCircle2 size={14} className="text-green-500 mt-0.5 shrink-0" />
+                              <div className="flex-1 min-w-0">
+                                <p className="font-medium text-[var(--text)] truncate">{f.title ?? f.source}</p>
+                                <p className="text-xs text-[var(--muted)]">{f.source}</p>
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <span className="text-xs text-[var(--muted)]">{Math.round(f.score * 100)}%</span>
+                                {url && (
+                                  <a href={url} target="_blank" rel="noopener"
+                                    className="text-[var(--accent)] hover:text-[var(--accent-dark)] transition-colors">
+                                    <ExternalLink size={13} />
+                                  </a>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                  {tn.has_hive_data === false && (
+                    <Link href="#run-bee"
+                      className="text-sm text-[var(--accent)] hover:underline inline-flex items-center gap-1">
+                      {t("try_run_bee")} <ArrowRight size={13} />
+                    </Link>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-sm text-[var(--muted)]">
+                  <Loader2 size={15} className="animate-spin" /> {t("try_loading")}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Input bar (persistent — ask + follow-up) */}
       <div className="flex gap-2">
         <div className="flex-1 flex items-center gap-3 rounded-xl border border-[var(--border)] bg-white px-4 focus-within:border-[var(--accent)] focus-within:shadow-[0_0_0_3px_rgba(139,92,246,.1)] transition-all">
           <Search size={16} className="text-[var(--muted)] shrink-0" />
@@ -106,7 +210,9 @@ function TryHive() {
             value={query}
             onChange={e => setQuery(e.target.value)}
             onKeyDown={e => e.key === "Enter" && ask()}
-            placeholder={t("try_placeholder")}
+            placeholder={hasThread
+              ? (lang === "en" ? "Ask a follow-up…" : "Pregunta algo más…")
+              : t("try_placeholder")}
             className="flex-1 py-3.5 text-sm outline-none bg-transparent text-[var(--text)] placeholder:text-[var(--muted)]"
           />
         </div>
@@ -120,73 +226,13 @@ function TryHive() {
         </button>
       </div>
 
-      {/* Error */}
-      {error && (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">{error}</div>
-      )}
-
-      {/* Results */}
-      {result && (
-        <div className="flex flex-col gap-5">
-          {/* Mode badge */}
-          <div className={`inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full w-fit ${
-            result.has_hive_data
-              ? "bg-green-50 text-green-700 border border-green-200"
-              : "bg-amber-50 text-amber-700 border border-amber-200"
-          }`}>
-            {result.has_hive_data ? t("try_verified") : t("try_llm_fallback")}
-          </div>
-
-          {/* Answer */}
-          {result.answer && (
-            <div className="rounded-xl border border-[var(--border)] bg-white p-6">
-              <p className="text-sm text-[var(--text)] leading-relaxed whitespace-pre-wrap"
-                dangerouslySetInnerHTML={{ __html: result.answer
-                  .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-                  .replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>")
-                  .replace(/\*(.+?)\*/g,"<em>$1</em>")
-                }} />
-            </div>
-          )}
-
-          {/* Sources */}
-          {(result.fragments ?? []).length > 0 && (
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[var(--muted)] mb-3">{t("try_sources")}</p>
-              <div className="flex flex-col gap-2">
-                {(result.fragments ?? []).slice(0, 4).map(f => {
-                  const url = sourceUrl(f);
-                  return (
-                    <div key={f.id} className="flex items-start gap-3 p-3 rounded-lg border border-[var(--border)] bg-white text-sm">
-                      <CheckCircle2 size={14} className="text-green-500 mt-0.5 shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-[var(--text)] truncate">{f.title ?? f.source}</p>
-                        <p className="text-xs text-[var(--muted)]">{f.source}</p>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <span className="text-xs text-[var(--muted)]">{Math.round(f.score * 100)}%</span>
-                        {url && (
-                          <a href={url} target="_blank" rel="noopener"
-                            className="text-[var(--accent)] hover:text-[var(--accent-dark)] transition-colors">
-                            <ExternalLink size={13} />
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* No results CTA */}
-          {!result.has_hive_data && (
-            <Link href="#run-bee"
-              className="text-sm text-[var(--accent)] hover:underline inline-flex items-center gap-1">
-              {t("try_run_bee")} <ArrowRight size={13} />
-            </Link>
-          )}
-        </div>
+      {hasThread && (
+        <button
+          onClick={() => { setTurns([]); inputRef.current?.focus(); }}
+          className="self-center text-xs text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
+        >
+          {lang === "en" ? "Clear conversation" : "Limpiar conversación"}
+        </button>
       )}
     </div>
   );
