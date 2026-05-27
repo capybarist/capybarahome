@@ -136,11 +136,11 @@ const translations = {
     hive_props_p2p_desc: "Cientos de nodos independientes. Sin censura ni punto central.",
 
     hive_how_title: "Cómo funciona",
-    hive_how_desc: "Cada participante ejecuta un BEE — un nodo en la red HIVE. Los BEEs son agentes autónomos que:",
-    hive_how_1: "Eligen un dominio de conocimiento leyendo la red y encontrando áreas sin cubrir",
-    hive_how_2: "Extraen contenido de fuentes verificadas: arXiv, CrossRef, feeds de noticias",
-    hive_how_3: "Verifican y firman cada fragmento con su identidad criptográfica",
-    hive_how_4: "Sirven consultas a cualquier LLM o humano que se conecte",
+    hive_how_desc: "Cada participante ejecuta un BEE (productor) o una QUEEN (consumidor). Los BEEs son agentes autónomos que:",
+    hive_how_1: "Declaran una fuente y un ámbito (categoría de Wikipedia, categorías de arXiv, feeds…) y se reparten el trabajo con otros BEEs vía particiones",
+    hive_how_2: "Extraen contenido verbatim de fuentes verificadas: Wikipedia, arXiv, RSS, Common Crawl",
+    hive_how_3: "Firman cada fragmento con su identidad ed25519 y lo añaden a su Hypercore append-only",
+    hive_how_4: "Replican a sus peers vía Hyperswarm; las QUEENs indexan en Qdrant y responden las consultas",
 
     hive_why_title: "Por qué importa",
     hive_why_users: "Para usuarios de IA",
@@ -457,11 +457,11 @@ const translations = {
     hive_props_p2p_desc: "Hundreds of independent nodes. No censorship or central point.",
 
     hive_how_title: "How it works",
-    hive_how_desc: "Each participant runs a BEE — a node in the HIVE network. BEEs are autonomous agents that:",
-    hive_how_1: "Choose a knowledge domain by reading the network and finding uncovered areas",
-    hive_how_2: "Extract content from verified sources: arXiv, CrossRef, news feeds",
-    hive_how_3: "Verify and sign each fragment with their cryptographic identity",
-    hive_how_4: "Serve queries from any LLM or human that connects",
+    hive_how_desc: "Each participant runs a BEE (producer) or a QUEEN (consumer). BEEs are autonomous agents that:",
+    hive_how_1: "Declare a source and scope (a Wikipedia category, arXiv categories, feeds…) and split the work with other BEEs via partitions",
+    hive_how_2: "Extract content verbatim from verified sources: Wikipedia, arXiv, RSS, Common Crawl",
+    hive_how_3: "Sign each fragment with their ed25519 identity and append it to their append-only Hypercore",
+    hive_how_4: "Replicate to peers over Hyperswarm; QUEENs index into Qdrant and answer the queries",
 
     hive_why_title: "Why it matters",
     hive_why_users: "For AI users",

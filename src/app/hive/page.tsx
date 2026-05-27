@@ -712,11 +712,11 @@ export default function HivePage() {
           <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 font-mono text-xs text-slate-400 leading-7">
             <div className="text-sky-400 font-semibold mb-1">BEE starts</div>
             <div className="pl-4 space-y-1 text-slate-500">
-              <p>→ Reads <span className="text-slate-300">topic_tree.json</span> (95 topics, 9 domains)</p>
-              <p>→ Scans peers: which topics are covered</p>
-              <p>→ Claims 3 uncovered topics (or least-covered ones)</p>
-              <p>→ <span className="text-slate-300">wikipedia_fetch</span>: indexes all sections of each article</p>
-              <p>→ Loop ~continuous: extract → sign → store → sync</p>
+              <p>→ Reads its <span className="text-slate-300">manifest</span>: declared sources + scope/partition</p>
+              <p>→ Sources: <span className="text-slate-300">Wikipedia · arXiv · RSS · Common Crawl</span> (ForagerSource adapters)</p>
+              <p>→ Seeds its crawl queue from the declared scope</p>
+              <p>→ Per article: fetch verbatim → <span className="text-slate-300">all sections</span> → chunk → sign (ed25519) → append</p>
+              <p>→ Loop ~continuous: extract → sign → store → replicate to peers</p>
               <p>→ TTL dedup: skips fresh content (wiki 7d · rss 24h · arXiv 30d)</p>
             </div>
           </div>
