@@ -7,15 +7,14 @@ export function Header() {
   const { lang, setLang, t } = useI18n();
   const path = usePathname();
 
+  // Home (/) is now the HIVE page, so there's no separate HIVE nav item — the
+  // logo links home. The corporate Capybara Labs landing lives at /labs, so the
+  // Community/Contact anchors point there. nav_capy / nav_pixel stay hidden
+  // until their alpha is demo-ready (pages still reachable by direct URL).
   const navLinks = [
-    { key: "nav_hive" as const, href: "/hive" },
-    // nav_capy and nav_pixel removed from menu until their alpha is mature
-    // enough to demo. The /capy and /pixel pages remain reachable by direct URL
-    // (capybaralabs.tech/pixel still works) but are intentionally not surfaced
-    // in the nav until they pass a "this is shippable" gate.
     { key: "nav_services" as const, href: "/services" },
-    { key: "nav_community" as const, href: "/#community" },
-    { key: "nav_contact" as const, href: "/#contact" },
+    { key: "nav_community" as const, href: "/labs#community" },
+    { key: "nav_contact" as const, href: "/labs#contact" },
   ];
 
   return (
@@ -48,7 +47,7 @@ export function Header() {
               </button>
             ))}
           </div>
-          <a href="#contact"
+          <a href="/labs#contact"
             className="hidden md:inline-flex items-center rounded-lg bg-[var(--text)] text-white text-sm font-medium px-4 py-2 hover:bg-[var(--brand)] transition-colors">
             {t("contact_cta")}
           </a>
