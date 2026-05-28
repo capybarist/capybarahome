@@ -242,8 +242,8 @@ const techStack = [
   { name: "Hypercore", desc: "Append-only cryptographic log (same tech as Keet)", href: "https://github.com/holepunchto/hypercore" },
   { name: "Hyperswarm", desc: "P2P DHT for node discovery and NAT hole-punching", href: "https://github.com/holepunchto/hyperswarm" },
   { name: "ForagerSource", desc: "Source-driven extraction interface (v0.7.3) — Wikipedia, arXiv, RSS, web. Each BEE publishes a signed BeeManifest declaring its sources.", href: "https://github.com/capybarist/hive" },
-  { name: "sentence-transformers", desc: "Local semantic embeddings (all-MiniLM-L6-v2, ~80MB, runs on CPU)", href: "https://github.com/UKPLab/sentence-transformers" },
-  { name: "Qdrant", desc: "Vector database for the queen node — scalable search across the full network", href: "https://qdrant.tech" },
+  { name: "transformers.js (ONNX)", desc: "In-process embeddings — multilingual-e5-base, 768-d, int8. BEEs embed passages; the queen embeds only the query. No Python.", href: "https://github.com/huggingface/transformers.js" },
+  { name: "LanceDB", desc: "Default vector index on the queen — embedded, in-process, no separate service. Sits behind a swappable VectorIndex interface, so a queen can run Qdrant or any backend by implementing it.", href: "https://lancedb.com" },
   { name: "Ollama / Groq / Gemini / Claude / OpenAI", desc: "Query synthesis only (v0.6+). Extraction is LLM-free — verbatim from source APIs, signed with ed25519.", href: "https://ollama.com" },
 ];
 
@@ -280,8 +280,8 @@ const techDetails: Record<"es" | "en", { name: string; sub: string; body: string
       body: "Nodes find each other by joining a topic (a 32-byte key) on the Hyperswarm DHT — no central registry, no bootstrap server you have to run. The DHT introduces peers and hole-punches through NATs; from there native Hypercore replication takes over the connection." },
     { name: "Encryption & allowlists", sub: "Private swarms",
       body: "A public swarm is a known topic hash. A private one flips three knobs: a random 32-byte topic (2²⁵⁶ search space), Hypercore encryption keys so cores are ciphertext at rest and on the wire, and a pubkey allowlist that drops any unauthorized connection. Same protocol, sealed perimeter." },
-    { name: "Qdrant + MiniLM", sub: "Query side", href: "https://qdrant.tech",
-      body: "The queen embeds fragment text locally with all-MiniLM-L6-v2 (~80 MB, CPU) and indexes the vectors in Qdrant. A query embeds the question, pulls top-K by cosine similarity, gates them by score + keyword match, and passes the survivors to one LLM call for synthesis. The LLM is the only non-local, non-deterministic step — and the only place a key is used." },
+    { name: "LanceDB + e5-base", sub: "Vectorization & query", href: "https://lancedb.com",
+      body: "Producer-side vectorization: each BEE embeds its own chunks with multilingual-e5-base (768-d, ONNX int8) and signs the vector inline. The queen never embeds passages — it copies the signed vectors into an in-process LanceDB (the default; the VectorIndex interface is swappable, so a queen can run Qdrant or any backend instead). A query embeds only the question, pulls top-K by cosine similarity, gates them by score + keyword match, and passes the survivors to one LLM call for synthesis. The LLM is the only non-local, non-deterministic step — and the only place a key is used." },
   ],
   es: [
     { name: "Hypercore", sub: "Log firmado append-only", href: "https://github.com/holepunchto/hypercore",
@@ -294,8 +294,8 @@ const techDetails: Record<"es" | "en", { name: string; sub: string; body: string
       body: "Los nodos se encuentran uniéndose a un topic (una clave de 32 bytes) en la DHT de Hyperswarm — sin registro central, sin servidor de bootstrap que tengas que correr. La DHT presenta a los peers y atraviesa NATs; a partir de ahí la replicación nativa de Hypercore toma la conexión." },
     { name: "Cifrado y allowlists", sub: "Swarms privados",
       body: "Un swarm público es un hash de topic conocido. Uno privado activa tres palancas: un topic aleatorio de 32 bytes (espacio de 2²⁵⁶), claves de cifrado Hypercore para que los cores sean texto cifrado en reposo y en tránsito, y una allowlist de claves públicas que rechaza cualquier conexión no autorizada. Mismo protocolo, perímetro sellado." },
-    { name: "Qdrant + MiniLM", sub: "Lado de consulta", href: "https://qdrant.tech",
-      body: "La reina embebe el texto del fragmento localmente con all-MiniLM-L6-v2 (~80 MB, CPU) e indexa los vectores en Qdrant. Una consulta embebe la pregunta, saca el top-K por similitud coseno, los filtra por score + coincidencia de palabras, y pasa los supervivientes a una sola llamada al LLM para sintetizar. El LLM es el único paso no local y no determinista — y el único sitio donde se usa una clave." },
+    { name: "LanceDB + e5-base", sub: "Vectorización y consulta", href: "https://lancedb.com",
+      body: "Vectorización del lado del productor: cada BEE embebe sus propios chunks con multilingual-e5-base (768-d, ONNX int8) y firma el vector inline. La reina nunca embebe pasajes — copia los vectores firmados a un LanceDB en proceso (el backend por defecto; la interfaz VectorIndex es intercambiable, así que una reina puede correr Qdrant o el backend que quiera). Una consulta embebe solo la pregunta, saca el top-K por similitud coseno, los filtra por score + coincidencia de palabras, y pasa los supervivientes a una sola llamada al LLM para sintetizar. El LLM es el único paso no local y no determinista — y el único sitio donde se usa una clave." },
   ],
 };
 
@@ -310,16 +310,16 @@ const useCases: Record<"es" | "en", { n: string; tag: string; title: string; bod
       body: "Same BEEs and queens, three config knobs flip the network private: a random 32-byte swarm topic (2²⁵⁶ search space), Hypercore encryption keys so cores are ciphertext at rest and on the wire, and a peer allowlist by pubkey that drops any unauthorized connection on sight. Internal BEEs index company wikis, tickets, repos, contracts; a queen indexes them and serves /api/query — no traffic ever leaves the perimeter.",
       chips: ["random topic", "encrypted cores", "pubkey allowlist", "air-gapped"] },
     { n: "03", tag: "B2B", title: "Share private keys between companies",
-      body: "Two organisations exchange three values out-of-band — swarm topic, Hypercore encryption key, and each side's queen pubkey for the allowlist. Both queens join the same private swarm and replicate only the BEEs the other party chose to expose. No copy, no third-party broker, no merge of hives: each company keeps its own queen, its own Qdrant index, its own audit trail. Revocation is a key roll or an allowlist edit.",
+      body: "Two organisations exchange three values out-of-band — swarm topic, Hypercore encryption key, and each side's queen pubkey for the allowlist. Both queens join the same private swarm and replicate only the BEEs the other party chose to expose. No copy, no third-party broker, no merge of hives: each company keeps its own queen, its own LanceDB index, its own audit trail. Revocation is a key roll or an allowlist edit.",
       chips: ["shared swarm", "encryption key", "selective exposure", "revocable"] },
     { n: "04", tag: "Hybrid", title: "One queen in many swarms — composed coverage",
-      body: "Cases 01–03 compose at the queen layer. A single queen can join as many topics as it has credentials for — public mesh, its own private swarm, every partner swarm — and replicate BEEs from all of them into one Qdrant index. One query, one LLM synthesis, sources drawn from every swarm the queen belongs to. Every fragment keeps its origin pubkey and signature, so provenance survives the merge. Nothing crosses between swarms — the queen is the only place they meet.",
+      body: "Cases 01–03 compose at the queen layer. A single queen can join as many topics as it has credentials for — public mesh, its own private swarm, every partner swarm — and replicate BEEs from all of them into one LanceDB index. One query, one LLM synthesis, sources drawn from every swarm the queen belongs to. Every fragment keeps its origin pubkey and signature, so provenance survives the merge. Nothing crosses between swarms — the queen is the only place they meet.",
       chips: ["multi-swarm queen", "single index", "provenance preserved", "no cross-leak"] },
     { n: "05", tag: "Extensibility", title: "Custom connectors as ForagerSource plugins",
       body: "Anything not already covered — a legacy ERP, an in-house REST API, a proprietary archive — is wired in by implementing the ForagerSource interface (seed / fetch / normalize / owns), publishing it as an npm package and adding its id to the BEE's manifest. On next start the forager picks it up, drains its queue mechanically and signs every emitted fragment. No fork of HIVE core, no central registry to update — the connector lives in the customer's repo.",
       chips: ["ForagerSource", "npm package", "BeeManifest.sources", "no fork"] },
     { n: "06", tag: "Local AI", title: "Queen with a local LLM — full offline stack",
-      body: "The queen's LLM client is pluggable; point it at Ollama (or any local runtime) and the entire stack runs on-prem — BEEs extracting, Qdrant indexing, embedder local, synthesis local. No API key, no traffic leaves the box. A small model has narrow parametric memory; the queen's retrieval gives it grounded, signed context at query time — the combination behaves like a much larger model on domain-bounded tasks while preserving privacy. The natural knowledge layer for QVAC-style local agents.",
+      body: "The queen's LLM client is pluggable; point it at Ollama (or any local runtime) and the entire stack runs on-prem — BEEs extracting, LanceDB indexing, embedder local, synthesis local. No API key, no traffic leaves the box. A small model has narrow parametric memory; the queen's retrieval gives it grounded, signed context at query time — the combination behaves like a much larger model on domain-bounded tasks while preserving privacy. The natural knowledge layer for QVAC-style local agents.",
       chips: ["ollama / local LLM", "on-prem", "zero cloud", "grounded small model"] },
     { n: "07", tag: "Training", title: "Training corpus with cryptographic provenance",
       body: "BEEs store extraction verbatim — no LLM in the loop, no paraphrase. Every fragment carries source URL, scope, timestamp and an ed25519 signature. That makes a HIVE an unusually clean training source: stream fragments straight off the queen's replicated Hypercores into a pre-training, SFT or distillation pipeline. Filter by source, scope, language or signing BEE to build a broad generalist corpus or a narrow specialist one. Provenance is per-fragment and verifiable — useful for licence propagation and dataset audit.",
@@ -333,16 +333,16 @@ const useCases: Record<"es" | "en", { n: string; tag: string; title: string; bod
       body: "Las mismas BEEs y reinas; tres ajustes vuelven la red privada: un topic aleatorio de 32 bytes (espacio de 2²⁵⁶), claves de cifrado Hypercore para que los cores sean texto cifrado en reposo y en tránsito, y una allowlist de peers por clave pública que rechaza cualquier conexión no autorizada. Las BEEs internas indexan wikis, tickets, repos y contratos de la empresa; una reina los indexa y sirve /api/query — ningún tráfico sale del perímetro.",
       chips: ["topic aleatorio", "cores cifrados", "allowlist de claves", "aislado"] },
     { n: "03", tag: "B2B", title: "Comparte claves privadas entre empresas",
-      body: "Dos organizaciones intercambian tres valores fuera de banda — topic del swarm, clave de cifrado Hypercore y la clave pública de la reina de cada lado para la allowlist. Ambas reinas se unen al mismo swarm privado y replican solo las BEEs que la otra parte decidió exponer. Sin copia, sin broker externo, sin fusión de hives: cada empresa conserva su reina, su índice Qdrant y su rastro de auditoría. Revocar es rotar una clave o editar la allowlist.",
+      body: "Dos organizaciones intercambian tres valores fuera de banda — topic del swarm, clave de cifrado Hypercore y la clave pública de la reina de cada lado para la allowlist. Ambas reinas se unen al mismo swarm privado y replican solo las BEEs que la otra parte decidió exponer. Sin copia, sin broker externo, sin fusión de hives: cada empresa conserva su reina, su índice LanceDB y su rastro de auditoría. Revocar es rotar una clave o editar la allowlist.",
       chips: ["swarm compartido", "clave de cifrado", "exposición selectiva", "revocable"] },
     { n: "04", tag: "Híbrido", title: "Una reina en muchos swarms — cobertura compuesta",
-      body: "Los casos 01–03 se componen en la capa de la reina. Una sola reina puede unirse a tantos topics como credenciales tenga — malla pública, su swarm privado, cada swarm de partner — y replicar BEEs de todos ellos en un único índice Qdrant. Una consulta, una síntesis del LLM, fuentes de cada swarm al que pertenece la reina. Cada fragmento mantiene su clave de origen y su firma, así que la procedencia sobrevive a la fusión. Nada cruza entre swarms — la reina es el único punto donde se encuentran.",
+      body: "Los casos 01–03 se componen en la capa de la reina. Una sola reina puede unirse a tantos topics como credenciales tenga — malla pública, su swarm privado, cada swarm de partner — y replicar BEEs de todos ellos en un único índice LanceDB. Una consulta, una síntesis del LLM, fuentes de cada swarm al que pertenece la reina. Cada fragmento mantiene su clave de origen y su firma, así que la procedencia sobrevive a la fusión. Nada cruza entre swarms — la reina es el único punto donde se encuentran.",
       chips: ["reina multi-swarm", "índice único", "procedencia intacta", "sin fugas"] },
     { n: "05", tag: "Extensibilidad", title: "Conectores a medida como plugins ForagerSource",
       body: "Cualquier cosa no cubierta — un ERP heredado, una API REST interna, un archivo propietario — se integra implementando la interfaz ForagerSource (seed / fetch / normalize / owns), publicándola como paquete npm y añadiendo su id al manifiesto de la BEE. En el siguiente arranque el forager la recoge, drena su cola mecánicamente y firma cada fragmento emitido. Sin forkear el core de HIVE, sin registro central que actualizar — el conector vive en el repo del cliente.",
       chips: ["ForagerSource", "paquete npm", "BeeManifest.sources", "sin fork"] },
     { n: "06", tag: "IA Local", title: "Reina con LLM local — stack offline completo",
-      body: "El cliente LLM de la reina es enchufable; apúntalo a Ollama (o cualquier runtime local) y todo el stack corre on-prem — BEEs extrayendo, Qdrant indexando, embedder local, síntesis local. Sin API key, sin tráfico que salga de la máquina. Un modelo pequeño tiene memoria paramétrica estrecha; la recuperación de la reina le da contexto firmado y con fuentes en tiempo de consulta — la combinación se comporta como un modelo mucho mayor en tareas acotadas a un dominio, preservando la privacidad. La capa de conocimiento natural para agentes locales tipo QVAC.",
+      body: "El cliente LLM de la reina es enchufable; apúntalo a Ollama (o cualquier runtime local) y todo el stack corre on-prem — BEEs extrayendo, LanceDB indexando, embedder local, síntesis local. Sin API key, sin tráfico que salga de la máquina. Un modelo pequeño tiene memoria paramétrica estrecha; la recuperación de la reina le da contexto firmado y con fuentes en tiempo de consulta — la combinación se comporta como un modelo mucho mayor en tareas acotadas a un dominio, preservando la privacidad. La capa de conocimiento natural para agentes locales tipo QVAC.",
       chips: ["ollama / LLM local", "on-prem", "cero nube", "modelo pequeño con fuentes"] },
     { n: "07", tag: "Entrenamiento", title: "Corpus de entrenamiento con procedencia criptográfica",
       body: "Las BEEs guardan la extracción verbatim — sin LLM de por medio, sin parafraseo. Cada fragmento lleva URL de origen, scope, timestamp y firma ed25519. Eso hace de un HIVE una fuente de entrenamiento inusualmente limpia: streamea fragmentos directamente desde los Hypercores replicados de la reina hacia un pipeline de pre-training, SFT o destilación. Filtra por fuente, scope, idioma o BEE firmante para construir un corpus generalista amplio o uno especialista estrecho. La procedencia es por fragmento y verificable — útil para propagación de licencias y auditoría de datasets.",
@@ -593,6 +593,13 @@ export default function HivePage() {
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-violet-800/15 blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-5xl px-6 py-28 text-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/HiveLogo.png" alt="HIVE" className="h-20 md:h-24 w-auto mx-auto mb-6" />
+          <div className="mx-auto max-w-2xl mb-7 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
+            {lang === "en"
+              ? "⚠ v0.8 shipped a coordinated hard reset — the network moved to a new embedding model (multilingual-e5-base), fragment format, and vector store. Earlier test data was wiped; bees are re-crawling from scratch, so fragment counts start low and climb."
+              : "⚠ v0.8 trajo un hard reset coordinado — la red cambió de modelo de embeddings (multilingual-e5-base), formato de fragmento y almacén de vectores. Los datos de prueba anteriores se borraron; las bees están re-crawleando desde cero, así que los contadores empiezan bajos y van subiendo."}
+          </div>
           <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs text-violet-300 mb-7">
             <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
             {t("hive_badge_tagline")}
@@ -657,8 +664,8 @@ export default function HivePage() {
               { Icon: Database, href: LIVE_NODES.queen, port: ":8090",
                 title: lang === "en" ? "Queen dashboard" : "Panel de la reina",
                 desc: lang === "en"
-                  ? "Queries the Qdrant index, answers /api/query with verified sources."
-                  : "Consulta el índice Qdrant, responde /api/query con fuentes verificadas." },
+                  ? "Queries the LanceDB index, answers /api/query with verified sources."
+                  : "Consulta el índice LanceDB, responde /api/query con fuentes verificadas." },
               { Icon: Activity, href: LIVE_NODES.bee, port: ":8080",
                 title: lang === "en" ? "Bee dashboard" : "Panel de la abeja",
                 desc: lang === "en"
@@ -829,6 +836,12 @@ export default function HivePage() {
                 </div>
               );
             })}
+          </div>
+          <div className="mt-5 rounded-2xl border border-dashed border-violet-300 bg-violet-50/50 p-5 text-sm text-[var(--muted)]">
+            <span className="font-bold text-violet-700">🔭 {lang === "en" ? "Coming" : "Próximamente"}:</span>{" "}
+            {lang === "en"
+              ? "first-class MCP server + Claude Skills / OpenClaw connectors, so an agent can use a HIVE queen as a native tool. Not shipped yet — on the roadmap."
+              : "servidor MCP de primera clase + conectores Claude Skills / OpenClaw, para que un agente use una reina HIVE como herramienta nativa. Aún no disponible — en el roadmap."}
           </div>
         </div>
       </section>
