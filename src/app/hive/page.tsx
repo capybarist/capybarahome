@@ -263,6 +263,7 @@ const installSteps = [
 const LIVE_NODES = {
   queen: "http://178.105.140.134:8090/",
   bee: "http://178.105.140.134:8080/",
+  bee2: "http://178.105.140.134:8081/",
 };
 
 // ── Technical deep-dive ─────────────────────────────────────────────────────
@@ -657,22 +658,27 @@ export default function HivePage() {
             </h2>
             <p className="text-[var(--muted)] max-w-xl mx-auto text-sm leading-relaxed">
               {lang === "en"
-                ? "Not a canned demo — two real nodes in production. Open their dashboards and watch them work."
-                : "No es una demo enlatada — dos nodos reales en producción. Abre sus paneles y míralos trabajar."}
+                ? "Not a canned demo — three real nodes in production. Open their dashboards and watch them work."
+                : "No es una demo enlatada — tres nodos reales en producción. Abre sus paneles y míralos trabajar."}
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
               { Icon: Database, href: LIVE_NODES.queen, port: ":8090",
-                title: lang === "en" ? "Queen dashboard" : "Panel de la reina",
+                title: lang === "en" ? "Queen" : "Reina",
                 desc: lang === "en"
-                  ? "Queries the LanceDB index, answers /api/query with verified sources."
-                  : "Consulta el índice LanceDB, responde /api/query con fuentes verificadas." },
+                  ? "Replicates both bees' cores, indexes signed vectors into LanceDB, answers /api/query."
+                  : "Replica los cores de ambas abejas, indexa los vectores firmados en LanceDB, responde /api/query." },
               { Icon: Activity, href: LIVE_NODES.bee, port: ":8080",
-                title: lang === "en" ? "Bee dashboard" : "Panel de la abeja",
+                title: lang === "en" ? "Bee · Wikipedia" : "Abeja · Wikipedia",
                 desc: lang === "en"
-                  ? "Extracts from Wikipedia live, signs and publishes fragments to its Hypercore."
-                  : "Extrae de Wikipedia en vivo, firma y publica fragmentos en su Hypercore." },
+                  ? "Generalist BEE crawling Wikipedia (drift-ok policy). Embeds, signs and publishes fragments to its Hypercore."
+                  : "Abeja generalista crawleando Wikipedia (policy drift-ok). Embebe, firma y publica fragmentos en su Hypercore." },
+              { Icon: Activity, href: LIVE_NODES.bee2, port: ":8081",
+                title: lang === "en" ? "Bee · News (RSS)" : "Abeja · News (RSS)",
+                desc: lang === "en"
+                  ? "Specialist BEE on RSS feeds (BBC, Guardian, NPR, ArsTechnica), exclusive policy — different manifest, same protocol."
+                  : "Abeja especialista en feeds RSS (BBC, Guardian, NPR, ArsTechnica), policy exclusive — manifest distinto, mismo protocolo." },
             ].map(({ Icon, href, port, title, desc }) => (
               <a key={href} href={href} target="_blank" rel="noopener noreferrer"
                 className="group flex items-start gap-4 p-6 rounded-2xl border border-[var(--border)] bg-white card-hover">
