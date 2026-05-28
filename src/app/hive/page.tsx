@@ -592,12 +592,12 @@ export default function HivePage() {
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-500 to-transparent" />
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-violet-800/15 blur-3xl pointer-events-none" />
 
-        <div className="relative mx-auto max-w-5xl px-6 py-28 text-center">
+        <div className="relative mx-auto max-w-5xl px-6 py-28 flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs text-violet-300 mb-8">
             <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
             {t("hive_badge_tagline")}
           </div>
-          <div className="inline-block rounded-3xl bg-white px-10 py-7 mb-7 shadow-2xl shadow-violet-900/30">
+          <div className="rounded-3xl bg-white px-10 py-7 mb-7 shadow-2xl shadow-violet-900/30">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/HiveLogo.png" alt="HIVE" className="h-24 md:h-36 w-auto" />
           </div>

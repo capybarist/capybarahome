@@ -12,6 +12,9 @@ export function Header() {
   // Community/Contact anchors point there. nav_capy / nav_pixel stay hidden
   // until their alpha is demo-ready (pages still reachable by direct URL).
   const navLinks = [
+    // HIVE is the home page now; the explicit nav item lets people jump back
+    // to it after navigating away to Services / Labs.
+    { key: "nav_hive" as const, href: "/" },
     { key: "nav_services" as const, href: "/services" },
     { key: "nav_community" as const, href: "/labs#community" },
     { key: "nav_contact" as const, href: "/labs#contact" },
