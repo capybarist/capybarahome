@@ -144,9 +144,8 @@ export default function Home() {
               <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--accent)] border border-[var(--accent)]/30 bg-[var(--accent-bg)] rounded-full px-4 py-1.5 mb-6">
                 {t("hive_preview_badge")}
               </span>
-              <h2 className="text-4xl font-black tracking-tight mb-5 g-accent">
-                HIVE
-              </h2>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/HiveLogo.png" alt="HIVE" className="h-12 md:h-14 w-auto mb-5" />
               <p className="text-2xl font-semibold text-[var(--text)] mb-4 leading-snug">
                 {t("hive_preview_title").replace("HIVE — ", "")}
               </p>

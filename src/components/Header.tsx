@@ -21,10 +21,9 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-[var(--border)]">
       <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between gap-8">
-        <Link href="/" className="flex items-center gap-2.5 font-bold text-[var(--text)] hover:text-[var(--brand)] transition-colors">
+        <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/CapybaraLogo.png" alt="Capybara Labs" className="h-7 w-auto" />
-          <span className="text-base tracking-tight">Capybara Labs</span>
+          <img src="/CapybaraLogo.png" alt="Capybara Labs" className="h-9 w-auto" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-7">

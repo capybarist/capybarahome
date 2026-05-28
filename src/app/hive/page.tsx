@@ -593,18 +593,12 @@ export default function HivePage() {
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-violet-800/15 blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-5xl px-6 py-28 text-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/HiveLogo.png" alt="HIVE" className="h-20 md:h-24 w-auto mx-auto mb-6" />
-          <div className="mx-auto max-w-2xl mb-7 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
-            {lang === "en"
-              ? "⚠ v0.8 shipped a coordinated hard reset — the network moved to a new embedding model (multilingual-e5-base), fragment format, and vector store. Earlier test data was wiped; bees are re-crawling from scratch, so fragment counts start low and climb."
-              : "⚠ v0.8 trajo un hard reset coordinado — la red cambió de modelo de embeddings (multilingual-e5-base), formato de fragmento y almacén de vectores. Los datos de prueba anteriores se borraron; las bees están re-crawleando desde cero, así que los contadores empiezan bajos y van subiendo."}
-          </div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs text-violet-300 mb-7">
+          <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs text-violet-300 mb-8">
             <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
             {t("hive_badge_tagline")}
           </div>
-          <h1 className="text-7xl md:text-9xl font-black tracking-tighter mb-5 g-accent">HIVE</h1>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/HiveLogo.png" alt="HIVE" className="h-28 md:h-44 w-auto mx-auto mb-6" />
           <p className="text-xl text-slate-300 mb-3 max-w-2xl mx-auto">{t("hive_hero_sub")}</p>
           <p className="text-base text-slate-500 italic mb-6">&ldquo;{t("hive_hero_tagline")}&rdquo;</p>
           <p className="text-lg md:text-xl font-semibold text-violet-200 max-w-2xl mx-auto mb-10 leading-snug">
@@ -632,6 +626,12 @@ export default function HivePage() {
             <p className="text-xs font-bold uppercase tracking-widest text-[var(--accent)] mb-3">Live demo</p>
             <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-3">{t("try_title")}</h2>
             <p className="text-[var(--muted)] max-w-xl mx-auto text-sm leading-relaxed">{t("try_sub")}</p>
+            <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--bg-muted)] px-3.5 py-1.5 text-xs text-[var(--muted)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+              {lang === "en"
+                ? "Public demo · freshly re-indexing after the v0.8 upgrade, so answers grow as bees re-crawl public sources. Your own HIVE is private — and yours to fill."
+                : "Demo pública · re-indexando tras la actualización v0.8, así que las respuestas crecen según las bees re-crawlean fuentes públicas. Tu propio HIVE es privado — y lo llenas tú."}
+            </p>
           </div>
           <TryHive />
         </div>
