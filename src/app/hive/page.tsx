@@ -598,7 +598,7 @@ export default function HivePage() {
             {t("hive_badge_tagline")}
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/HiveLogo.png" alt="HIVE" className="h-28 md:h-44 w-auto mx-auto mb-6" />
+          <img src="/HiveLogo-white.png" alt="HIVE" className="h-32 md:h-52 w-auto mx-auto mb-6" />
           <p className="text-xl text-slate-300 mb-3 max-w-2xl mx-auto">{t("hive_hero_sub")}</p>
           <p className="text-base text-slate-500 italic mb-6">&ldquo;{t("hive_hero_tagline")}&rdquo;</p>
           <p className="text-lg md:text-xl font-semibold text-violet-200 max-w-2xl mx-auto mb-10 leading-snug">

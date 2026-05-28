@@ -145,7 +145,7 @@ export default function Home() {
                 {t("hive_preview_badge")}
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/HiveLogo.png" alt="HIVE" className="h-12 md:h-14 w-auto mb-5" />
+              <img src="/HiveLogo.png" alt="HIVE" className="h-20 md:h-28 w-auto mb-5" />
               <p className="text-2xl font-semibold text-[var(--text)] mb-4 leading-snug">
                 {t("hive_preview_title").replace("HIVE — ", "")}
               </p>

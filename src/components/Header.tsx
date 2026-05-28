@@ -23,7 +23,7 @@ export function Header() {
       <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between gap-8">
         <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/CapybaraLogo.png" alt="Capybara Labs" className="h-9 w-auto" />
+          <img src="/CapybaraLogo.png" alt="Capybara Labs" className="h-12 w-auto" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-7">
