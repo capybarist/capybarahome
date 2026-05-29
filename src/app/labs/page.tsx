@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useI18n } from "@/lib/i18n";
 import {
   Zap, Code2, Wrench, Brain, ArrowRight,
-  Play, Briefcase, GitBranch,
+  Briefcase, GitBranch,
   CheckCircle2, Shield, Clock, Star,
   Network, Lock, FileText, Globe,
 } from "lucide-react";
@@ -26,7 +26,6 @@ const stack = [
 ];
 
 const socialLinks = [
-  { Icon: Play,      label: "YouTube",  href: "https://www.youtube.com/@capybara-labs",                   color: "hover:text-red-500" },
   { Icon: Briefcase, label: "LinkedIn", href: "https://www.linkedin.com/company/capybara-labsllc",         color: "hover:text-blue-600" },
   { Icon: GitBranch, label: "GitHub",   href: "https://github.com/capybarist",                             color: "hover:text-slate-900" },
 ];

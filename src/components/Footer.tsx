@@ -36,7 +36,6 @@ export function Footer() {
         <div className="pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between gap-3 text-xs text-slate-600">
           <span>© {new Date().getFullYear()} Capybara Labs LLC. {t("foot_rights")}</span>
           <div className="flex gap-5">
-            <a href="https://www.youtube.com/@capybara-labs" target="_blank" rel="noopener" className="hover:text-slate-400 transition-colors">YouTube</a>
             <a href="https://www.linkedin.com/company/capybara-labsllc" target="_blank" rel="noopener" className="hover:text-slate-400 transition-colors">LinkedIn</a>
             <a href="https://github.com/capybarist" target="_blank" rel="noopener" className="hover:text-slate-400 transition-colors">GitHub</a>
           </div>
