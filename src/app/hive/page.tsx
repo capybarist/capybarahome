@@ -730,8 +730,8 @@ export default function HivePage() {
           </div>
           <p className="text-center text-xs text-[var(--muted)] mt-4">
             {lang === "en"
-              ? "Plain HTTP, no TLS — your browser may warn. These are the same nodes the live demo above reads from."
-              : "HTTP plano, sin TLS — tu navegador puede avisar. Son los mismos nodos que lee la demo de arriba."}
+              ? "Served over HTTPS (Caddy auto-TLS). These are the same nodes the live demo above reads from."
+              : "Servidos sobre HTTPS (auto-TLS de Caddy). Son los mismos nodos que lee la demo de arriba."}
           </p>
         </div>
       </section>
