@@ -258,12 +258,14 @@ const installSteps = [
 ];
 
 // ── Live production nodes ───────────────────────────────────────────────────
-// Real queen + bee running on the Hetzner box. Plain HTTP dashboards — these
-// are the actual nodes the Try-HIVE widget and Forager widget read from.
+// Real queen + bees running on the Hetzner box. HTTPS via sslip.io (free
+// wildcard DNS + Caddy auto-TLS, HIVE v0.8.11+) — see ./Caddyfile in the
+// HIVE repo for the setup. The Try-HIVE widget and Forager widget read
+// from these.
 const LIVE_NODES = {
-  queen: "http://178.105.140.134:8090/",
-  bee: "http://178.105.140.134:8080/",
-  bee2: "http://178.105.140.134:8081/",
+  queen: "https://queen.178-105-140-134.sslip.io/",
+  bee: "https://bee1.178-105-140-134.sslip.io/",
+  bee2: "https://bee2.178-105-140-134.sslip.io/",
 };
 
 // ── Technical deep-dive ─────────────────────────────────────────────────────
