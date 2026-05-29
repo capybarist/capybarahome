@@ -885,10 +885,20 @@ export default function HivePage() {
             </div>
             <p className="text-sm text-[var(--muted)] mb-5 leading-relaxed">
               {lang === "en"
-                ? "The MCP server and the Claude Skill are live on npm and in the repo. The MCP lets any MCP-aware host (Claude Desktop, Claude Code, Cursor, Continue, Goose, OpenClaw) query a HIVE queen as a native tool; the Skill teaches Claude when and how to cite the fragments without being asked."
-                : "El servidor MCP y el Claude Skill están vivos en npm y en el repo. El MCP permite a cualquier host MCP-aware (Claude Desktop, Claude Code, Cursor, Continue, Goose, OpenClaw) consultar una queen HIVE como tool nativa; el Skill enseña a Claude cuándo y cómo citar los fragmentos sin que se lo pidas."}
+                ? "Three pieces, one product story. Spin up a HIVE queen with one command, plug it into Claude / Cursor / OpenClaw via the MCP server, and load the Skill so the model proactively cites HIVE fragments instead of fabricating."
+                : "Tres piezas, una historia de producto. Levanta una queen HIVE con un comando, enchúfala a Claude / Cursor / OpenClaw vía el servidor MCP, y carga el Skill para que el modelo cite fragmentos de HIVE proactivamente en vez de inventar."}
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Database size={14} className="text-violet-600" />
+                  <span className="text-xs font-bold text-[var(--text)]">@capybaralabs/hive</span>
+                </div>
+                <pre className="rounded-lg bg-slate-950 text-slate-100 text-[11px] p-3 overflow-x-auto leading-relaxed"><code>{`npx @capybaralabs/hive`}</code></pre>
+                <p className="text-[11px] text-[var(--muted)] mt-2">
+                  {lang === "en" ? "Interactive wizard → starts a queen / bee / hive node. No Docker required." : "Wizard interactivo → arranca un nodo queen / bee / hive. Sin Docker."}
+                </p>
+              </div>
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <Network size={14} className="text-violet-600" />
@@ -896,7 +906,7 @@ export default function HivePage() {
                 </div>
                 <pre className="rounded-lg bg-slate-950 text-slate-100 text-[11px] p-3 overflow-x-auto leading-relaxed"><code>{`npx @capybaralabs/hive-mcp`}</code></pre>
                 <p className="text-[11px] text-[var(--muted)] mt-2">
-                  {lang === "en" ? "Add to your client's MCP config, point at your queen, done." : "Añádelo a la config MCP de tu cliente, apuntando a tu queen, listo."}
+                  {lang === "en" ? "Add to your client's MCP config, point at the queen, done." : "Añádelo a la config MCP de tu cliente, apunta a la queen, listo."}
                 </p>
               </div>
               <div>
@@ -1005,10 +1015,52 @@ export default function HivePage() {
             ))}
           </div>
 
+          <div className="rounded-xl border border-emerald-200 bg-gradient-to-br from-emerald-50/60 to-white p-5 mb-4">
+            <h4 className="text-sm font-bold text-[var(--text)] mb-3 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              {lang === "en" ? "Shipped recently (2026-05)" : "Publicado recientemente (2026-05)"}
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {(lang === "en" ? [
+                "MCP server (@capybaralabs/hive-mcp)",
+                "Claude Skill bundle",
+                "npm CLI (npx @capybaralabs/hive)",
+                "HTTPS auto-TLS via sslip.io",
+                "Bearer-token auth on /api/*",
+                "Periodic LanceDB compaction",
+              ] : [
+                "Servidor MCP (@capybaralabs/hive-mcp)",
+                "Claude Skill bundle",
+                "CLI npm (npx @capybaralabs/hive)",
+                "HTTPS auto-TLS vía sslip.io",
+                "Auth por bearer token en /api/*",
+                "Compactación periódica de LanceDB",
+              ]).map(f => (
+                <span key={f} className="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-full px-3 py-1">{f}</span>
+              ))}
+            </div>
+          </div>
+
           <div className="rounded-xl border border-[var(--border)] bg-white p-5">
             <h4 className="text-sm font-bold text-[var(--text)] mb-3">{t("hive_planned_title")}</h4>
             <div className="flex flex-wrap gap-2">
-              {["LLM-free verbatim extraction", "Signature verification on receive", "Replication factor ≥3", "Multi-agent consensus", "BulkImporter (Wikipedia-scale)", "QVAC local inference", "WDK payments"].map(f => (
+              {(lang === "en" ? [
+                "Settings UI · graphical manifest builder",
+                "Public Topics Registry · P2P discovery",
+                "Personal-memory adapter (case 08)",
+                "Multi-tenant API tokens + audit log",
+                "Selective replication · Bloom routing",
+                "One-click self-host (Umbrel / CasaOS)",
+                "Score-by-corroboration",
+              ] : [
+                "UI de Settings · constructor gráfico de manifests",
+                "Registro Público de Topics · descubrimiento P2P",
+                "Adapter de memoria personal (caso 08)",
+                "Tokens API multi-tenant + audit log",
+                "Replicación selectiva · routing Bloom",
+                "Self-host one-click (Umbrel / CasaOS)",
+                "Score por corroboración",
+              ]).map(f => (
                 <span key={f} className="text-xs text-[var(--muted)] border border-[var(--border)] rounded-full px-3 py-1">{f}</span>
               ))}
             </div>
