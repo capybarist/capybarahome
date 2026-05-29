@@ -129,7 +129,7 @@ function TryHive() {
 
       {/* Conversation thread */}
       {hasThread && (
-        <div ref={threadRef} className="flex flex-col gap-6 max-h-[65vh] overflow-y-auto pr-1">
+        <div ref={threadRef} className="flex flex-col gap-6 max-h-[65vh] overflow-y-auto pr-1 [scrollbar-gutter:stable]">
           {turns.map((tn, i) => (
             <div key={i} className="flex flex-col gap-3">
               {/* User question */}

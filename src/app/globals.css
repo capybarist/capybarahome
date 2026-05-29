@@ -27,7 +27,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
-html { scroll-behavior: smooth; }
+/* scrollbar-gutter: stable reserves the scrollbar's space even when no
+   scrollbar is shown, so content never shifts left/right as a scrollbar
+   appears/disappears (e.g. the Try-HIVE widget growing during a query). */
+html { scroll-behavior: smooth; scrollbar-gutter: stable; }
 
 body {
   background-color: var(--bg);
