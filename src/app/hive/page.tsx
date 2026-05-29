@@ -247,14 +247,14 @@ const techStack = [
   { name: "Ollama / Groq / Gemini / Claude / OpenAI", desc: "Query synthesis only (v0.6+). Extraction is LLM-free — verbatim from source APIs, signed with ed25519.", href: "https://ollama.com" },
 ];
 
-// A BEE is the lightest node — no LLM, no API key, no Python. This is the
-// quickstart the "Run a BEE" section shows. Queen / full-stack instructions
-// live in the README (linked from the section).
+// Three install paths, ordered by friction. npx leads since v0.8.9 — the
+// @capybaralabs/hive npm package wraps the monorepo as a one-command CLI
+// with an interactive first-run wizard. Docker and from-source stay as the
+// "more control" alternatives.
 const installSteps = [
-  { num: "1", label: "Clone", cmd: "git clone https://github.com/capybarist/hive.git && cd hive" },
-  { num: "2", label: "Install", cmd: "npm install" },
-  { num: "3", label: "Run a BEE", cmd: "bash hive.sh   # bee on :8080 — no key, no LLM, no Python" },
-  { num: "4", label: "Or Docker", cmd: "docker compose up -d bee-1   # same bee, nothing to install but Docker" },
+  { num: "1", label: "One command (recommended)", cmd: "npx @capybaralabs/hive   # wizard → starts a node" },
+  { num: "2", label: "Docker", cmd: "git clone https://github.com/capybarist/hive && cd hive && docker compose up -d" },
+  { num: "3", label: "From source", cmd: "git clone https://github.com/capybarist/hive && cd hive && bash hive.sh" },
 ];
 
 // ── Live production nodes ───────────────────────────────────────────────────
@@ -325,6 +325,18 @@ const useCases: Record<"es" | "en", { n: string; tag: string; title: string; bod
     { n: "07", tag: "Training", title: "Training corpus with cryptographic provenance",
       body: "BEEs store extraction verbatim — no LLM in the loop, no paraphrase. Every fragment carries source URL, scope, timestamp and an ed25519 signature. That makes a HIVE an unusually clean training source: stream fragments straight off the queen's replicated Hypercores into a pre-training, SFT or distillation pipeline. Filter by source, scope, language or signing BEE to build a broad generalist corpus or a narrow specialist one. Provenance is per-fragment and verifiable — useful for licence propagation and dataset audit.",
       chips: ["verbatim · signed", "filter by scope", "pre-train / SFT", "distillation"] },
+    { n: "08", tag: "Personal", title: "Personal memory for your AI",
+      body: "A local-only HIVE queen indexes your own activity — Claude conversations, command history, notes, agent memory files. The MCP server exposes it to any client, so Claude (or Cursor, or any MCP-aware assistant) regains cross-session memory without sending anything to a third party. ForagerSource adapter, ed25519-signed by your own key, lives only in your private swarm — privacy by design.",
+      chips: ["personal RAG", "cross-session memory", "local-only", "user-signed"] },
+    { n: "13", tag: "Audit", title: "Verifiable citations for journalism and compliance",
+      body: "BEEs index regulated and official sources (government gazettes, court records, regulator RSS, standards bodies) and sign every extraction. A journalist or compliance officer cites by fragment id; the cite is independently verifiable years later against the bee's ed25519 pubkey, even if the original URL changes or disappears. Per-fragment cryptographic provenance is the differentiator — no other RAG architecture provides it natively.",
+      chips: ["signed provenance", "verifiable citation", "cold-archive trustworthy"] },
+    { n: "14", tag: "MCP", title: "MCP server — wire HIVE into any LLM host",
+      body: "@capybaralabs/hive-mcp ships HIVE as an MCP server for Claude Desktop, Claude Code, Cursor, Continue, Goose, OpenClaw — and the rest of the MCP ecosystem. One line in your client config and Claude can query a HIVE queen as a native tool. Returns raw signed fragments; the host LLM does the synthesis. No glue code, no fork, no platform-specific build.",
+      chips: ["MCP server", "Claude / Cursor / OpenClaw", "signed fragments", "zero glue code"] },
+    { n: "15", tag: "Skill", title: "Claude Skill — when and how to cite HIVE",
+      body: "The hive-research Claude Skill is behavioural guidance the model loads before answering. It teaches Claude when to consult HIVE versus WebSearch, how to read score + retrieval-gate flag, how to cite each claim by fragment id + URL, and to admit when the queen has no relevant data instead of fabricating. Pure markdown — works in any client that reads ~/.claude/skills/, independent of MCP.",
+      chips: ["SKILL.md", "behavioural guidance", "no API key", "MCP-independent"] },
   ],
   es: [
     { n: "01", tag: "Público", title: "Únete al swarm público con un hash de topic",
@@ -348,6 +360,18 @@ const useCases: Record<"es" | "en", { n: string; tag: string; title: string; bod
     { n: "07", tag: "Entrenamiento", title: "Corpus de entrenamiento con procedencia criptográfica",
       body: "Las BEEs guardan la extracción verbatim — sin LLM de por medio, sin parafraseo. Cada fragmento lleva URL de origen, scope, timestamp y firma ed25519. Eso hace de un HIVE una fuente de entrenamiento inusualmente limpia: streamea fragmentos directamente desde los Hypercores replicados de la reina hacia un pipeline de pre-training, SFT o destilación. Filtra por fuente, scope, idioma o BEE firmante para construir un corpus generalista amplio o uno especialista estrecho. La procedencia es por fragmento y verificable — útil para propagación de licencias y auditoría de datasets.",
       chips: ["verbatim · firmado", "filtra por scope", "pre-train / SFT", "destilación"] },
+    { n: "08", tag: "Personal", title: "Memoria personal para tu IA",
+      body: "Una queen HIVE local-only indexa tu propia actividad — conversaciones con Claude, historial de comandos, notas, ficheros de memoria del agente. El servidor MCP la expone a cualquier cliente, así Claude (o Cursor, o cualquier asistente MCP-aware) recupera memoria entre sesiones sin enviar nada a terceros. Adapter ForagerSource, firmado ed25519 con tu propia clave, vive solo en tu swarm privado — privacidad por diseño.",
+      chips: ["RAG personal", "memoria entre sesiones", "solo local", "firmado por ti"] },
+    { n: "13", tag: "Auditoría", title: "Citas verificables para periodismo y compliance",
+      body: "Las BEEs indexan fuentes oficiales y reguladas (boletines, registros públicos, RSS de reguladores, organismos de estándares) y firman cada extracción. Un periodista u oficial de compliance cita por id de fragmento; la cita es verificable independientemente años después contra la clave pública ed25519 de la bee, aunque cambie o desaparezca la URL original. La procedencia criptográfica por fragmento es el diferenciador — ninguna otra arquitectura RAG la ofrece nativa.",
+      chips: ["procedencia firmada", "cita verificable", "archivo frío fiable"] },
+    { n: "14", tag: "MCP", title: "Servidor MCP — enchufa HIVE a cualquier LLM host",
+      body: "@capybaralabs/hive-mcp empaqueta HIVE como servidor MCP para Claude Desktop, Claude Code, Cursor, Continue, Goose, OpenClaw — y el resto del ecosistema MCP. Una línea en la config de tu cliente y Claude puede consultar una queen HIVE como tool nativa. Devuelve fragmentos firmados crudos; el LLM del host sintetiza. Sin código pegamento, sin fork, sin build específico de plataforma.",
+      chips: ["servidor MCP", "Claude / Cursor / OpenClaw", "fragmentos firmados", "cero código pegamento"] },
+    { n: "15", tag: "Skill", title: "Claude Skill — cuándo y cómo citar HIVE",
+      body: "El Claude Skill hive-research es guía de comportamiento que el modelo carga antes de responder. Le enseña cuándo consultar HIVE frente a WebSearch, cómo leer score + flag del retrieval gate, cómo citar cada afirmación por id de fragmento + URL, y a admitir cuando la queen no tiene datos relevantes en vez de inventar. Markdown puro — funciona en cualquier cliente que lea ~/.claude/skills/, independiente del MCP.",
+      chips: ["SKILL.md", "guía de comportamiento", "sin API key", "independiente del MCP"] },
   ],
 };
 
@@ -578,7 +602,11 @@ function ArticleList({
 }
 
 // Icon per use-case tag, by index 0–6.
-const USE_CASE_ICONS = [Globe, Lock, Building2, Layers, Puzzle, Cpu, GraduationCap];
+const USE_CASE_ICONS = [
+  Globe, Lock, Building2, Layers, Puzzle, Cpu, GraduationCap,
+  // Cases added 2026-05-29: personal memory, audit/journalism, MCP server, Claude Skill
+  Users, Shield, Network, FileText,
+];
 
 export default function HivePage() {
   const { t, lang } = useI18n();
@@ -630,10 +658,10 @@ export default function HivePage() {
             <h2 className="text-3xl font-black text-[var(--text)] tracking-tight mb-3">{t("try_title")}</h2>
             <p className="text-[var(--muted)] max-w-xl mx-auto text-sm leading-relaxed">{t("try_sub")}</p>
             <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--bg-muted)] px-3.5 py-1.5 text-xs text-[var(--muted)]">
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
               {lang === "en"
-                ? "Public demo · freshly re-indexing after the v0.8 upgrade, so answers grow as bees re-crawl public sources. Your own HIVE is private — and yours to fill."
-                : "Demo pública · re-indexando tras la actualización v0.8, así que las respuestas crecen según las bees re-crawlean fuentes públicas. Tu propio HIVE es privado — y lo llenas tú."}
+                ? "Public demo · LanceDB queen + Wikipedia & RSS bees on Hetzner · token pre-loaded, zero setup. Wire it into Claude via MCP for verifiable citations in your IDE."
+                : "Demo pública · queen LanceDB + bees de Wikipedia y RSS en Hetzner · token pre-cargado, sin setup. Conéctala a Claude por MCP para citas verificables en tu IDE."}
             </p>
           </div>
           <TryHive />
@@ -818,8 +846,8 @@ export default function HivePage() {
           </h2>
           <p className="text-[var(--muted)] leading-relaxed mb-10 max-w-2xl">
             {lang === "en"
-              ? "Distributed RAG — public and private, specialized and general, for local or cloud LLMs. Run your own knowledge base, or share it peer-to-peer with no server in the middle. The same protocol composes into seven deployment patterns."
-              : "RAG distribuido — público y privado, especializado y general, para LLMs locales o en la nube. Monta tu propia base de conocimiento, o compártela peer-to-peer sin ningún servidor de por medio. El mismo protocolo se compone en siete patrones de despliegue."}
+              ? "Distributed RAG — public and private, specialized and general, for local or cloud LLMs. Run your own knowledge base, or share it peer-to-peer with no server in the middle. The same protocol composes into deployment patterns ranging from public swarms to per-LLM-host integrations — eleven shown below, full catalogue at the bottom."
+              : "RAG distribuido — público y privado, especializado y general, para LLMs locales o en la nube. Monta tu propia base de conocimiento, o compártela peer-to-peer sin ningún servidor de por medio. El mismo protocolo se compone en patrones de despliegue que van desde swarms públicos hasta integraciones por LLM-host — once mostrados abajo, catálogo completo al final."}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -845,11 +873,44 @@ export default function HivePage() {
               );
             })}
           </div>
-          <div className="mt-5 rounded-2xl border border-dashed border-violet-300 bg-violet-50/50 p-5 text-sm text-[var(--muted)]">
-            <span className="font-bold text-violet-700">🔭 {lang === "en" ? "Coming" : "Próximamente"}:</span>{" "}
-            {lang === "en"
-              ? "first-class MCP server + Claude Skills / OpenClaw connectors, so an agent can use a HIVE queen as a native tool. Not shipped yet — on the roadmap."
-              : "servidor MCP de primera clase + conectores Claude Skills / OpenClaw, para que un agente use una reina HIVE como herramienta nativa. Aún no disponible — en el roadmap."}
+          <div className="mt-8 rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 to-white p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2.5 py-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                {lang === "en" ? "Shipped" : "Publicado"}
+              </span>
+              <h3 className="font-bold text-[var(--text)]">
+                {lang === "en" ? "Plug HIVE into Claude, Cursor, OpenClaw — one command" : "Enchufa HIVE a Claude, Cursor, OpenClaw — un comando"}
+              </h3>
+            </div>
+            <p className="text-sm text-[var(--muted)] mb-5 leading-relaxed">
+              {lang === "en"
+                ? "The MCP server and the Claude Skill are live on npm and in the repo. The MCP lets any MCP-aware host (Claude Desktop, Claude Code, Cursor, Continue, Goose, OpenClaw) query a HIVE queen as a native tool; the Skill teaches Claude when and how to cite the fragments without being asked."
+                : "El servidor MCP y el Claude Skill están vivos en npm y en el repo. El MCP permite a cualquier host MCP-aware (Claude Desktop, Claude Code, Cursor, Continue, Goose, OpenClaw) consultar una queen HIVE como tool nativa; el Skill enseña a Claude cuándo y cómo citar los fragmentos sin que se lo pidas."}
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Network size={14} className="text-violet-600" />
+                  <span className="text-xs font-bold text-[var(--text)]">@capybaralabs/hive-mcp</span>
+                </div>
+                <pre className="rounded-lg bg-slate-950 text-slate-100 text-[11px] p-3 overflow-x-auto leading-relaxed"><code>{`npx @capybaralabs/hive-mcp`}</code></pre>
+                <p className="text-[11px] text-[var(--muted)] mt-2">
+                  {lang === "en" ? "Add to your client's MCP config, point at your queen, done." : "Añádelo a la config MCP de tu cliente, apuntando a tu queen, listo."}
+                </p>
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <FileText size={14} className="text-amber-600" />
+                  <span className="text-xs font-bold text-[var(--text)]">hive-research Skill</span>
+                </div>
+                <pre className="rounded-lg bg-slate-950 text-slate-100 text-[11px] p-3 overflow-x-auto leading-relaxed"><code>{`cp -r hive/skills/hive-research \\
+  ~/.claude/skills/`}</code></pre>
+                <p className="text-[11px] text-[var(--muted)] mt-2">
+                  {lang === "en" ? "Reload Claude — proactive citations, no fabrication." : "Recarga Claude — citas proactivas, sin invención."}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
