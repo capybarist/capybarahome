@@ -5,9 +5,13 @@ export async function POST(req: NextRequest) {
   if (!HIVE_URL) return NextResponse.json({ error: "not_configured" }, { status: 503 });
   try {
     const body = await req.json();
+    const apiKey = process.env.HIVE_API_KEY;
     const res = await fetch(`${HIVE_URL}/api/query`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
+      },
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(30000),
     });

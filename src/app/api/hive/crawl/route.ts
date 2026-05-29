@@ -12,7 +12,9 @@ export async function GET() {
     return NextResponse.json({ error: "not_configured" }, { status: 503 });
   }
   try {
+    const apiKey = process.env.HIVE_API_KEY;
     const res = await fetch(`${HIVE_URL}/api/crawl`, {
+      headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : undefined,
       signal: AbortSignal.timeout(5000),
       next: { revalidate: 15 },   // cache 15s — queue moves slowly enough
     });
