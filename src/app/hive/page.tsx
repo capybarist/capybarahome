@@ -241,10 +241,11 @@ function TryHive() {
 const techStack = [
   { name: "Hypercore", desc: "Append-only cryptographic log (same tech as Keet)", href: "https://github.com/holepunchto/hypercore" },
   { name: "Hyperswarm", desc: "P2P DHT for node discovery and NAT hole-punching", href: "https://github.com/holepunchto/hyperswarm" },
-  { name: "ForagerSource", desc: "Source-driven extraction interface (v0.7.3) — Wikipedia, arXiv, RSS, web. Each BEE publishes a signed BeeManifest declaring its sources.", href: "https://github.com/capybarist/hive" },
+  { name: "ForagerRegistry", desc: "One registry for every connector — Wikipedia, arXiv, PubMed, RSS, Common Crawl, and a personal-memory umbrella (beta: Claude/notes/ChatGPT). Third-party connectors load from npm. Each BEE publishes a signed BeeManifest declaring its sources.", href: "https://github.com/capybarist/hive" },
   { name: "transformers.js (ONNX)", desc: "In-process embeddings — multilingual-e5-base, 768-d, int8. BEEs embed passages; the queen embeds only the query. No Python.", href: "https://github.com/huggingface/transformers.js" },
-  { name: "LanceDB", desc: "Default vector index on the queen — embedded, in-process, no separate service. Sits behind a swappable VectorIndex interface, so a queen can run Qdrant or any backend by implementing it.", href: "https://lancedb.com" },
-  { name: "Ollama / Groq / Gemini / Claude / OpenAI", desc: "Query synthesis only (v0.6+). Extraction is LLM-free — verbatim from source APIs, signed with ed25519.", href: "https://ollama.com" },
+  { name: "LanceDB", desc: "Default vector index on the queen — embedded, in-process, no separate service. Sits behind a swappable VectorIndex interface.", href: "https://lancedb.com" },
+  { name: "MCP + npm", desc: "Consume from Claude/Cursor/Goose via @capybaralabs/hive-mcp, or run a node in one command with npx @capybaralabs/hive. Ships a Claude Skill too.", href: "https://www.npmjs.com/package/@capybaralabs/hive" },
+  { name: "Ollama / Groq / Gemini / Claude / OpenAI", desc: "Query synthesis only. Extraction is LLM-free — verbatim from source APIs, signed with ed25519.", href: "https://ollama.com" },
 ];
 
 // Three install paths, ordered by friction. npx leads since v0.8.9 — the
