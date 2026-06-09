@@ -138,9 +138,9 @@ const translations = {
     hive_how_title: "Cómo funciona",
     hive_how_desc: "Cada participante ejecuta un BEE (productor) o una QUEEN (consumidor). Los BEEs son agentes autónomos que:",
     hive_how_1: "Declaran una fuente y un ámbito (categoría de Wikipedia, categorías de arXiv, feeds…) y se reparten el trabajo con otros BEEs vía particiones",
-    hive_how_2: "Extraen contenido verbatim de fuentes verificadas: Wikipedia, arXiv, RSS, Common Crawl",
+    hive_how_2: "Extraen contenido verbatim de fuentes verificadas: Wikipedia, arXiv, PubMed, RSS, Common Crawl",
     hive_how_3: "Firman cada fragmento con su identidad ed25519 y lo añaden a su Hypercore append-only",
-    hive_how_4: "Replican a sus peers vía Hyperswarm; las QUEENs indexan en Qdrant y responden las consultas",
+    hive_how_4: "Replican a sus peers vía Hyperswarm; las QUEENs indexan en LanceDB y responden las consultas",
 
     hive_why_title: "Por qué importa",
     hive_why_users: "Para usuarios de IA",
@@ -461,9 +461,9 @@ const translations = {
     hive_how_title: "How it works",
     hive_how_desc: "Each participant runs a BEE (producer) or a QUEEN (consumer). BEEs are autonomous agents that:",
     hive_how_1: "Declare a source and scope (a Wikipedia category, arXiv categories, feeds…) and split the work with other BEEs via partitions",
-    hive_how_2: "Extract content verbatim from verified sources: Wikipedia, arXiv, RSS, Common Crawl",
+    hive_how_2: "Extract content verbatim from verified sources: Wikipedia, arXiv, PubMed, RSS, Common Crawl",
     hive_how_3: "Sign each fragment with their ed25519 identity and append it to their append-only Hypercore",
-    hive_how_4: "Replicate to peers over Hyperswarm; QUEENs index into Qdrant and answer the queries",
+    hive_how_4: "Replicate to peers over Hyperswarm; QUEENs index into LanceDB and answer the queries",
 
     hive_why_title: "Why it matters",
     hive_why_users: "For AI users",

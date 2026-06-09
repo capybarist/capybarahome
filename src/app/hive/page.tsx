@@ -805,7 +805,7 @@ export default function HivePage() {
             <div className="text-sky-400 font-semibold mb-1">BEE starts</div>
             <div className="pl-4 space-y-1 text-slate-500">
               <p>→ Reads its <span className="text-slate-300">manifest</span>: declared sources + scope/partition</p>
-              <p>→ Sources: <span className="text-slate-300">Wikipedia · arXiv · RSS · Common Crawl</span> (ForagerSource adapters)</p>
+              <p>→ Sources: <span className="text-slate-300">Wikipedia · arXiv · PubMed · RSS · Common Crawl · personal memory (beta)</span> (ForagerRegistry)</p>
               <p>→ Seeds its crawl queue from the declared scope</p>
               <p>→ Per article: fetch verbatim → <span className="text-slate-300">all sections</span> → chunk → sign (ed25519) → append</p>
               <p>→ Loop ~continuous: extract → sign → store → replicate to peers</p>
@@ -1048,17 +1048,15 @@ export default function HivePage() {
             <h4 className="text-sm font-bold text-[var(--text)] mb-3">{t("hive_planned_title")}</h4>
             <div className="flex flex-wrap gap-2">
               {(lang === "en" ? [
-                "Settings UI · graphical manifest builder",
-                "Public Topics Registry · P2P discovery",
-                "Personal-memory adapter (case 08)",
+                "Personal memory → turnkey private queen + more sources (Gemini, Cursor)",
+                "Centralized (non-P2P) storage mode for orgs that don't want P2P",
                 "Multi-tenant API tokens + audit log",
                 "Selective replication · Bloom routing",
                 "One-click self-host (Umbrel / CasaOS)",
                 "Score-by-corroboration",
               ] : [
-                "UI de Settings · constructor gráfico de manifests",
-                "Registro Público de Topics · descubrimiento P2P",
-                "Adapter de memoria personal (caso 08)",
+                "Memoria personal → queen privada llave en mano + más fuentes (Gemini, Cursor)",
+                "Modo de almacenamiento centralizado (sin P2P) para empresas",
                 "Tokens API multi-tenant + audit log",
                 "Replicación selectiva · routing Bloom",
                 "Self-host one-click (Umbrel / CasaOS)",
