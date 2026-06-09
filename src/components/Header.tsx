@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useI18n, Lang } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n";
 
 export function Header() {
-  const { lang, setLang, t } = useI18n();
+  const { t } = useI18n();
   const path = usePathname();
 
   // Home (/) is now the HIVE page, so there's no separate HIVE nav item — the
@@ -40,16 +40,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center rounded-lg border border-[var(--border)] overflow-hidden">
-            {(["es", "en"] as Lang[]).map((l) => (
-              <button key={l} onClick={() => setLang(l)}
-                className={`px-3 py-1.5 text-xs font-bold uppercase transition-all ${
-                  lang === l ? "bg-[var(--text)] text-white" : "text-[var(--muted)] hover:bg-[var(--bg-muted)]"
-                }`}>
-                {l}
-              </button>
-            ))}
-          </div>
+          {/* Language is auto-detected from the browser (default English); no manual switcher. */}
           <a href="/labs#contact"
             className="hidden md:inline-flex items-center rounded-lg bg-[var(--text)] text-white text-sm font-medium px-4 py-2 hover:bg-[var(--brand)] transition-colors">
             {t("contact_cta")}

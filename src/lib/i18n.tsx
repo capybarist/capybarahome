@@ -154,15 +154,17 @@ const translations = {
     hive_tech_desc: "Construido sobre infraestructura P2P probada en producción:",
 
     hive_status_title: "Estado actual",
-    hive_status_desc: "HIVE está en producción (v0.8) con la arquitectura BEE/QUEEN: las abejas extraen, embeben y firman cada fragmento (vector inline), las reinas indexan los vectores ya firmados en LanceDB y sirven consultas. Una reina y una abeja corren ahora mismo en producción (enlaces abajo).",
+    hive_status_desc: "HIVE está en producción (v1.0) con la arquitectura BEE/QUEEN: las abejas extraen, embeben y firman cada fragmento (vector inline), las reinas indexan los vectores ya firmados en LanceDB y sirven consultas. Sobre ese motor se añadió interfaz de ajustes, topics públicos/privados, autenticación y distribución por npm + MCP. Una reina y abejas corren ahora mismo en producción (enlaces abajo).",
     hive_status_done: "Implementado",
-    hive_status_m1: "Separación de roles BEE (productor) / QUEEN (consumidor) — la abeja no usa LLM; en v0.8 además embebe sus propios chunks en proceso con multilingual-e5-base (ONNX int8, 768-d)",
-    hive_status_m2: "Extractor autónomo dirigido por fuentes: Wikipedia, arXiv, RSS, Common Crawl (adaptadores ForagerSource)",
+    hive_status_m1: "Separación de roles BEE (productor) / QUEEN (consumidor) — la abeja no usa LLM; embebe sus propios chunks en proceso con multilingual-e5-base (ONNX int8, 768-d)",
+    hive_status_m2: "Extractor dirigido por fuentes vía ForagerRegistry: Wikipedia, arXiv, PubMed, RSS, Common Crawl — más conectores de terceros por npm y memoria personal (beta: Claude, notas)",
     hive_status_m3: "KnowledgeStore en Hypercore + Hyperbee — log append-only firmado con ed25519 (el vector va dentro de la firma), replicación P2P nativa",
     hive_status_m4: "Red P2P — Hyperswarm DHT + replicación Hypercore con cursor persistente",
     hive_status_m5: "Reina con LanceDB (backend por defecto detrás de una interfaz VectorIndex intercambiable) — recibe vectores ya firmados desde las abejas y nunca re-embebe pasajes; stack 100% Node, sin Python",
     hive_status_m6: "Particiones de scope (v0.7.6) — varias abejas se reparten una fuente sin solaparse",
     hive_status_m7: "Gating de recuperación recalibrado para e5 (RELEVANT_SCORE 0.82) — solo cita fuentes que realmente coinciden; LLM local (Ollama) o cloud (Groq/Gemini/Claude/OpenAI)",
+    hive_status_m8: "Distribución: paquete npm (npx @capybaralabs/hive), servidor MCP (@capybaralabs/hive-mcp) para Claude/Cursor/Goose, y un Claude Skill",
+    hive_status_m9: "Interfaz de ajustes (constructor de manifest), topics públicos/privados con registro de descubrimiento, y autenticación por token en el API de la reina",
 
     // Forager live widget
     hive_forager_eyebrow: "Forager en vivo",
@@ -475,15 +477,17 @@ const translations = {
     hive_tech_desc: "Built on battle-tested P2P infrastructure:",
 
     hive_status_title: "Current state",
-    hive_status_desc: "HIVE is in production (v0.8) with the BEE/QUEEN architecture: bees extract, embed and sign each fragment (vector inline), queens index the pre-signed vectors into LanceDB and serve queries. A live queen and bee are running right now (links below).",
+    hive_status_desc: "HIVE is in production (v1.0) with the BEE/QUEEN architecture: bees extract, embed and sign each fragment (vector inline), queens index the pre-signed vectors into LanceDB and serve queries. On top of that engine it added a Settings UI, public/private topics, auth, and distribution via npm + MCP. A live queen and bees are running right now (links below).",
     hive_status_done: "Implemented",
-    hive_status_m1: "BEE (producer) / QUEEN (consumer) role split — the bee uses no LLM; in v0.8 it also embeds its own chunks in-process with multilingual-e5-base (ONNX int8, 768-d)",
-    hive_status_m2: "Source-driven autonomous extractor: Wikipedia, arXiv, RSS, Common Crawl (ForagerSource adapters)",
+    hive_status_m1: "BEE (producer) / QUEEN (consumer) role split — the bee uses no LLM; it embeds its own chunks in-process with multilingual-e5-base (ONNX int8, 768-d)",
+    hive_status_m2: "Source-driven extractor via the ForagerRegistry: Wikipedia, arXiv, PubMed, RSS, Common Crawl — plus third-party npm connectors and a personal-memory umbrella (beta: Claude, notes)",
     hive_status_m3: "KnowledgeStore on Hypercore + Hyperbee — ed25519-signed append-only log (the vector is covered by the signature), native P2P replication",
     hive_status_m4: "P2P network — Hyperswarm DHT + Hypercore replication with persistent cursor",
     hive_status_m5: "Queen with LanceDB (default backend behind a swappable VectorIndex interface) — receives pre-signed vectors from bees, never re-embeds passages; 100% Node stack, no Python",
     hive_status_m6: "Scope partitions (v0.7.6) — multiple bees split one source without overlap",
     hive_status_m7: "Retrieval gating recalibrated for e5 (RELEVANT_SCORE 0.82) — only cites sources that genuinely match; local (Ollama) or cloud LLM (Groq/Gemini/Claude/OpenAI)",
+    hive_status_m8: "Distribution: npm package (npx @capybaralabs/hive), MCP server (@capybaralabs/hive-mcp) for Claude/Cursor/Goose, and a Claude Skill",
+    hive_status_m9: "Settings UI (manifest builder), public/private topics with a discovery registry, and bearer-token auth on the queen API",
 
     // Forager live widget
     hive_forager_eyebrow: "Forager live",
@@ -661,17 +665,20 @@ interface I18nContextValue {
 const I18nContext = createContext<I18nContextValue | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("es");
+  // Default English; auto-detect from the browser (Spanish browsers get ES).
+  // No manual switcher — language follows the browser, not a saved preference.
+  const [lang, setLangState] = useState<Lang>("en");
 
   useEffect(() => {
-    const saved = localStorage.getItem("lang") as Lang | null;
-    const detected = navigator.language?.toLowerCase().startsWith("en") ? "en" : "es";
-    setLangState(saved ?? detected);
+    const detected: Lang = navigator.language?.toLowerCase().startsWith("es") ? "es" : "en";
+    setLangState(detected);
+    document.documentElement.lang = detected;
   }, []);
 
+  // Kept for the context type; language is auto-detected, so this is a no-op
+  // setter that still lets any future caller force a language at runtime.
   const setLang = (l: Lang) => {
     setLangState(l);
-    localStorage.setItem("lang", l);
     document.documentElement.lang = l;
   };
 

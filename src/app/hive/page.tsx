@@ -1009,7 +1009,7 @@ export default function HivePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8">
             {([
               "hive_status_m1","hive_status_m2","hive_status_m3","hive_status_m4",
-              "hive_status_m5","hive_status_m6","hive_status_m7",
+              "hive_status_m5","hive_status_m6","hive_status_m7","hive_status_m8","hive_status_m9",
             ] as const).map((k) => (
               <div key={k} className="flex items-center gap-3 p-4 rounded-xl border border-[var(--border)] bg-white">
                 <CheckCircle2 size={16} className="text-[var(--green)] shrink-0" />
