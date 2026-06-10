@@ -1031,6 +1031,7 @@ export default function HivePage() {
                 "HTTPS auto-TLS via sslip.io",
                 "Bearer-token auth on /api/*",
                 "Periodic LanceDB compaction",
+                "Direct mode (v1.1): bee→queen over HTTP, no P2P — closed/enterprise deploys",
               ] : [
                 "Servidor MCP (@capybaralabs/hive-mcp)",
                 "Claude Skill bundle",
@@ -1038,6 +1039,7 @@ export default function HivePage() {
                 "HTTPS auto-TLS vía sslip.io",
                 "Auth por bearer token en /api/*",
                 "Compactación periódica de LanceDB",
+                "Modo direct (v1.1): bee→queen por HTTP, sin P2P — despliegues cerrados/enterprise",
               ]).map(f => (
                 <span key={f} className="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-full px-3 py-1">{f}</span>
               ))}
@@ -1049,14 +1051,12 @@ export default function HivePage() {
             <div className="flex flex-wrap gap-2">
               {(lang === "en" ? [
                 "Personal memory → turnkey private queen + more sources (Gemini, Cursor)",
-                "Direct mode — bee→queen over HTTP, no P2P stack, for single-operator / enterprise deploys (implemented, ships in v1.2)",
                 "Multi-tenant API tokens + audit log",
                 "Selective replication · Bloom routing",
                 "One-click self-host (Umbrel / CasaOS)",
                 "Score-by-corroboration",
               ] : [
                 "Memoria personal → queen privada llave en mano + más fuentes (Gemini, Cursor)",
-                "Modo direct — bee→queen por HTTP, sin stack P2P, para despliegues de un solo operador / enterprise (implementado, sale en v1.2)",
                 "Tokens API multi-tenant + audit log",
                 "Replicación selectiva · routing Bloom",
                 "Self-host one-click (Umbrel / CasaOS)",
