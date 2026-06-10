@@ -1049,14 +1049,14 @@ export default function HivePage() {
             <div className="flex flex-wrap gap-2">
               {(lang === "en" ? [
                 "Personal memory → turnkey private queen + more sources (Gemini, Cursor)",
-                "Centralized (non-P2P) storage mode for orgs that don't want P2P",
+                "Direct mode — bee→queen over HTTP, no P2P stack, for single-operator / enterprise deploys (implemented, ships in v1.2)",
                 "Multi-tenant API tokens + audit log",
                 "Selective replication · Bloom routing",
                 "One-click self-host (Umbrel / CasaOS)",
                 "Score-by-corroboration",
               ] : [
                 "Memoria personal → queen privada llave en mano + más fuentes (Gemini, Cursor)",
-                "Modo de almacenamiento centralizado (sin P2P) para empresas",
+                "Modo direct — bee→queen por HTTP, sin stack P2P, para despliegues de un solo operador / enterprise (implementado, sale en v1.2)",
                 "Tokens API multi-tenant + audit log",
                 "Replicación selectiva · routing Bloom",
                 "Self-host one-click (Umbrel / CasaOS)",
