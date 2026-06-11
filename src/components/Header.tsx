@@ -15,6 +15,7 @@ export function Header() {
     // HIVE is the home page now; the explicit nav item lets people jump back
     // to it after navigating away to Services / Labs.
     { key: "nav_hive" as const, href: "/" },
+    { key: "nav_acquis" as const, href: "https://acquislaw.com" },
     { key: "nav_services" as const, href: "/services" },
     { key: "nav_community" as const, href: "/labs#community" },
     { key: "nav_contact" as const, href: "/labs#contact" },

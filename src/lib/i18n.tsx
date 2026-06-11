@@ -11,6 +11,7 @@ const translations = {
     // Nav
     nav_services: "Servicios",
     nav_hive: "HIVE",
+    nav_acquis: "Acquis",
     nav_pixel: "pixel",
     nav_community: "Comunidad",
     nav_contact: "Contacto",
@@ -334,6 +335,7 @@ const translations = {
     // Nav
     nav_services: "Services",
     nav_hive: "HIVE",
+    nav_acquis: "Acquis",
     nav_pixel: "pixel",
     nav_community: "Community",
     nav_contact: "Contact",

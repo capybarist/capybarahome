@@ -1069,6 +1069,31 @@ export default function HivePage() {
         </div>
       </section>
 
+      {/* ── Built on HIVE ────────────────────────────────────────────────── */}
+      <section className="bg-[var(--bg-subtle)] py-16 border-y border-[var(--border)]">
+        <div className="mx-auto max-w-4xl px-6">
+          <p className="text-xs font-bold uppercase tracking-widest text-violet-600 mb-4">
+            {lang === "en" ? "Built on HIVE" : "Construido sobre HIVE"}
+          </p>
+          <a href="https://acquislaw.com" target="_blank" rel="noopener"
+            className="block rounded-2xl border border-[var(--border)] bg-white p-6 hover:border-violet-400 transition-colors">
+            <div className="flex items-start justify-between gap-6 flex-wrap">
+              <div>
+                <h3 className="text-xl font-bold text-[var(--text)] mb-1">⚖️ Acquis — verified EU law inside Claude</h3>
+                <p className="text-sm text-[var(--muted)] max-w-xl">
+                  {lang === "en"
+                    ? "The first commercial product on HIVE's direct mode: a remote MCP connector that quotes the AI Act and the GDPR verbatim, with exact citations, EUR-Lex links and cryptographically verifiable fragments. Same engine you can self-host — running a closed, signed legal corpus."
+                    : "El primer producto comercial sobre el modo direct de HIVE: un conector MCP remoto que cita el AI Act y el RGPD textualmente, con citas exactas, enlaces a EUR-Lex y fragmentos verificables criptográficamente. El mismo motor que puedes auto-alojar — sirviendo un corpus legal cerrado y firmado."}
+                </p>
+              </div>
+              <span className="inline-flex items-center gap-2 rounded-xl bg-violet-600 text-white font-semibold text-sm px-5 py-2.5 shrink-0">
+                acquislaw.com <ArrowRight size={14} />
+              </span>
+            </div>
+          </a>
+        </div>
+      </section>
+
       {/* ── Install ──────────────────────────────────────────────────────── */}
       <section id="run-bee" className="bg-[#06090f] py-20">
         <div className="mx-auto max-w-3xl px-6">
