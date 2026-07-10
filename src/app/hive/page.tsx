@@ -1082,8 +1082,8 @@ export default function HivePage() {
                 <h3 className="text-xl font-bold text-[var(--text)] mb-1">⚖️ Acquis — verified EU law inside Claude</h3>
                 <p className="text-sm text-[var(--muted)] max-w-xl">
                   {lang === "en"
-                    ? "The first commercial product on HIVE's direct mode: a remote MCP connector that quotes the AI Act and the GDPR verbatim, with exact citations, EUR-Lex links and cryptographically verifiable fragments. Same engine you can self-host — running a closed, signed legal corpus."
-                    : "El primer producto comercial sobre el modo direct de HIVE: un conector MCP remoto que cita el AI Act y el RGPD textualmente, con citas exactas, enlaces a EUR-Lex y fragmentos verificables criptográficamente. El mismo motor que puedes auto-alojar — sirviendo un corpus legal cerrado y firmado."}
+                    ? "The first commercial product on HIVE's direct mode: a remote MCP connector that quotes 11 EU digital regulations — the AI Act, GDPR, DSA, DMA, NIS2, Data Act, Cyber Resilience Act, DORA, eIDAS 2, Product Liability Directive and Data Governance Act — verbatim, with exact citations, EUR-Lex links and cryptographically verifiable fragments. The full corpus is free to evaluate. Same engine you can self-host — running a closed, signed legal corpus."
+                    : "El primer producto comercial sobre el modo direct de HIVE: un conector MCP remoto que cita 11 reglamentos digitales de la UE — AI Act, RGPD, DSA, DMA, NIS2, Data Act, Cyber Resilience Act, DORA, eIDAS 2, Directiva de Responsabilidad por Productos y Data Governance Act — textualmente, con citas exactas, enlaces a EUR-Lex y fragmentos verificables criptográficamente. El corpus completo es gratis para evaluar. El mismo motor que puedes auto-alojar — sirviendo un corpus legal cerrado y firmado."}
                 </p>
               </div>
               <span className="inline-flex items-center gap-2 rounded-xl bg-violet-600 text-white font-semibold text-sm px-5 py-2.5 shrink-0">
