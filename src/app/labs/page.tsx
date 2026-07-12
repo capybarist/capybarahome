@@ -81,7 +81,8 @@ const valueProps = [
 ];
 
 export default function Home() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const en = lang === "en";
 
   return (
     <div>
@@ -130,6 +131,45 @@ export default function Home() {
             <div className="flex justify-center lg:justify-end">
               <HiveTerminal />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════ PRODUCTS ════════ */}
+      <section id="products" className="bg-[var(--bg)] py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="mb-12">
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand)] mb-3">{en ? "Our products" : "Nuestros productos"}</p>
+            <h2 className="text-4xl font-black text-[var(--text)] tracking-tight">{en ? "Software we build — and run in production" : "Software que construimos — y operamos en producción"}</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* Acquis — flagship, live, paid */}
+            <a href="https://acquislaw.com" target="_blank" rel="noopener"
+              className="group relative overflow-hidden p-8 rounded-2xl border border-[var(--border)] bg-white card-hover">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-green-700 bg-green-50 border border-green-100 rounded-full px-3 py-1 mb-5">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> {en ? "Live product" : "Producto en vivo"}
+              </span>
+              <h3 className="text-2xl font-bold text-[var(--text)] mb-2 flex items-center gap-2">⚖️ Acquis</h3>
+              <p className="text-[var(--muted)] leading-relaxed mb-6 text-sm max-w-md">
+                {en
+                  ? "Verified EU law inside Claude & ChatGPT. Ask in plain language, get the verbatim provision with exact citations, EUR-Lex links and cryptographic verification — across 11 EU digital regulations."
+                  : "Derecho digital de la UE verificado, dentro de Claude y ChatGPT. Pregunta en lenguaje natural y obtén la disposición textual con citas exactas, enlaces a EUR-Lex y verificación criptográfica — sobre 11 reglamentos."}
+              </p>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--brand)]">acquislaw.com <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" /></span>
+            </a>
+            {/* HIVE — the engine */}
+            <Link href="/hive" className="group relative overflow-hidden p-8 rounded-2xl border border-[var(--border)] bg-white card-hover">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--accent-dark)] bg-[var(--accent-bg)] border border-[var(--accent)]/30 rounded-full px-3 py-1 mb-5">
+                {en ? "The engine" : "El motor"}
+              </span>
+              <h3 className="text-2xl font-bold text-[var(--text)] mb-2 flex items-center gap-2">⬡ HIVE</h3>
+              <p className="text-[var(--muted)] leading-relaxed mb-6 text-sm max-w-md">
+                {en
+                  ? "Our verifiable knowledge engine: a local-first, P2P RAG that extracts and cryptographically signs information from any source. Acquis runs on it — and so can your own private corpus."
+                  : "Nuestro motor de conocimiento verificable: un RAG P2P local-first que extrae y firma criptográficamente información de cualquier fuente. Acquis corre sobre él — y tu propio corpus privado también puede."}
+              </p>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent)]">{en ? "Explore HIVE" : "Explora HIVE"} <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" /></span>
+            </Link>
           </div>
         </div>
       </section>

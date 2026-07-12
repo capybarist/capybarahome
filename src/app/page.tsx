@@ -1,4 +1,4 @@
-// Home (/) renders the HIVE page — HIVE is the front of the site for now
-// (until it gets its own hosting). The corporate Capybara Labs landing moved
-// to /labs; the top menu still reaches Labs / Services / Contact.
-export { default } from "./hive/page";
+// Home (/) is the corporate Capybara Labs landing (an AI-development studio),
+// NOT the HIVE product page — visitors should meet the company and its
+// products first (Acquis is the flagship, live product). HIVE lives at /hive.
+export { default } from "./labs/page";
