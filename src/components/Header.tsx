@@ -7,18 +7,16 @@ export function Header() {
   const { t } = useI18n();
   const path = usePathname();
 
-  // Home (/) is now the HIVE page, so there's no separate HIVE nav item — the
-  // logo links home. The corporate Capybara Labs landing lives at /labs, so the
-  // Community/Contact anchors point there. nav_capy / nav_pixel stay hidden
-  // until their alpha is demo-ready (pages still reachable by direct URL).
+  // Home (/) is the corporate Capybara Labs landing; HIVE is a product at /hive.
+  // Both get their own explicit nav item. nav_capy / nav_pixel stay hidden until
+  // their alpha is demo-ready (pages still reachable by direct URL).
   const navLinks = [
-    // HIVE is the home page now; the explicit nav item lets people jump back
-    // to it after navigating away to Services / Labs.
-    { key: "nav_hive" as const, href: "/" },
+    { key: "nav_home" as const, href: "/" },
+    { key: "nav_hive" as const, href: "/hive" },
     { key: "nav_acquis" as const, href: "https://acquislaw.com" },
     { key: "nav_services" as const, href: "/services" },
-    { key: "nav_community" as const, href: "/labs#community" },
-    { key: "nav_contact" as const, href: "/labs#contact" },
+    { key: "nav_community" as const, href: "/#community" },
+    { key: "nav_contact" as const, href: "/#contact" },
   ];
 
   return (
@@ -42,7 +40,7 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           {/* Language is auto-detected from the browser (default English); no manual switcher. */}
-          <a href="/labs#contact"
+          <a href="/#contact"
             className="hidden md:inline-flex items-center rounded-lg bg-[var(--text)] text-white text-sm font-medium px-4 py-2 hover:bg-[var(--brand)] transition-colors">
             {t("contact_cta")}
           </a>

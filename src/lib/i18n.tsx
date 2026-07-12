@@ -10,6 +10,7 @@ const translations = {
   es: {
     // Nav
     nav_services: "Servicios",
+    nav_home: "Inicio",
     nav_hive: "HIVE",
     nav_acquis: "Acquis",
     nav_pixel: "pixel",
@@ -334,6 +335,7 @@ const translations = {
   en: {
     // Nav
     nav_services: "Services",
+    nav_home: "Home",
     nav_hive: "HIVE",
     nav_acquis: "Acquis",
     nav_pixel: "pixel",
