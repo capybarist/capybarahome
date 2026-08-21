@@ -78,3 +78,36 @@ body {
   border-color: var(--accent) !important;
   transform: translateY(-2px);
 }
+
+/* ── Dark surfaces (home /) ───────────────────────────────────────────────────
+   The corporate landing runs fully dark; every other page stays light, so these
+   live in their own namespace and never touch the light tokens above. */
+.d-card {
+  background: linear-gradient(180deg, rgba(255,255,255,.05) 0%, rgba(255,255,255,.015) 100%);
+  border: 1px solid rgba(148,163,184,.14);
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.d-card:hover {
+  border-color: rgba(56,189,248,.45);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 44px -14px rgba(14,165,233,.4);
+}
+.d-card-accent:hover {
+  border-color: rgba(167,139,250,.5);
+  box-shadow: 0 14px 44px -14px rgba(139,92,246,.4);
+}
+
+/* Blueprint grid — heavier than dot-grid, faded out at the edges so sections
+   never end on a hard line of squares. */
+.grid-lines {
+  background-image:
+    linear-gradient(rgba(148,163,184,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148,163,184,.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 100%);
+}
+
+/* Hairline separators for the proof strip (no border on the last item). */
+.hairline-x > * + * { border-left: 1px solid rgba(148,163,184,.14); }
+@media (max-width: 767px) { .hairline-x > * + * { border-left: 0; } }
