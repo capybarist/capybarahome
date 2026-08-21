@@ -55,8 +55,8 @@ const translations = {
 
     // HIVE preview (home)
     hive_preview_badge: "Proyecto open source",
-    hive_preview_title: "HIVE — Base de conocimiento descentralizada para LLMs",
-    hive_preview_desc: "Una red P2P de BEEs autónomos que extraen, firman y sincronizan conocimiento verificado. Lo que Wikipedia es para los humanos, pero optimizado para ser consumido por máquinas.",
+    hive_preview_title: "HIVE — Recuperación firmada y trazable sobre cualquier corpus",
+    hive_preview_desc: "El motor de conocimiento verificable: extrae, trocea y firma criptográficamente información de cualquier fuente, y la sirve a un LLM con su origen intacto. Red P2P abierta de BEEs autónomos, o un corpus privado totalmente cerrado.",
     hive_preview_cta: "Explorar HIVE →",
     hive_preview_stat1: "Multilingüe",
     hive_preview_stat1_desc: "recuperación cross-lingual (e5)",
@@ -117,8 +117,8 @@ const translations = {
 
     // HIVE page
     hive_hero_title: "HIVE",
-    hive_hero_sub: "Base de conocimiento descentralizada y verificable para LLMs",
-    hive_hero_tagline: "Lo que Wikipedia es para los humanos — pero para máquinas.",
+    hive_hero_sub: "El motor de conocimiento verificable para LLMs",
+    hive_hero_tagline: "Cada respuesta, rastreable hasta el texto del que salió.",
     hive_hero_cta_primary: "Ver en GitHub",
     hive_hero_cta_secondary: "Cómo funciona",
 
@@ -126,7 +126,7 @@ const translations = {
     hive_problem_desc: "Los modelos de IA de hoy — GPT, Claude, Gemini — se entrenan una vez y se congelan. Su conocimiento tiene una fecha de corte. Alucinan cuando no saben algo. Su contenido lo decide un puñado de corporaciones. Y cada consulta pasa por servidores que no controlas.\n\nEsta es la arquitectura equivocada para un mundo que funciona con IA.",
 
     hive_what_title: "Qué es HIVE",
-    hive_what_desc: "HIVE es una base de conocimiento descentralizada y verificable, construida para LLMs — no para humanos. Es para la IA lo que Wikipedia es para los humanos: un repositorio vivo, abierto y con fuentes trazables que cualquiera puede leer, en el que cualquiera puede contribuir, y que nadie controla.",
+    hive_what_desc: "HIVE es el motor de conocimiento verificable que hay debajo de un LLM. Ingiere cualquier fuente, la trocea de forma determinista, firma cada fragmento con ed25519 y lo sirve con su procedencia intacta — así una respuesta se puede rastrear hasta el texto original en lugar de tener que creértela. Ejecútalo como red P2P abierta de BEEs autónomos, o en modo directo sobre un corpus privado y cerrado.",
 
     hive_props_signed: "Fuente verificada",
     hive_props_signed_desc: "Sin citas fabricadas. Cada fragmento tiene origen real.",
@@ -380,8 +380,8 @@ const translations = {
 
     // HIVE preview (home)
     hive_preview_badge: "Open source project",
-    hive_preview_title: "HIVE — Decentralized knowledge base for LLMs",
-    hive_preview_desc: "A P2P network of autonomous BEEs that extract, sign and sync verified knowledge. What Wikipedia is for humans, but optimized to be consumed by machines.",
+    hive_preview_title: "HIVE — Signed, source-traceable retrieval over any corpus",
+    hive_preview_desc: "The verifiable knowledge engine: it extracts, chunks and cryptographically signs information from any source, then serves it to an LLM with its provenance intact. An open P2P network of autonomous BEEs — or a fully closed private corpus.",
     hive_preview_cta: "Explore HIVE →",
     hive_preview_stat1: "Multilingual",
     hive_preview_stat1_desc: "cross-lingual retrieval (e5)",
@@ -442,8 +442,8 @@ const translations = {
 
     // HIVE page
     hive_hero_title: "HIVE",
-    hive_hero_sub: "Decentralized, verifiable knowledge base for LLMs",
-    hive_hero_tagline: "What Wikipedia is for humans — but for machines.",
+    hive_hero_sub: "The verifiable knowledge engine for LLMs",
+    hive_hero_tagline: "Every answer traceable to the text it came from.",
     hive_hero_cta_primary: "View on GitHub",
     hive_hero_cta_secondary: "How it works",
 
@@ -451,7 +451,7 @@ const translations = {
     hive_problem_desc: "Today's AI models — GPT, Claude, Gemini — are trained once and frozen. Their knowledge has a cutoff date. They hallucinate when they don't know something. Their content is decided by a handful of corporations. And every query goes through servers you don't control.\n\nThis is the wrong architecture for a world that runs on AI.",
 
     hive_what_title: "What HIVE is",
-    hive_what_desc: "HIVE is a decentralized, verifiable knowledge base built for LLMs — not for humans. It is to AI what Wikipedia is to humans: a living, open, source-traceable repository of knowledge that anyone can read, anyone can contribute to, and no one controls.",
+    hive_what_desc: "HIVE is the verifiable knowledge engine that sits under an LLM. It ingests any source, chunks it deterministically, signs every fragment with ed25519 and serves it with its provenance intact — so an answer can be traced back to the original text instead of taken on trust. Run it as an open P2P network of autonomous BEEs, or in direct mode over a private, closed corpus.",
 
     hive_props_signed: "Verified source",
     hive_props_signed_desc: "No fabricated citations. Every fragment has a real origin.",
