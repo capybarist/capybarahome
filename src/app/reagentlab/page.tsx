@@ -120,7 +120,7 @@ function CopyLine({ value }: { value: string }) {
   const [copied, setCopied] = useState(false);
   return (
     <div className="flex items-stretch gap-2">
-      <code className="flex-1 min-w-0 overflow-x-auto whitespace-nowrap rounded-xl bg-slate-900 border border-slate-700 px-4 py-3 font-mono text-xs text-emerald-300">
+      <code className="flex-1 min-w-0 whitespace-pre-wrap [overflow-wrap:anywhere] rounded-xl bg-slate-900 border border-slate-700 px-4 py-3 font-mono text-xs text-emerald-300">
         {value}
       </code>
       <button type="button" aria-label="Copy"
