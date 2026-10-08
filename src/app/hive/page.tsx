@@ -259,14 +259,14 @@ const installSteps = [
 ];
 
 // ── Live production nodes ───────────────────────────────────────────────────
-// Real queen + bees running on the Hetzner box. HTTPS via sslip.io (free
-// wildcard DNS + Caddy auto-TLS, HIVE v0.8.11+) — see ./Caddyfile in the
-// HIVE repo for the setup. The Try-HIVE widget and Forager widget read
-// from these.
+// Real queen + bees running on the Hetzner box, under capybaralabs.tech
+// (A records at Hostinger + Caddy auto-TLS) — see ./Caddyfile in the HIVE
+// repo. The old *.178-105-140-134.sslip.io names still work. The Try-HIVE
+// widget and Forager widget read from these.
 const LIVE_NODES = {
-  queen: "https://queen.178-105-140-134.sslip.io/",
-  bee: "https://bee1.178-105-140-134.sslip.io/",
-  bee2: "https://bee2.178-105-140-134.sslip.io/",
+  queen: "https://hive.capybaralabs.tech/",
+  bee: "https://bee1.hive.capybaralabs.tech/",
+  bee2: "https://bee2.hive.capybaralabs.tech/",
 };
 
 // ── Technical deep-dive ─────────────────────────────────────────────────────
