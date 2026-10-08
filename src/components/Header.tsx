@@ -7,12 +7,13 @@ export function Header() {
   const { t } = useI18n();
   const path = usePathname();
 
-  // Home (/) is the corporate Capybara Labs landing; HIVE is a product at /hive.
+  // Home (/) is the corporate Capybara Labs landing; HIVE (/hive) and Reagent Lab (/reagentlab) are products.
   // Both get their own explicit nav item. nav_capy / nav_pixel stay hidden until
   // their alpha is demo-ready (pages still reachable by direct URL).
   const navLinks = [
     { key: "nav_home" as const, href: "/" },
     { key: "nav_hive" as const, href: "/hive" },
+    { key: "nav_reagentlab" as const, href: "/reagentlab" },
     { key: "nav_acquis" as const, href: "https://acquislaw.com" },
     { key: "nav_services" as const, href: "/services" },
     { key: "nav_community" as const, href: "/#community" },
