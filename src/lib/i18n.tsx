@@ -157,7 +157,7 @@ const translations = {
     hive_tech_desc: "Construido sobre infraestructura P2P probada en producción:",
 
     hive_status_title: "Estado actual",
-    hive_status_desc: "HIVE está en producción (v1.0) con la arquitectura BEE/QUEEN: las abejas extraen, embeben y firman cada fragmento (vector inline), las reinas indexan los vectores ya firmados en LanceDB y sirven consultas. Sobre ese motor se añadió interfaz de ajustes, topics públicos/privados, autenticación y distribución por npm + MCP. Una reina y abejas corren ahora mismo en producción (enlaces abajo).",
+    hive_status_desc: "HIVE está en producción (v1.4) con la arquitectura BEE/QUEEN: las abejas extraen, embeben y firman cada fragmento (vector inline), las reinas indexan los vectores ya firmados en LanceDB y sirven consultas. Sobre ese motor se añadió interfaz de ajustes, topics públicos/privados, autenticación y distribución por npm + MCP. Una reina y abejas corren ahora mismo en producción (enlaces abajo).",
     hive_status_done: "Implementado",
     hive_status_m1: "Separación de roles BEE (productor) / QUEEN (consumidor) — la abeja no usa LLM; embebe sus propios chunks en proceso con multilingual-e5-base (ONNX int8, 768-d)",
     hive_status_m2: "Extractor dirigido por fuentes vía ForagerRegistry: Wikipedia, arXiv, PubMed, RSS, Common Crawl — más conectores de terceros por npm y memoria personal (beta: Claude, notas)",
@@ -483,7 +483,7 @@ const translations = {
     hive_tech_desc: "Built on battle-tested P2P infrastructure:",
 
     hive_status_title: "Current state",
-    hive_status_desc: "HIVE is in production (v1.0) with the BEE/QUEEN architecture: bees extract, embed and sign each fragment (vector inline), queens index the pre-signed vectors into LanceDB and serve queries. On top of that engine it added a Settings UI, public/private topics, auth, and distribution via npm + MCP. A live queen and bees are running right now (links below).",
+    hive_status_desc: "HIVE is in production (v1.4) with the BEE/QUEEN architecture: bees extract, embed and sign each fragment (vector inline), queens index the pre-signed vectors into LanceDB and serve queries. On top of that engine it added a Settings UI, public/private topics, auth, and distribution via npm + MCP. A live queen and bees are running right now (links below).",
     hive_status_done: "Implemented",
     hive_status_m1: "BEE (producer) / QUEEN (consumer) role split — the bee uses no LLM; it embeds its own chunks in-process with multilingual-e5-base (ONNX int8, 768-d)",
     hive_status_m2: "Source-driven extractor via the ForagerRegistry: Wikipedia, arXiv, PubMed, RSS, Common Crawl — plus third-party npm connectors and a personal-memory umbrella (beta: Claude, notes)",
