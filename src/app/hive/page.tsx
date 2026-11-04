@@ -1046,6 +1046,7 @@ export default function HivePage() {
             </h4>
             <div className="flex flex-wrap gap-2">
               {(lang === "en" ? [
+                "v1.5 (2026-11): score-by-corroboration · identical texts deduped in /api/query",
                 "v1.4.1 (2026-11): live “last indexed” signal · query-only demo token",
                 "hive-mcp 0.2 (2026-11): zero-config against the live demo · hive_status tool",
                 "v1.4 (2026-10): verbatim chunking · meta filters on /api/query · rerank scores",
@@ -1053,6 +1054,7 @@ export default function HivePage() {
                 "v1.2 (2026-06): filterable meta columns · contextualized embeddings",
                 "v1.1 (2026-06): direct mode — bee→queen over HTTP, no P2P, for closed deploys",
               ] : [
+                "v1.5 (2026-11): score por corroboración · textos idénticos deduplicados en /api/query",
                 "v1.4.1 (2026-11): señal en vivo de “último indexado” · token de demo solo para consultas",
                 "hive-mcp 0.2 (2026-11): sin configurar contra la demo en vivo · herramienta hive_status",
                 "v1.4 (2026-10): chunking literal · filtros por meta en /api/query · scores de rerank",
@@ -1073,7 +1075,6 @@ export default function HivePage() {
                 "Multi-tenant API tokens + audit log",
                 "Selective replication · Bloom routing",
                 "One-click self-host (Umbrel / CasaOS)",
-                "Score-by-corroboration",
                 "Swarm visualizer on the live demo",
                 "Streamable-HTTP transport for hive-mcp",
               ] : [
@@ -1081,7 +1082,6 @@ export default function HivePage() {
                 "Tokens API multi-tenant + audit log",
                 "Replicación selectiva · routing Bloom",
                 "Self-host one-click (Umbrel / CasaOS)",
-                "Score por corroboración",
                 "Visualizador del swarm en la demo en vivo",
                 "Transporte HTTP streamable para hive-mcp",
               ]).map(f => (
