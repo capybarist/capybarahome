@@ -16,7 +16,7 @@ interface Fragment {
   confidence: number; doi?: string; text: string; node_id?: string; arxiv_id?: string;
 }
 interface QueryResult { answer?: string; mode?: string; fragments?: Fragment[]; has_hive_data?: boolean; }
-interface Stats { fragments?: number; bees?: number; topics?: number; }
+interface Stats { fragments?: number; bees?: number; topics?: number; last_indexed_at?: string | null; }
 interface CrawlState {
   queue_size?: number;
   visited_size?: number;
@@ -400,8 +400,22 @@ function InstallStep({ num, label, cmd }: { num: string; label: string; cmd: str
 // ── Forager live widget ────────────────────────────────────────────────────────
 // Polls /api/hive/crawl every 15s to surface what the bee crawler is doing
 // right now: queue depth, what it has already visited, what it will fetch next.
+// "3 min ago" / "hace 3 min" for the queen's last_indexed_at (HIVE ≥ 1.4.1).
+function timeAgo(iso: string | null | undefined, lang: string): string | null {
+  if (!iso) return null;
+  const min = Math.round((Date.now() - new Date(iso).getTime()) / 60_000);
+  if (Number.isNaN(min) || min < 0) return null;
+  const es = lang !== "en";
+  if (min < 1) return es ? "ahora mismo" : "just now";
+  if (min < 60) return es ? `hace ${min} min` : `${min} min ago`;
+  const h = Math.round(min / 60);
+  if (h < 48) return es ? `hace ${h} h` : `${h} h ago`;
+  const d = Math.round(h / 24);
+  return es ? `hace ${d} días` : `${d} days ago`;
+}
+
 function ForagerLive() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const [state, setState] = useState<CrawlState | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
   const [version, setVersion] = useState<string | null>(null);
@@ -473,8 +487,14 @@ function ForagerLive() {
             </h2>
             <p className="text-xs text-[var(--muted)] mt-1">{t("hive_forager_sub")}</p>
           </div>
-          <div className="text-xs text-[var(--muted)] font-mono">
-            {t("hive_forager_updated")}: {new Date(lastTick).toLocaleTimeString()}
+          <div className="text-xs text-[var(--muted)] font-mono text-right">
+            <div>{t("hive_forager_updated")}: {new Date(lastTick).toLocaleTimeString()}</div>
+            {timeAgo(stats?.last_indexed_at, lang) && (
+              <div className="inline-flex items-center gap-1.5 mt-1 text-emerald-700">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                {lang === "en" ? "Last fragment indexed" : "Último fragmento indexado"} {timeAgo(stats?.last_indexed_at, lang)}
+              </div>
+            )}
           </div>
         </div>
 
@@ -907,9 +927,10 @@ export default function HivePage() {
                   <Network size={14} className="text-violet-600" />
                   <span className="text-xs font-bold text-[var(--text)]">@capybaralabs/hive-mcp</span>
                 </div>
-                <pre className="rounded-lg bg-slate-950 text-slate-100 text-[11px] p-3 overflow-x-auto leading-relaxed"><code>{`npx @capybaralabs/hive-mcp`}</code></pre>
+                <pre className="rounded-lg bg-slate-950 text-slate-100 text-[11px] p-3 overflow-x-auto leading-relaxed"><code>{`claude mcp add hive -- \\
+  npx -y @capybaralabs/hive-mcp`}</code></pre>
                 <p className="text-[11px] text-[var(--muted)] mt-2">
-                  {lang === "en" ? "Add to your client's MCP config, point at the queen, done." : "Añádelo a la config MCP de tu cliente, apunta a la queen, listo."}
+                  {lang === "en" ? "Works out of the box against the live demo queen. Set HIVE_QUEEN_URL to use your own." : "Funciona sin configurar contra la queen de demo. Pon HIVE_QUEEN_URL para usar la tuya."}
                 </p>
               </div>
               <div>
@@ -1021,25 +1042,23 @@ export default function HivePage() {
           <div className="rounded-xl border border-emerald-200 bg-gradient-to-br from-emerald-50/60 to-white p-5 mb-4">
             <h4 className="text-sm font-bold text-[var(--text)] mb-3 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              {lang === "en" ? "Shipped recently (2026-05)" : "Publicado recientemente (2026-05)"}
+              {lang === "en" ? "Shipped recently" : "Publicado recientemente"}
             </h4>
             <div className="flex flex-wrap gap-2">
               {(lang === "en" ? [
-                "MCP server (@capybaralabs/hive-mcp)",
-                "Claude Skill bundle",
-                "npm CLI (npx @capybaralabs/hive)",
-                "HTTPS auto-TLS via sslip.io",
-                "Bearer-token auth on /api/*",
-                "Periodic LanceDB compaction",
-                "Direct mode (v1.1): bee→queen over HTTP, no P2P — closed/enterprise deploys",
+                "v1.4.1 (2026-11): live “last indexed” signal · query-only demo token",
+                "hive-mcp 0.2 (2026-11): zero-config against the live demo · hive_status tool",
+                "v1.4 (2026-10): verbatim chunking · meta filters on /api/query · rerank scores",
+                "v1.3 (2026-06): optional cross-encoder reranker",
+                "v1.2 (2026-06): filterable meta columns · contextualized embeddings",
+                "v1.1 (2026-06): direct mode — bee→queen over HTTP, no P2P, for closed deploys",
               ] : [
-                "Servidor MCP (@capybaralabs/hive-mcp)",
-                "Claude Skill bundle",
-                "CLI npm (npx @capybaralabs/hive)",
-                "HTTPS auto-TLS vía sslip.io",
-                "Auth por bearer token en /api/*",
-                "Compactación periódica de LanceDB",
-                "Modo direct (v1.1): bee→queen por HTTP, sin P2P — despliegues cerrados/enterprise",
+                "v1.4.1 (2026-11): señal en vivo de “último indexado” · token de demo solo para consultas",
+                "hive-mcp 0.2 (2026-11): sin configurar contra la demo en vivo · herramienta hive_status",
+                "v1.4 (2026-10): chunking literal · filtros por meta en /api/query · scores de rerank",
+                "v1.3 (2026-06): reranker cross-encoder opcional",
+                "v1.2 (2026-06): columnas meta filtrables · embeddings contextualizados",
+                "v1.1 (2026-06): modo direct — bee→queen por HTTP, sin P2P, para despliegues cerrados",
               ]).map(f => (
                 <span key={f} className="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-full px-3 py-1">{f}</span>
               ))}
@@ -1055,12 +1074,16 @@ export default function HivePage() {
                 "Selective replication · Bloom routing",
                 "One-click self-host (Umbrel / CasaOS)",
                 "Score-by-corroboration",
+                "Swarm visualizer on the live demo",
+                "Streamable-HTTP transport for hive-mcp",
               ] : [
                 "Memoria personal → queen privada llave en mano + más fuentes (Gemini, Cursor)",
                 "Tokens API multi-tenant + audit log",
                 "Replicación selectiva · routing Bloom",
                 "Self-host one-click (Umbrel / CasaOS)",
                 "Score por corroboración",
+                "Visualizador del swarm en la demo en vivo",
+                "Transporte HTTP streamable para hive-mcp",
               ]).map(f => (
                 <span key={f} className="text-xs text-[var(--muted)] border border-[var(--border)] rounded-full px-3 py-1">{f}</span>
               ))}
