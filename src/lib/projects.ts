@@ -26,6 +26,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "acquis",
     name: "Acquis",
+    page: "/acquis",
     site: "https://acquislaw.com",
     siteLabel: "acquislaw.com",
     status: "live",
