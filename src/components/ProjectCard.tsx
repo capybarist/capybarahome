@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { STATUS_LABEL, projectHref, type Project } from "@/lib/projects";
+import { ProductTile } from "@/components/ProductLogos";
 
 export function SmartLink({ href, className, onClick, children }: {
   href: string; className?: string; onClick?: () => void; children: React.ReactNode;
@@ -12,22 +13,23 @@ export function SmartLink({ href, className, onClick, children }: {
 }
 
 export function StatusPill({ p, en }: { p: Project; en: boolean }) {
-  const s = STATUS_LABEL[p.status];
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--bg)] px-2.5 py-0.5 text-[11px] font-medium text-[var(--text-2)]">
-      <span className={`h-1.5 w-1.5 rounded-full ${s.dot}`} />
-      {en ? s.en : s.es}
+    <span className="flex flex-wrap justify-end gap-1.5">
+      {p.status.map((st) => {
+        const s = STATUS_LABEL[st];
+        return (
+          <span key={st} className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--bg)] px-2.5 py-0.5 text-[11px] font-medium text-[var(--text-2)]">
+            <span className={`h-1.5 w-1.5 rounded-full ${s.dot}`} />
+            {en ? s.en : s.es}
+          </span>
+        );
+      })}
     </span>
   );
 }
 
 export function ProjectMark({ p, size = "md" }: { p: Project; size?: "sm" | "md" }) {
-  const cls = size === "sm" ? "w-9 h-9 rounded-xl text-base" : "w-12 h-12 rounded-2xl text-xl";
-  return (
-    <span className={`${cls} shrink-0 flex items-center justify-center text-white`} style={{ background: p.swatch }} aria-hidden>
-      {p.mark}
-    </span>
-  );
+  return <ProductTile slug={p.slug} className={size === "sm" ? "w-9 h-9 rounded-xl" : "w-12 h-12 rounded-2xl"} />;
 }
 
 /** Full product card, used on /products. */

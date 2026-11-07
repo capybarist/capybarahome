@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n";
+import { ProductTile } from "@/components/ProductLogos";
 import {
   ArrowUpRight, ArrowRight, MessageSquare, Plug, Building2, FileX2, History, ShieldQuestion, CheckCircle2,
 } from "lucide-react";
@@ -9,8 +10,8 @@ import {
 // Capybara Labs site, and every call to action sends people to acquislaw.com.
 const SITE = "https://acquislaw.com";
 
-const NAVY = "#1e3a5f";
-const ACCENT = "#9cc3f0";
+// Acquis' own palette (capybarist/acquis brandmark and icon: violet on near-black).
+const BRAND = "#7c3aed";
 
 const REGULATIONS = [
   "AI Act", "GDPR", "DSA", "DMA", "NIS2", "Data Act", "Cyber Resilience Act",
@@ -58,36 +59,39 @@ export default function AcquisPage() {
 
   return (
     // Acquis keeps its own blue for the accent words instead of the studio plum.
-    <div style={{ "--plum": "#2f5d94" } as React.CSSProperties}>
+    <div style={{ "--plum": "#7c3aed" } as React.CSSProperties}>
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="on-dark relative overflow-hidden" style={{ background: "#0f1b2d" }}>
+      <section className="on-dark relative overflow-hidden" style={{ background: "#070a12" }}>
         <div className="absolute -top-40 -right-32 w-[520px] h-[520px] rounded-full blur-3xl pointer-events-none opacity-40"
-          style={{ background: NAVY }} aria-hidden />
+          style={{ background: BRAND }} aria-hidden />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6 pt-16 pb-20 md:pt-24 md:pb-28">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs text-[#d6e2f2] mb-8">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs text-[#ddd6fe] mb-8">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                 {en ? "A Capybara Labs product · Live" : "Un producto de Capybara Labs · En producción"}
               </div>
               <h1 className="font-display text-6xl md:text-7xl text-white leading-[0.95] mb-6">
-                <span style={{ color: ACCENT }}>§</span>acquis
+                <span className="flex items-center gap-4">
+                  <ProductTile slug="acquis" className="w-14 h-14 md:w-16 md:h-16 rounded-2xl ring-1 ring-white/10" />
+                  acquis
+                </span>
               </h1>
-              <p className="font-display text-2xl md:text-3xl text-[#e6eef8] [&_em]:!text-[#9cc3f0] leading-tight mb-6 max-w-xl">
+              <p className="font-display text-2xl md:text-3xl text-[#ede9fe] [&_em]:!text-[#c4b5fd] leading-tight mb-6 max-w-xl">
                 {en ? <>AI answers about EU law <em>you can defend in an audit.</em></> : <>Respuestas de IA sobre derecho de la UE <em>que puedes defender en una auditoría.</em></>}
               </p>
-              <p className="text-lg text-[#a9b8cc] leading-relaxed max-w-xl mb-10">
+              <p className="text-lg text-[#a8a3c0] leading-relaxed max-w-xl mb-10">
                 {en
                   ? "Ask in plain language and get the verbatim provision from the current consolidated text, with its exact citation and EUR-Lex link."
                   : "Pregunta en lenguaje natural y recibe la disposición literal del texto consolidado vigente, con su cita exacta y el enlace a EUR-Lex."}
               </p>
               <div className="flex flex-wrap gap-3">
                 <a href={SITE} target="_blank" rel="noopener"
-                  className="inline-flex items-center gap-2 rounded-full bg-white text-[#0f1b2d] font-semibold text-sm px-7 py-3.5 hover:bg-[#e6eef8] transition-colors">
+                  className="inline-flex items-center gap-2 rounded-full bg-white text-[#070a12] font-semibold text-sm px-7 py-3.5 hover:bg-[#ede9fe] transition-colors">
                   {en ? "Go to acquislaw.com" : "Ir a acquislaw.com"} <ArrowUpRight size={16} />
                 </a>
                 <a href={`${SITE}/#pricing`} target="_blank" rel="noopener"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/20 text-[#e6eef8] hover:bg-white/5 font-semibold text-sm px-7 py-3.5 transition-colors">
+                  className="inline-flex items-center gap-2 rounded-full border border-white/20 text-[#ede9fe] hover:bg-white/5 font-semibold text-sm px-7 py-3.5 transition-colors">
                   {en ? "See plans" : "Ver planes"}
                 </a>
               </div>
@@ -106,8 +110,8 @@ export default function AcquisPage() {
                   <p className="text-sm text-[var(--muted)] mb-3">
                     {en ? "When must a manufacturer report an actively exploited vulnerability?" : "¿Cuándo debe un fabricante notificar una vulnerabilidad explotada activamente?"}
                   </p>
-                  <div className="rounded-xl border-l-4 bg-white p-4 mb-3" style={{ borderColor: NAVY }}>
-                    <p className="text-[11px] font-semibold mb-1.5" style={{ color: NAVY }}>Cyber Resilience Act · Art. 14(1)</p>
+                  <div className="rounded-xl border-l-4 bg-white p-4 mb-3" style={{ borderColor: BRAND }}>
+                    <p className="text-[11px] font-semibold mb-1.5" style={{ color: BRAND }}>Cyber Resilience Act · Art. 14(1)</p>
                     <p className="text-sm text-[var(--ink)] leading-relaxed">
                       {/* Verbatim from the corpus (CELEX 02024R2847-20241120), kept in English in both languages. */}
                       “A manufacturer shall notify any actively exploited vulnerability contained in the product with digital elements that it becomes aware of simultaneously to the CSIRT designated as coordinator […] and to ENISA.”
@@ -133,8 +137,8 @@ export default function AcquisPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-14">
             {problems.map(({ Icon, title, body }) => (
               <div key={title} className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 bg-[#e6eef8]">
-                  <Icon size={20} style={{ color: NAVY }} />
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 bg-[#ede9fe]">
+                  <Icon size={20} style={{ color: BRAND }} />
                 </div>
                 <h3 className="font-semibold text-[var(--ink)] mb-2">{title}</h3>
                 <p className="text-sm text-[var(--muted)] leading-relaxed">{body}</p>
@@ -147,7 +151,7 @@ export default function AcquisPage() {
             <ol className="md:col-span-9 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
               {steps.map((s, i) => (
                 <li key={i} className="flex gap-4">
-                  <span className="font-mono text-sm pt-0.5" style={{ color: NAVY }}>0{i + 1}</span>
+                  <span className="font-mono text-sm pt-0.5" style={{ color: BRAND }}>0{i + 1}</span>
                   <span className="text-[var(--text-2)] leading-relaxed">{s}</span>
                 </li>
               ))}
@@ -168,7 +172,7 @@ export default function AcquisPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-14">
             {channels.map(({ Icon, title, body }) => (
               <div key={title} className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6">
-                <Icon size={20} className="mb-4" style={{ color: NAVY }} />
+                <Icon size={20} className="mb-4" style={{ color: BRAND }} />
                 <h3 className="font-semibold text-[var(--ink)] mb-2">{title}</h3>
                 <p className="text-sm text-[var(--muted)] leading-relaxed">{body}</p>
               </div>
@@ -201,7 +205,7 @@ export default function AcquisPage() {
           <div className="flex flex-wrap justify-center gap-3">
             <a href={SITE} target="_blank" rel="noopener"
               className="inline-flex items-center gap-2 rounded-full text-white font-semibold text-sm px-7 py-3.5 transition-opacity hover:opacity-90"
-              style={{ background: NAVY }}>
+              style={{ background: BRAND }}>
               acquislaw.com <ArrowUpRight size={16} />
             </a>
             <Link href="/hive"

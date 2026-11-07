@@ -1,5 +1,6 @@
 "use client";
 import { useI18n } from "@/lib/i18n";
+import { ProductTile } from "@/components/ProductLogos";
 import {
   ArrowUpRight, MapPin, HeartPulse, Apple, Users, PawPrint, Trophy, Gift, Home, QrCode,
 } from "lucide-react";
@@ -8,7 +9,8 @@ import {
 // Capybara Labs site, and every call to action sends people to tribu.pet.
 const SITE = "https://tribu.pet";
 
-const ORANGE = "#e0752d";
+// Tribu's brand orange (capybarist/pawfy src/app/icon.svg).
+const ORANGE = "#fb6220";
 
 export default function TribuPage() {
   const { lang } = useI18n();
@@ -63,7 +65,7 @@ export default function TribuPage() {
 
   return (
     // Tribu keeps its own warm orange for the italic accents instead of the studio plum.
-    <div style={{ "--plum": "#c8601f" } as React.CSSProperties}>
+    <div style={{ "--plum": "#e2541a" } as React.CSSProperties}>
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section className="on-dark relative overflow-hidden bg-[#16130f]">
         <div className="absolute -top-40 -right-32 w-[520px] h-[520px] rounded-full blur-3xl pointer-events-none opacity-30"
@@ -76,7 +78,8 @@ export default function TribuPage() {
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                 {en ? "A Capybara Labs product · Live" : "Un producto de Capybara Labs · En producción"}
               </div>
-              <h1 className="font-display text-6xl md:text-7xl text-white leading-[0.95] mb-6">
+              <h1 className="flex items-center gap-4 font-display text-6xl md:text-7xl text-white leading-[0.95] mb-6">
+                <ProductTile slug="tribu" className="w-14 h-14 md:w-16 md:h-16 rounded-2xl" />
                 Tribu
               </h1>
               <p className="font-display text-2xl md:text-3xl text-[#f4e9da] [&_em]:!text-[#f4a76a] leading-tight mb-6 max-w-xl">
@@ -107,7 +110,7 @@ export default function TribuPage() {
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
               <div className="w-full max-w-sm rounded-[2rem] bg-[#faf8f4] p-5 shadow-2xl shadow-black/40 rotate-[1.5deg]">
                 <div className="aspect-[4/3] rounded-2xl mb-4 flex items-center justify-center text-7xl"
-                  style={{ background: "linear-gradient(135deg,#f7c59f 0%,#e0752d 100%)" }} aria-hidden>🐶</div>
+                  style={{ background: "linear-gradient(135deg,#ffcaa9 0%,#fb6220 100%)" }} aria-hidden>🐶</div>
                 <div className="flex items-center justify-between mb-1">
                   <span className="font-display text-2xl text-[var(--ink)]">Lola</span>
                   <span className="inline-flex items-center gap-1 text-xs font-semibold rounded-full px-2.5 py-1 text-white" style={{ background: ORANGE }}>

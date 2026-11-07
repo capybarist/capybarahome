@@ -12,10 +12,10 @@ export interface Project {
   /** The project's own site. */
   site: string;
   siteLabel: string;
-  status: ProjectStatus;
-  /** Accent colour for the project's swatch on the shared pages. */
+  /** One or more labels; the first is the main one. */
+  status: ProjectStatus[];
+  /** The product's brand colour (the card's top bar). Its logo is in components/ProductLogos. */
   swatch: string;
-  mark: string;
   /** What kind of product it is. Not every product is an AI product. */
   category: { en: string; es: string };
   tagline: { en: string; es: string };
@@ -29,9 +29,8 @@ export const PROJECTS: Project[] = [
     page: "/acquis",
     site: "https://acquislaw.com",
     siteLabel: "acquislaw.com",
-    status: "live",
-    swatch: "#1e3a5f",
-    mark: "§",
+    status: ["live"],
+    swatch: "#8b5cf6",
     category: { en: "Legal tech · AI", es: "Legal tech · IA" },
     tagline: { en: "Verified EU law for your AI assistant", es: "Derecho de la UE verificado para tu asistente de IA" },
     body: {
@@ -45,9 +44,8 @@ export const PROJECTS: Project[] = [
     page: "/tribu",
     site: "https://tribu.pet",
     siteLabel: "tribu.pet",
-    status: "live",
-    swatch: "#e0752d",
-    mark: "🐾",
+    status: ["live"],
+    swatch: "#fb6220",
     category: { en: "Consumer · Social network", es: "Consumo · Red social" },
     tagline: { en: "The social network for pets", es: "La red social de las mascotas" },
     body: {
@@ -61,9 +59,8 @@ export const PROJECTS: Project[] = [
     page: "/hive",
     site: "https://github.com/capybarist/hive",
     siteLabel: "GitHub",
-    status: "open-source",
+    status: ["open-source"],
     swatch: "#7c3aed",
-    mark: "⬡",
     category: { en: "AI infrastructure", es: "Infraestructura de IA" },
     tagline: { en: "The verifiable knowledge engine", es: "El motor de conocimiento verificable" },
     body: {
@@ -77,9 +74,8 @@ export const PROJECTS: Project[] = [
     page: "/reagentlab",
     site: "https://reagentlab.capybaralabs.tech",
     siteLabel: "reagentlab.capybaralabs.tech",
-    status: "experiment",
-    swatch: "#047857",
-    mark: "⚗",
+    status: ["experiment", "open-source"],
+    swatch: "#2f5d50",
     category: { en: "Research · AI agents", es: "Investigación · Agentes de IA" },
     tagline: { en: "AI agents that debate until they agree", es: "Agentes de IA que debaten hasta concluir" },
     body: {
