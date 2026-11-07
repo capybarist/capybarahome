@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n";
+import { ProductTile } from "@/components/ProductLogos";
 import { useEffect, useState } from "react";
 import {
   ArrowRight, ExternalLink, FlaskConical, Swords, Gavel, Vote, Fingerprint,
@@ -239,6 +240,7 @@ export default function ReagentLabPage() {
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
             {en ? "A Capybara Labs experiment · Open source · AI agents" : "Experimento de Capybara Labs · Open source · Agentes de IA"}
           </div>
+          <ProductTile slug="reagentlab" className="w-16 h-16 rounded-2xl mb-6 !border-0" />
           <h1 className="text-5xl md:text-7xl font-black tracking-tight text-white mb-6">Reagent Lab</h1>
           <p className="text-xl text-slate-300 mb-4 max-w-2xl mx-auto">
             {en

@@ -174,7 +174,11 @@ export default function Home() {
                 className="lift group flex flex-col gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5">
                 <div className="flex items-center justify-between">
                   <ProjectMark p={p} size="sm" />
-                  <span className={`h-2 w-2 rounded-full ${STATUS_LABEL[p.status].dot}`} title={en ? STATUS_LABEL[p.status].en : STATUS_LABEL[p.status].es} />
+                  <span className="flex gap-1">
+                    {p.status.map((st) => (
+                      <span key={st} className={`h-2 w-2 rounded-full ${STATUS_LABEL[st].dot}`} title={en ? STATUS_LABEL[st].en : STATUS_LABEL[st].es} />
+                    ))}
+                  </span>
                 </div>
                 <div className="flex-1">
                   <p className="font-semibold text-[var(--ink)]">{p.name}</p>
