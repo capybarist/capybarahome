@@ -11,14 +11,14 @@ const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
 export const metadata: Metadata = {
-  title: { default: "Capybara Labs — AI, Software & Open Source", template: "%s | Capybara Labs" },
-  description: "An independent studio that builds and runs its own AI products (Acquis, Tribu, HIVE, Reagent Lab) and builds software for others: AI automation, custom development and system integration.",
+  title: { default: "Capybara Labs — Custom software & applied AI", template: "%s | Capybara Labs" },
+  description: "Custom software and applied AI for companies: AI automation, custom agents, software development and system integration. Makers of Acquis, Tribu, HIVE and Reagent Lab.",
   metadataBase: new URL("https://www.capybaralabs.tech"),
   openGraph: {
     type: "website",
     url: "https://www.capybaralabs.tech",
-    title: "Capybara Labs — AI, Software & Open Source",
-    description: "AI automation, custom software and open-source AI infrastructure.",
+    title: "Capybara Labs — Custom software & applied AI",
+    description: "Custom software and applied AI for companies.",
     images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
   twitter: { card: "summary_large_image", creator: "@capybaraitech" },
