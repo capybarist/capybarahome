@@ -16,7 +16,7 @@ export function Footer() {
             <div className="flex items-center gap-2.5 mb-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/CapybaraMark.png" alt="" className="h-8 w-auto brightness-0 invert opacity-90" />
-              <span className="font-display text-2xl text-white">Capybara Labs</span>
+              <span className="font-display text-xl text-white">Capybara Labs</span>
             </div>
             <p className="text-sm leading-relaxed max-w-xs text-[#9a907f]">
               {en

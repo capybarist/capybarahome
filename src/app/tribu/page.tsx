@@ -76,10 +76,10 @@ export default function TribuPage() {
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                 {en ? "A Capybara Labs product · Live" : "Un producto de Capybara Labs · En producción"}
               </div>
-              <h1 className="font-display text-6xl md:text-8xl text-white leading-[0.95] mb-6">
+              <h1 className="font-display text-6xl md:text-7xl text-white leading-[0.95] mb-6">
                 Tribu
               </h1>
-              <p className="font-display text-3xl md:text-4xl text-[#f4e9da] [&_em]:!text-[#f4a76a] leading-tight mb-6 max-w-xl">
+              <p className="font-display text-2xl md:text-3xl text-[#f4e9da] [&_em]:!text-[#f4a76a] leading-tight mb-6 max-w-xl">
                 {en ? <>The social network where <em>your pet is the star.</em></> : <>La red social donde <em>tu mascota es la estrella.</em></>}
               </p>
               <p className="text-lg text-[#b9b0a1] leading-relaxed max-w-xl mb-10">
@@ -109,7 +109,7 @@ export default function TribuPage() {
                 <div className="aspect-[4/3] rounded-2xl mb-4 flex items-center justify-center text-7xl"
                   style={{ background: "linear-gradient(135deg,#f7c59f 0%,#e0752d 100%)" }} aria-hidden>🐶</div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="font-display text-3xl text-[var(--ink)]">Lola</span>
+                  <span className="font-display text-2xl text-[var(--ink)]">Lola</span>
                   <span className="inline-flex items-center gap-1 text-xs font-semibold rounded-full px-2.5 py-1 text-white" style={{ background: ORANGE }}>
                     <PawPrint size={12} /> 248
                   </span>
@@ -140,7 +140,7 @@ export default function TribuPage() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-28">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
             <p className="eyebrow md:col-span-3 pt-3">{en ? "What it does" : "Qué hace"}</p>
-            <h2 className="md:col-span-9 font-display text-4xl md:text-5xl text-[var(--ink)] leading-[1.08]">
+            <h2 className="md:col-span-9 font-display text-3xl md:text-[2.75rem] text-[var(--ink)] leading-[1.08]">
               {en
                 ? <>Everything about your pet, <em>and the people who love them too.</em></>
                 : <>Todo sobre tu mascota, <em>y sobre la gente que también la quiere.</em></>}
@@ -165,7 +165,7 @@ export default function TribuPage() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-16 md:py-20 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
           <div className="md:col-span-5">
             <p className="eyebrow mb-4">{en ? "Every critter welcome" : "Cabe cualquier bicho"}</p>
-            <h2 className="font-display text-4xl text-[var(--ink)] leading-tight">
+            <h2 className="font-display text-3xl text-[var(--ink)] leading-tight">
               {en ? <>Not just dogs and cats. <em>Everyone has a place.</em></> : <>No solo perros y gatos. <em>Todos tienen sitio.</em></>}
             </h2>
           </div>
@@ -180,7 +180,7 @@ export default function TribuPage() {
       {/* ── CTA ──────────────────────────────────────────────────────────── */}
       <section>
         <div className="mx-auto max-w-3xl px-4 sm:px-6 py-20 md:py-24 text-center">
-          <h2 className="font-display text-5xl md:text-6xl text-[var(--ink)] leading-[1.02] mb-5">
+          <h2 className="font-display text-4xl md:text-5xl text-[var(--ink)] leading-[1.02] mb-5">
             {en ? <>Your pet deserves <em>its own profile.</em></> : <>Tu mascota merece <em>su propio perfil.</em></>}
           </h2>
           <p className="text-[var(--muted)] mb-8">
