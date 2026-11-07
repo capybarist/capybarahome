@@ -81,7 +81,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
             <div className="lg:col-span-7">
               <p className="eyebrow mb-6">Capybara Labs · {en ? "AI studio" : "Estudio de IA"}</p>
-              <h1 className="font-display text-[2.9rem] leading-[1.02] sm:text-6xl md:text-7xl text-[var(--ink)] mb-7">
+              <h1 className="font-display text-[2.5rem] leading-[1.02] sm:text-5xl md:text-6xl text-[var(--ink)] mb-7">
                 {en
                   ? <>We build AI products <em>people actually use.</em></>
                   : <>Construimos productos de IA <em>que la gente usa.</em></>}
@@ -114,7 +114,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-28">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
             <p className="eyebrow md:col-span-3 pt-3">{en ? "Projects" : "Proyectos"}</p>
-            <h2 className="md:col-span-9 font-display text-4xl md:text-5xl text-[var(--ink)] leading-[1.08]">
+            <h2 className="md:col-span-9 font-display text-3xl md:text-[2.75rem] text-[var(--ink)] leading-[1.08]">
               {en
                 ? <>Software we build, <em>and run in production.</em></>
                 : <>Software que construimos <em>y operamos en producción.</em></>}
@@ -134,7 +134,7 @@ export default function Home() {
                       style={{ background: p.swatch }} aria-hidden>{p.mark}</span>
                     <StatusPill p={p} en={en} />
                   </div>
-                  <h3 className="font-display text-4xl text-[var(--ink)] mb-1">{p.name}</h3>
+                  <h3 className="font-display text-3xl text-[var(--ink)] mb-1">{p.name}</h3>
                   <p className="font-medium text-[var(--text-2)] mb-3">{en ? p.tagline.en : p.tagline.es}</p>
                   <p className="text-sm text-[var(--muted)] leading-relaxed mb-8 flex-1">{en ? p.body.en : p.body.es}</p>
                   <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--ink)]">
@@ -156,7 +156,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
             <p className="eyebrow md:col-span-3 pt-3">{t("section_services")}</p>
             <div className="md:col-span-9">
-              <h2 className="font-display text-4xl md:text-5xl text-[var(--ink)] leading-[1.08] mb-4">
+              <h2 className="font-display text-3xl md:text-[2.75rem] text-[var(--ink)] leading-[1.08] mb-4">
                 {en
                   ? <>What we learn shipping our own products, <em>we build for you.</em></>
                   : <>Lo que aprendemos lanzando lo nuestro, <em>lo construimos para ti.</em></>}
@@ -169,7 +169,7 @@ export default function Home() {
             {services.map(({ n, tKey, dKey, tags }) => (
               <div key={n} className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-8 border-b border-[var(--border)]">
                 <span className="md:col-span-3 font-mono text-sm text-[var(--plum)]">{n}</span>
-                <h3 className="md:col-span-4 font-display text-3xl text-[var(--ink)] leading-tight">{t(tKey)}</h3>
+                <h3 className="md:col-span-4 font-display text-2xl text-[var(--ink)] leading-tight">{t(tKey)}</h3>
                 <div className="md:col-span-5">
                   <p className="text-[var(--muted)] leading-relaxed mb-4">{t(dKey)}</p>
                   <div className="flex flex-wrap gap-1.5">
@@ -195,12 +195,12 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-24">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
             <p className="eyebrow md:col-span-3 pt-3">{t("section_process")}</p>
-            <h2 className="md:col-span-9 font-display text-4xl md:text-5xl text-[var(--ink)]">{t("process_title")}</h2>
+            <h2 className="md:col-span-9 font-display text-3xl md:text-[2.75rem] text-[var(--ink)]">{t("process_title")}</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {process.map(({ n, tKey, dKey }) => (
               <div key={n} className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7">
-                <span className="font-display text-5xl text-[var(--plum)] block mb-6">{n}</span>
+                <span className="font-display text-4xl text-[var(--plum)] block mb-6">{n}</span>
                 <h3 className="font-semibold text-[var(--ink)] mb-2">{t(tKey)}</h3>
                 <p className="text-sm text-[var(--muted)] leading-relaxed">{t(dKey)}</p>
               </div>
@@ -229,7 +229,7 @@ export default function Home() {
             <div className="relative grid grid-cols-1 md:grid-cols-12 gap-10 items-end">
               <div className="md:col-span-8">
                 <p className="eyebrow !text-[#9a907f] mb-5">{t("nav_contact")}</p>
-                <h2 className="font-display text-5xl md:text-6xl text-white leading-[1.02] mb-5">
+                <h2 className="font-display text-4xl md:text-5xl text-white leading-[1.02] mb-5">
                   {en ? <>Got an idea? <em>Let&apos;s talk.</em></> : <>¿Tienes una idea? <em>Hablemos.</em></>}
                 </h2>
                 <p className="text-[#b9b0a1] text-lg max-w-lg">{t("contact_desc")}</p>

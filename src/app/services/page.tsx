@@ -26,7 +26,7 @@ export default function ServicesPage() {
         <div className="absolute inset-0 paper-grid pointer-events-none" aria-hidden />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6 pt-16 pb-16 md:pt-24 md:pb-20">
           <p className="eyebrow mb-6">{t("section_services")}</p>
-          <h1 className="font-display text-5xl md:text-7xl text-[var(--ink)] leading-[1.02] mb-6 max-w-4xl">
+          <h1 className="font-display text-4xl md:text-6xl text-[var(--ink)] leading-[1.02] mb-6 max-w-4xl">
             {en
               ? <>Software that works for you, <em>built by people who ship.</em></>
               : <>Software que trabaja por ti, <em>hecho por quien lanza productos.</em></>}
@@ -42,7 +42,7 @@ export default function ServicesPage() {
             {services.map(({ n, tKey, dKey, tags }) => (
               <div key={n} className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 py-10 border-b border-[var(--border)]">
                 <span className="md:col-span-2 font-mono text-sm text-[var(--plum)]">{n}</span>
-                <h2 className="md:col-span-4 font-display text-3xl md:text-4xl text-[var(--ink)] leading-tight">{t(tKey)}</h2>
+                <h2 className="md:col-span-4 font-display text-2xl md:text-3xl text-[var(--ink)] leading-tight">{t(tKey)}</h2>
                 <div className="md:col-span-6">
                   <p className="text-[var(--muted)] leading-relaxed mb-5">{t(dKey)}</p>
                   <div className="flex flex-wrap gap-1.5">
@@ -62,12 +62,12 @@ export default function ServicesPage() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-16 md:py-24">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
             <p className="eyebrow md:col-span-3 pt-3">{t("section_process")}</p>
-            <h2 className="md:col-span-9 font-display text-4xl md:text-5xl text-[var(--ink)]">{t("process_title")}</h2>
+            <h2 className="md:col-span-9 font-display text-3xl md:text-[2.75rem] text-[var(--ink)]">{t("process_title")}</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {process.map(({ n, tKey, dKey }) => (
               <div key={n} className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7">
-                <span className="font-display text-5xl text-[var(--plum)] block mb-6">{n}</span>
+                <span className="font-display text-4xl text-[var(--plum)] block mb-6">{n}</span>
                 <h3 className="font-semibold text-[var(--ink)] mb-2">{t(tKey)}</h3>
                 <p className="text-sm text-[var(--muted)] leading-relaxed">{t(dKey)}</p>
               </div>
@@ -79,7 +79,7 @@ export default function ServicesPage() {
       {/* CTA */}
       <section>
         <div className="mx-auto max-w-3xl px-4 sm:px-6 py-20 md:py-24 text-center">
-          <h2 className="font-display text-5xl text-[var(--ink)] mb-4">
+          <h2 className="font-display text-4xl text-[var(--ink)] mb-4">
             {en ? <>Got an idea? <em>Let&apos;s talk.</em></> : <>¿Tienes una idea? <em>Hablemos.</em></>}
           </h2>
           <p className="text-[var(--muted)] mb-8 max-w-md mx-auto">{t("contact_desc")}</p>

@@ -34,7 +34,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity" aria-label="Capybara Labs">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/CapybaraMark.png" alt="" className="h-8 w-auto" />
-          <span className="font-display text-xl text-[var(--ink)] leading-none">Capybara Labs</span>
+          <span className="font-display text-lg text-[var(--ink)] leading-none">Capybara Labs</span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-7">
@@ -70,12 +70,12 @@ export function Header() {
               const cls = "flex items-center justify-between py-3 border-b border-[var(--border)] last:border-0 text-[var(--ink)]";
               return external ? (
                 <a key={href} href={href} target="_blank" rel="noopener" onClick={() => setOpen(false)} className={cls}>
-                  <span className="font-display text-2xl">{label}</span>
+                  <span className="font-display text-xl">{label}</span>
                   <ArrowUpRight size={16} className="text-[var(--muted)]" />
                 </a>
               ) : (
                 <Link key={href} href={href} onClick={() => setOpen(false)} className={cls}>
-                  <span className="font-display text-2xl">{label}</span>
+                  <span className="font-display text-xl">{label}</span>
                 </Link>
               );
             })}

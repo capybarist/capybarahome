@@ -35,7 +35,6 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-display);
 }
 
 /* scrollbar-gutter: stable reserves the scrollbar's space even when no
@@ -54,12 +53,15 @@ body {
 ::selection { background: var(--plum-bg); color: var(--ink); }
 
 /* ── Display type ─────────────────────────────────────────────────────────── */
+/* Headings: Geist, heavy and tightly tracked. The <em> inside a heading is
+   an accent colour, never italic. */
 .font-display {
-  font-family: var(--font-display), Georgia, serif;
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
 }
-.font-display em { font-style: italic; color: var(--plum); }
+.font-display em { font-style: normal; color: var(--plum); }
 .on-dark .font-display em, .font-display.on-dark em { color: #c4a9ec; }
 
 /* Small uppercase label used above section headings. */
