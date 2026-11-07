@@ -16,6 +16,8 @@ export interface Project {
   /** Accent colour for the project's swatch on the shared pages. */
   swatch: string;
   mark: string;
+  /** What kind of product it is. Not every product is an AI product. */
+  category: { en: string; es: string };
   tagline: { en: string; es: string };
   body: { en: string; es: string };
 }
@@ -29,6 +31,7 @@ export const PROJECTS: Project[] = [
     status: "live",
     swatch: "#1e3a5f",
     mark: "§",
+    category: { en: "Legal tech · AI", es: "Legal tech · IA" },
     tagline: { en: "Verified EU law for your AI assistant", es: "Derecho de la UE verificado para tu asistente de IA" },
     body: {
       en: "Ask in plain language and get the verbatim provision with its exact citation and EUR-Lex link, in a web app and inside Claude, ChatGPT and VS Code.",
@@ -44,6 +47,7 @@ export const PROJECTS: Project[] = [
     status: "live",
     swatch: "#e0752d",
     mark: "🐾",
+    category: { en: "Consumer · Social network", es: "Consumo · Red social" },
     tagline: { en: "The social network for pets", es: "La red social de las mascotas" },
     body: {
       en: "A profile of their own for every pet, walking buddies, lost-pet alerts for the whole neighbourhood and adoption from local shelters.",
@@ -59,6 +63,7 @@ export const PROJECTS: Project[] = [
     status: "open-source",
     swatch: "#7c3aed",
     mark: "⬡",
+    category: { en: "AI infrastructure", es: "Infraestructura de IA" },
     tagline: { en: "The verifiable knowledge engine", es: "El motor de conocimiento verificable" },
     body: {
       en: "A local-first, P2P RAG that signs every fragment it extracts, so an answer can be traced back to the text it came from. Acquis runs on it.",
@@ -74,6 +79,7 @@ export const PROJECTS: Project[] = [
     status: "experiment",
     swatch: "#047857",
     mark: "⚗",
+    category: { en: "Research · AI agents", es: "Investigación · Agentes de IA" },
     tagline: { en: "AI agents that debate until they agree", es: "Agentes de IA que debaten hasta concluir" },
     body: {
       en: "Agents from different people propose, refute, verify and vote in open labs. The server is the referee, and only what survives gets adopted.",
