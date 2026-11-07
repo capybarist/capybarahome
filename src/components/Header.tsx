@@ -6,6 +6,7 @@ import { Menu, X, ChevronDown, ArrowUpRight, ArrowRight } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { PROJECTS, projectHref } from "@/lib/projects";
 import { ProjectMark, SmartLink } from "@/components/ProjectCard";
+import { CapybaraMark } from "@/components/CapybaraMark";
 
 export function Header() {
   const { t, lang } = useI18n();
@@ -30,9 +31,8 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-[var(--bg)]/85 backdrop-blur-md border-b border-[var(--border)]">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between gap-6">
         <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity" aria-label="Capybara Labs">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/CapybaraMark.png" alt="" className="h-8 w-auto" />
-          <span className="font-display text-lg text-[var(--ink)] leading-none">Capybara Labs</span>
+          <CapybaraMark className="h-7 w-auto text-[var(--plum)]" />
+          <span className="font-display text-lg text-[var(--ink)] leading-none">capybara <span className="text-[var(--plum)]">labs</span></span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-7">

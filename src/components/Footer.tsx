@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n";
 import { PROJECTS, projectHref } from "@/lib/projects";
+import { CapybaraMark } from "@/components/CapybaraMark";
 
 export function Footer() {
   const { t, lang } = useI18n();
@@ -14,9 +15,8 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-12 gap-10 mb-14">
           <div className="col-span-2 md:col-span-5">
             <div className="flex items-center gap-2.5 mb-4">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/CapybaraMark.png" alt="" className="h-8 w-auto brightness-0 invert opacity-90" />
-              <span className="font-display text-xl text-white">Capybara Labs</span>
+              <CapybaraMark className="h-7 w-auto text-[#b89be6]" />
+              <span className="font-display text-xl text-white">capybara <span className="text-[#b89be6]">labs</span></span>
             </div>
             <p className="text-sm leading-relaxed max-w-xs text-[#9a907f]">
               {en
