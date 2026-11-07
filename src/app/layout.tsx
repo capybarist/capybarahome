@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Header } from "@/components/Header";
@@ -8,10 +8,13 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
+// Editorial serif for headings, in line with the other sites of the ecosystem.
+const display = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-display" });
 
 export const metadata: Metadata = {
   title: { default: "Capybara Labs — AI, Software & Open Source", template: "%s | Capybara Labs" },
-  description: "End-to-end IT solutions: AI automation, custom software development, and system integration. Creators of HIVE, the decentralized knowledge base for LLMs.",
+  description: "An independent studio that builds and runs its own AI products (Acquis, Tribu, HIVE, Reagent Lab) and builds software for others: AI automation, custom development and system integration.",
   metadataBase: new URL("https://www.capybaralabs.tech"),
   openGraph: {
     type: "website",
@@ -23,11 +26,11 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", creator: "@capybaraitech" },
 };
 
-export const viewport = { themeColor: "#09090f" };
+export const viewport = { themeColor: "#17140f" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${geist.variable} h-full`}>
+    <html lang="es" className={`${geist.variable} ${geistMono.variable} ${display.variable} h-full`}>
       <body className="min-h-full flex flex-col">
         <Providers>
           <Header />

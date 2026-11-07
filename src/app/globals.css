@@ -1,23 +1,33 @@
 @import "tailwindcss";
 
-/* ── Light mode (default) ─────────────────────────────────────────────────── */
+/* ── Tokens ───────────────────────────────────────────────────────────────────
+   The corporate shell (header, footer, home, services, Tribu) uses the warm
+   "paper + ink + plum" (plum taken from the logo) palette. The --brand / --accent tokens stay as they were
+   because the HIVE and Reagent Lab product pages are built on them. */
 :root {
-  --bg:          #ffffff;
-  --bg-subtle:   #f8fafc;
-  --bg-muted:    #f1f5f9;
+  --bg:          #faf8f4;
+  --bg-subtle:   #f3efe8;
+  --bg-muted:    #ebe5db;
   --surface:     #ffffff;
-  --border:      #e2e8f0;
-  --border-dark: #cbd5e1;
+  --border:      #e6dfd3;
+  --border-dark: #d3c9b8;
+
+  --ink:         #17140f;
+  --ink-2:       #2a251e;
+  --plum:        #6b46a8;
+  --plum-dark:   #4c2d82;
+  --plum-bg:     #ede6f6;
+
   --brand:       #0ea5e9;
   --brand-dark:  #0284c7;
   --brand-bg:    #e0f2fe;
   --accent:      #8b5cf6;
   --accent-dark: #7c3aed;
   --accent-bg:   #ede9fe;
-  --text:        #0f172a;
-  --text-2:      #334155;
-  --muted:       #64748b;
-  --muted-light: #94a3b8;
+  --text:        #17140f;
+  --text-2:      #3d362c;
+  --muted:       #6f6658;
+  --muted-light: #a39a8b;
   --green:       #10b981;
   --radius:      12px;
 }
@@ -25,6 +35,7 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-display);
 }
 
 /* scrollbar-gutter: stable reserves the scrollbar's space even when no
@@ -40,7 +51,27 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Gradient text ────────────────────────────────────────────────────────── */
+::selection { background: var(--plum-bg); color: var(--ink); }
+
+/* ── Display type ─────────────────────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+.font-display em { font-style: italic; color: var(--plum); }
+.on-dark .font-display em, .font-display.on-dark em { color: #c4a9ec; }
+
+/* Small uppercase label used above section headings. */
+.eyebrow {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── Gradient text (used by product pages) ────────────────────────────────── */
 .g-brand {
   background: linear-gradient(135deg, var(--brand) 0%, #38bdf8 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
@@ -58,10 +89,17 @@ body {
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 
-/* ── Subtle dot grid ──────────────────────────────────────────────────────── */
+/* ── Textures ─────────────────────────────────────────────────────────────── */
 .dot-grid {
   background-image: radial-gradient(circle, rgba(148,163,184,.25) 1px, transparent 1px);
   background-size: 28px 28px;
+}
+.paper-grid {
+  background-image:
+    linear-gradient(to right, rgba(23,20,15,.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(23,20,15,.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at 30% 20%, #000 20%, transparent 75%);
 }
 
 /* ── Card transitions ─────────────────────────────────────────────────────── */
@@ -77,4 +115,19 @@ body {
   box-shadow: 0 4px 24px rgba(139,92,246,.15);
   border-color: var(--accent) !important;
   transform: translateY(-2px);
+}
+/* Corporate cards: lift with a warm shadow, no coloured border. */
+.lift {
+  transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+}
+.lift:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-dark);
+  box-shadow: 0 1px 2px rgba(23,20,15,.04), 0 18px 40px -18px rgba(23,20,15,.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .lift, .card-hover { transition: none; }
+  .lift:hover, .card-hover:hover, .card-hover-accent:hover { transform: none; }
 }
