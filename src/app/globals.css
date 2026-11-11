@@ -149,6 +149,7 @@ body {
   --g-mint:    #3ccf91;
   --g-sky:     #6ec8ff;
 }
+html:has(.games-root), body:has(.games-root) { background-color: #170f36; }
 .games-root ::selection { background: var(--g-sun); color: var(--g-night); }
 .games-bg {
   background:
@@ -156,6 +157,7 @@ body {
     radial-gradient(50% 40% at 90% 10%, rgba(255,122,89,.16), transparent 70%),
     linear-gradient(180deg, var(--g-night) 0%, #170f36 100%);
 }
+.font-pixel { font-family: var(--font-pixel), ui-monospace, monospace; font-weight: 400; }
 .font-games { font-family: var(--font-fredoka), var(--font-geist-sans), system-ui, sans-serif; font-weight: 600; letter-spacing: -0.01em; }
 .games-card {
   background:
@@ -177,6 +179,53 @@ body {
 .games-sticker:hover { transform: rotate(3deg) scale(1.06); }
 .games-tilt { transform: rotate(-3deg); transition: transform .3s; }
 .games-tilt:hover { transform: rotate(0) scale(1.02); }
+
+/* Hero backdrop: aurora glows, starfield and a neon perspective grid. */
+.games-aurora { position: absolute; border-radius: 999px; filter: blur(70px); opacity: .55; animation: games-drift 18s ease-in-out infinite alternate; }
+.games-aurora-a { width: 520px; height: 380px; left: -120px; top: -140px; background: #6ec8ff; opacity: .28; }
+.games-aurora-b { width: 560px; height: 420px; right: -160px; top: 40px; background: #ff7a59; opacity: .3; animation-duration: 22s; animation-delay: -6s; }
+.games-aurora-c { width: 480px; height: 300px; left: 30%; top: 45%; background: #b26bff; opacity: .28; animation-duration: 26s; animation-delay: -12s; }
+@keyframes games-drift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(60px,40px) scale(1.15); } }
+
+.games-stars, .games-stars-2 {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 26% 64%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 38% 12%, #ffe9a8 50%, transparent 51%),
+    radial-gradient(1px 1px at 52% 40%, #fff 50%, transparent 51%),
+    radial-gradient(2px 2px at 66% 18%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 52%, #cfe9ff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 90% 28%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 6% 48%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 44% 58%, #ffe9a8 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 84% 8%, #fff 50%, transparent 51%);
+  background-size: 640px 420px;
+  animation: games-twinkle 4s ease-in-out infinite;
+  mask-image: linear-gradient(#000 0%, #000 55%, transparent 80%);
+}
+.games-stars-2 { background-size: 410px 300px; background-position: 120px 60px; opacity: .6; animation-delay: -2s; animation-duration: 5.5s; }
+@keyframes games-twinkle { 0%,100% { opacity: .9; } 50% { opacity: .35; } }
+
+.games-horizon {
+  position: absolute; left: 0; right: 0; bottom: 23%; height: 2px;
+  background: linear-gradient(90deg, transparent, #ff7a59 20%, #ffc93c 50%, #ff7a59 80%, transparent);
+  box-shadow: 0 0 24px 6px rgba(255,122,89,.45), 0 0 80px 30px rgba(178,107,255,.18);
+  opacity: .85;
+}
+.games-grid-wrap { position: absolute; left: -50%; right: -50%; bottom: 0; height: 23%; perspective: 260px; overflow: hidden;
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 40%, #000 70%, transparent 100%); }
+.games-grid {
+  position: absolute; inset: -100% 0 0 0;
+  background-image:
+    linear-gradient(to right, rgba(255,122,201,.55) 1.5px, transparent 1.5px),
+    linear-gradient(to bottom, rgba(255,122,201,.55) 1.5px, transparent 1.5px);
+  background-size: 64px 64px;
+  transform: rotateX(62deg); transform-origin: 50% 100%;
+  animation: games-grid-move 2.4s linear infinite;
+}
+@keyframes games-grid-move { from { background-position: 0 0; } to { background-position: 0 64px; } }
+
 @media (prefers-reduced-motion: reduce) {
-  .games-bob, .games-float, .games-orb, .games-wiggle-text { animation: none; }
+  .games-bob, .games-float, .games-orb, .games-wiggle-text, .games-aurora, .games-stars, .games-stars-2, .games-grid { animation: none; }
 }

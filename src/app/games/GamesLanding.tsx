@@ -1,8 +1,8 @@
 "use client";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Sparkles } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { GAMES, type Game } from "@/lib/games";
-import { GamesMark } from "@/components/GamesMark";
+import { GamesLockup, GamesMark } from "@/components/GamesMark";
 import { CapybaraMark } from "@/components/CapybaraMark";
 
 const MAIN_SITE = "https://www.capybaralabs.tech";
@@ -14,24 +14,33 @@ export function GamesLanding() {
 
   return (
     <div id="top" className="games-bg flex-1 flex flex-col text-[var(--g-cream)]">
+      {/* ── Way back to the parent brand ── */}
+      <a href={MAIN_SITE}
+        className="group block border-b border-white/10 bg-black/25 text-[var(--g-cream-2)] hover:text-white transition-colors">
+        <span className="mx-auto max-w-6xl px-4 sm:px-6 h-10 flex items-center gap-2 text-sm">
+          <ArrowLeft size={15} className="group-hover:-translate-x-0.5 transition-transform" />
+          <CapybaraMark className="h-4 w-auto text-[#c4a9ec]" />
+          <span>{en ? "Back to" : "Volver a"} <span className="font-semibold text-white">capybara <span className="text-[#c4a9ec]">labs</span></span></span>
+        </span>
+      </a>
+
       {/* ── Top bar ── */}
-      <header className="mx-auto w-full max-w-6xl px-4 sm:px-6 h-20 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2.5 hover:scale-[1.03] transition-transform" aria-label="Capybara Game Labs">
-          <GamesMark className="h-10 w-auto text-[var(--g-capy)]" />
-          <span className="font-games text-xl sm:text-2xl leading-none">
-            capybara <span className="text-[var(--g-sun)]">game</span> <span className="text-[var(--g-mint)]">labs</span>
-          </span>
+      <header className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 h-20 flex items-center justify-between">
+        <a href="#top" className="hover:scale-[1.03] transition-transform" aria-label="Capybara Game Labs">
+          <GamesLockup />
         </a>
-        <a href={MAIN_SITE} className="hidden sm:inline-flex items-center gap-1 text-sm text-[var(--g-cream-2)] hover:text-white transition-colors">
+        <a href={MAIN_SITE} className="hidden sm:inline-flex items-center gap-1 rounded-full border border-white/15 px-3.5 py-1.5 text-sm text-[var(--g-cream-2)] hover:text-white hover:border-white/40 transition-colors">
           by Capybara Labs <ArrowUpRight size={14} />
         </a>
       </header>
 
       {/* ── Hero ── */}
-      <section className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 pt-10 pb-16 sm:pt-16 sm:pb-24 text-center">
+      <section className="relative -mt-20 pt-20">
+        <HeroBackdrop />
+      <div className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 pt-10 pb-56 sm:pt-14 sm:pb-72 text-center">
         <Confetti />
         <div className="relative">
-          <GamesMark className="games-bob mx-auto h-28 sm:h-36 w-auto text-[var(--g-capy)] drop-shadow-[0_12px_30px_rgba(255,201,60,.25)]" />
+          <GamesMark className="games-bob mx-auto h-28 w-28 sm:h-36 sm:w-36 drop-shadow-[0_18px_40px_rgba(255,122,89,.45)]" />
           <h1 className="font-games mt-6 text-5xl sm:text-7xl leading-[0.95] tracking-tight">
             {en ? <>Small games,<br /><span className="games-wiggle-text text-[var(--g-sun)]">big smiles.</span></>
                 : <>Juegos pequeños,<br /><span className="games-wiggle-text text-[var(--g-sun)]">sonrisas grandes.</span></>}
@@ -46,10 +55,11 @@ export function GamesLanding() {
             {en ? "See the games" : "Ver los juegos"} <Sparkles size={18} />
           </a>
         </div>
+      </div>
       </section>
 
       {/* ── Games ── */}
-      <section id="games" className="mx-auto w-full max-w-6xl px-4 sm:px-6 pb-24 scroll-mt-6">
+      <section id="games" className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 -mt-10 sm:-mt-16 pb-24 scroll-mt-6">
         {featured && <FeaturedGame game={featured} en={en} />}
         <div className="mt-8 grid gap-8 md:grid-cols-2">
           {rest.map((g) => <GameCard key={g.slug} game={g} en={en} />)}
@@ -86,7 +96,7 @@ function FeaturedGame({ game, en }: { game: Game; en: boolean }) {
       </div>
       <div>
         <div className="flex flex-wrap items-center gap-3">
-          <span className="eyebrow !text-[var(--g-cream-2)]">{en ? "Featured game" : "Juego destacado"}</span>
+          <span className="font-pixel text-xs tracking-[0.16em] text-[var(--g-cream-2)]">{en ? "FEATURED GAME" : "JUEGO DESTACADO"}</span>
           {soon && <SoonSticker en={en} />}
         </div>
         <div className="mt-4 flex items-center gap-4">
@@ -237,21 +247,47 @@ function PlayIcon() {
   );
 }
 
-/** Scattered playful shapes behind the hero. */
+/**
+ * Arcade night behind the hero: drifting aurora glows, a twinkling starfield,
+ * and a neon perspective grid scrolling towards the viewer.
+ */
+function HeroBackdrop() {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      <div className="games-aurora games-aurora-a" />
+      <div className="games-aurora games-aurora-b" />
+      <div className="games-aurora games-aurora-c" />
+      <div className="games-stars" />
+      <div className="games-stars games-stars-2" />
+      <div className="games-horizon" />
+      <div className="games-grid-wrap"><div className="games-grid" /></div>
+    </div>
+  );
+}
+
+/** Scattered playful shapes (dots, squares, rings, plus signs) floating over the hero. */
 function Confetti() {
-  const bits = [
+  const bits: { x: string; y: string; c: string; r: number; k: "circle" | "square" | "ring" | "plus" | "tri" }[] = [
     { x: "8%", y: "18%", c: "var(--g-sun)", r: 12, k: "circle" }, { x: "88%", y: "12%", c: "var(--g-mint)", r: 16, k: "square" },
-    { x: "16%", y: "72%", c: "var(--g-sky)", r: 14, k: "square" }, { x: "80%", y: "66%", c: "var(--g-coral)", r: 12, k: "circle" },
-    { x: "30%", y: "8%", c: "var(--g-coral)", r: 8, k: "circle" }, { x: "70%", y: "36%", c: "var(--g-sun)", r: 9, k: "square" },
-    { x: "4%", y: "46%", c: "var(--g-mint)", r: 7, k: "circle" }, { x: "95%", y: "44%", c: "var(--g-sky)", r: 8, k: "circle" },
+    { x: "14%", y: "62%", c: "var(--g-sky)", r: 18, k: "ring" }, { x: "82%", y: "58%", c: "var(--g-coral)", r: 18, k: "plus" },
+    { x: "28%", y: "8%", c: "var(--g-coral)", r: 9, k: "circle" }, { x: "72%", y: "30%", c: "var(--g-sun)", r: 14, k: "tri" },
+    { x: "4%", y: "40%", c: "var(--g-mint)", r: 14, k: "plus" }, { x: "94%", y: "38%", c: "var(--g-sky)", r: 9, k: "circle" },
+    { x: "22%", y: "36%", c: "var(--g-sun)", r: 8, k: "square" }, { x: "64%", y: "6%", c: "var(--g-sky)", r: 14, k: "ring" },
   ];
   return (
     <div className="pointer-events-none absolute inset-0" aria-hidden>
       {bits.map((b, i) => (
-        <span key={i} className="games-float absolute" style={{
-          left: b.x, top: b.y, width: b.r, height: b.r, background: b.c,
-          borderRadius: b.k === "circle" ? "999px" : "3px", animationDelay: `${i * 0.7}s`,
-        }} />
+        <span key={i} className="games-float absolute" style={{ left: b.x, top: b.y, width: b.r, height: b.r, animationDelay: `${i * 0.6}s`, color: b.c }}>
+          {b.k === "circle" && <span className="block h-full w-full rounded-full bg-current" />}
+          {b.k === "square" && <span className="block h-full w-full rounded-[3px] bg-current" />}
+          {b.k === "ring" && <span className="block h-full w-full rounded-full border-[3px] border-current" />}
+          {b.k === "plus" && (
+            <svg viewBox="0 0 10 10" className="h-full w-full"><path d="M5 1v8M1 5h8" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
+          )}
+          {b.k === "tri" && (
+            <svg viewBox="0 0 10 10" className="h-full w-full"><path d="M5 1.2 9 8.6H1z" fill="currentColor" strokeLinejoin="round" /></svg>
+          )}
+        </span>
       ))}
     </div>
   );
