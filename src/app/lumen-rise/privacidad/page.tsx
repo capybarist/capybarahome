@@ -13,7 +13,7 @@ export default function LumenRisePrivacy() {
     <LegalPage>
       <h1>Política de privacidad — Lumen Rise</h1>
       <p><em>Última actualización: 11 de noviembre de 2026.</em></p>
-      <p><strong>Responsable:</strong> Capybara Labs · Contacto: {mail}</p>
+      <p><strong>Responsable:</strong> Capybara Labs LLC (30 N Gould St, Ste N, Sheridan, WY 82801, EE. UU.) · Contacto: {mail}</p>
 
       <h2>1. Qué datos trata la app</h2>
       <p>
@@ -60,7 +60,7 @@ export default function LumenRisePrivacy() {
       <h2>5. Tus derechos</h2>
       <p>
         Puedes ejercer los derechos de acceso, rectificación, supresión, oposición y portabilidad escribiendo
-        a {mail}. También puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).
+        a {mail}. También puedes reclamar ante la autoridad de protección de datos de tu país.
       </p>
 
       <h2>6. Cambios</h2>
@@ -70,7 +70,7 @@ export default function LumenRisePrivacy() {
 
       <h1>Privacy Policy — Lumen Rise</h1>
       <p><em>Last updated: November 11, 2026.</em></p>
-      <p><strong>Controller:</strong> Capybara Labs · Contact: {mail}</p>
+      <p><strong>Controller:</strong> Capybara Labs LLC (30 N Gould St, Ste N, Sheridan, WY 82801, USA) · Contact: {mail}</p>
 
       <h2>What we collect</h2>
       <p>
