@@ -133,3 +133,50 @@ body {
   .lift, .card-hover { transition: none; }
   .lift:hover, .card-hover:hover, .card-hover-accent:hover { transform: none; }
 }
+
+/* ── Capybara Game Labs (games.capybaralabs.tech) ─────────────────────────────
+   A separate, playful sub-brand: night sky, bright candy colours and a rounded
+   display face (Fredoka, loaded in app/games/layout.tsx). */
+.games-root {
+  --g-night:   #1d1442;
+  --g-night-2: #2a1d5c;
+  --g-cream:   #fff7e8;
+  --g-cream-2: #d9cfee;
+  --g-cream-3: #9f93c2;
+  --g-capy:    #d99a62;
+  --g-sun:     #ffc93c;
+  --g-coral:   #ff7a59;
+  --g-mint:    #3ccf91;
+  --g-sky:     #6ec8ff;
+}
+.games-root ::selection { background: var(--g-sun); color: var(--g-night); }
+.games-bg {
+  background:
+    radial-gradient(60% 40% at 15% 0%, rgba(110,200,255,.18), transparent 70%),
+    radial-gradient(50% 40% at 90% 10%, rgba(255,122,89,.16), transparent 70%),
+    linear-gradient(180deg, var(--g-night) 0%, #170f36 100%);
+}
+.font-games { font-family: var(--font-fredoka), var(--font-geist-sans), system-ui, sans-serif; font-weight: 600; letter-spacing: -0.01em; }
+.games-card {
+  background:
+    radial-gradient(80% 70% at 0% 0%, color-mix(in srgb, var(--c1) 22%, transparent), transparent 70%),
+    radial-gradient(70% 60% at 100% 100%, color-mix(in srgb, var(--c2) 18%, transparent), transparent 70%),
+    var(--g-night-2);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 30px 80px -40px color-mix(in srgb, var(--c1) 60%, transparent);
+}
+
+@keyframes games-bob { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+@keyframes games-float { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-14px) rotate(25deg); } }
+@keyframes games-orb { 0% { transform: translateY(0) scale(.6); opacity: 0; } 15% { opacity: 1; } 100% { transform: translateY(-640px) scale(1.1); opacity: 0; } }
+@keyframes games-wiggle { 0%,100% { transform: rotate(-1.5deg); } 50% { transform: rotate(1.5deg); } }
+.games-bob { animation: games-bob 3.2s ease-in-out infinite; }
+.games-float { animation: games-float 5s ease-in-out infinite; opacity: .8; }
+.games-orb { animation: games-orb 6s linear infinite; }
+.games-wiggle-text { display: inline-block; animation: games-wiggle 2.6s ease-in-out infinite; }
+.games-sticker { transition: transform .2s; }
+.games-sticker:hover { transform: rotate(3deg) scale(1.06); }
+.games-tilt { transform: rotate(-3deg); transition: transform .3s; }
+.games-tilt:hover { transform: rotate(0) scale(1.02); }
+@media (prefers-reduced-motion: reduce) {
+  .games-bob, .games-float, .games-orb, .games-wiggle-text { animation: none; }
+}

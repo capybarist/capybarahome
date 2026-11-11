@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useI18n } from "@/lib/i18n";
 import { PROJECTS, projectHref } from "@/lib/projects";
 import { CapybaraMark } from "@/components/CapybaraMark";
+import { GAMES_URL } from "@/lib/games";
 
 export function Footer() {
   const { t, lang } = useI18n();
@@ -40,6 +41,7 @@ export function Footer() {
             <div className="flex flex-col gap-2.5 text-sm">
               <Link href="/#services" className={linkCls}>{t("nav_services")}</Link>
               <Link href="/#contact" className={linkCls}>{t("nav_contact")}</Link>
+              <a href={GAMES_URL} className={linkCls}>Games</a>
               <a href="https://github.com/capybarist" target="_blank" rel="noopener" className={linkCls}>GitHub</a>
               <a href="https://www.linkedin.com/company/capybara-labsllc" target="_blank" rel="noopener" className={linkCls}>LinkedIn</a>
             </div>

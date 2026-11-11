@@ -7,6 +7,7 @@ import { useI18n } from "@/lib/i18n";
 import { PROJECTS, projectHref } from "@/lib/projects";
 import { ProjectMark, SmartLink } from "@/components/ProjectCard";
 import { CapybaraMark } from "@/components/CapybaraMark";
+import { GAMES_URL } from "@/lib/games";
 
 export function Header() {
   const { t, lang } = useI18n();
@@ -22,6 +23,8 @@ export function Header() {
     { label: t("nav_services"), href: "/#services" },
     { label: en ? "How we work" : "Cómo trabajamos", href: "/#process" },
     { label: t("nav_contact"), href: "/#contact" },
+    // The games have their own, playful sub-brand on games.capybaralabs.tech.
+    { label: "Games", href: GAMES_URL },
   ];
 
   const productActive = path === "/products" || PROJECTS.some((p) => p.page === path);
