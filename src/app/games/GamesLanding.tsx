@@ -2,7 +2,7 @@
 import { ArrowLeft, ArrowUpRight, Sparkles } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { GAMES, type Game } from "@/lib/games";
-import { GamesLockup, GamesMark } from "@/components/GamesMark";
+import { GamesLockup } from "@/components/GamesMark";
 import { CapybaraMark } from "@/components/CapybaraMark";
 
 const MAIN_SITE = "https://www.capybaralabs.tech";
@@ -40,8 +40,7 @@ export function GamesLanding() {
       <div className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 pt-10 pb-56 sm:pt-14 sm:pb-72 text-center">
         <Confetti />
         <div className="relative">
-          <GamesMark className="games-bob mx-auto h-28 w-28 sm:h-36 sm:w-36 drop-shadow-[0_18px_40px_rgba(255,122,89,.45)]" />
-          <h1 className="font-games mt-6 text-5xl sm:text-7xl leading-[0.95] tracking-tight">
+          <h1 className="font-games mt-10 sm:mt-16 text-5xl sm:text-7xl leading-[0.95] tracking-tight">
             {en ? <>Small games,<br /><span className="games-wiggle-text text-[var(--g-sun)]">big smiles.</span></>
                 : <>Juegos pequeños,<br /><span className="games-wiggle-text text-[var(--g-sun)]">sonrisas grandes.</span></>}
           </h1>
