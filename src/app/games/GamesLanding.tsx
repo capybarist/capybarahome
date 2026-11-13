@@ -97,6 +97,7 @@ function FeaturedGame({ game, en }: { game: Game; en: boolean }) {
         <div className="flex flex-wrap items-center gap-3">
           <span className="font-pixel text-xs tracking-[0.16em] text-[var(--g-cream-2)]">{en ? "FEATURED GAME" : "JUEGO DESTACADO"}</span>
           {soon && <SoonSticker en={en} />}
+          {soon && game.launch && <span className="text-sm text-[var(--g-cream-2)]">{en ? game.launch.en : game.launch.es}</span>}
         </div>
         <div className="mt-4 flex items-center gap-4">
           {game.icon && <img src={game.icon} alt="" className="h-16 w-16 rounded-2xl shadow-lg" />}
@@ -128,7 +129,7 @@ function GameCard({ game, en }: { game: Game; en: boolean }) {
       style={{ "--c1": game.color, "--c2": game.color2 } as React.CSSProperties}>
       <div className="aspect-video rounded-2xl overflow-hidden bg-black/30">
         {game.video
-          ? <video src={game.video} poster={game.poster} autoPlay muted loop playsInline className="h-full w-full object-cover" />
+          ? <video key={en ? "en" : "es"} src={en ? game.video.en : game.video.es} poster={game.poster && (en ? game.poster.en : game.poster.es)} autoPlay muted loop playsInline preload="metadata" className="h-full w-full object-cover" />
           : <LightPlaceholder color={game.color} />}
       </div>
       <div className="flex items-center gap-3">
@@ -168,12 +169,11 @@ function SoonSticker({ en, small }: { en: boolean; small?: boolean }) {
 // ── Trailer: a looping, muted video inside a phone frame ──────────────────────
 function PhoneVideo({ game, en }: { game: Game; en: boolean }) {
   return (
-    <div className="games-tilt relative w-[240px] sm:w-[270px] aspect-[9/19.5] rounded-[2.6rem] bg-[#0d0a1f] p-2.5 shadow-[0_30px_60px_-20px_rgba(0,0,0,.6),0_0_0_3px_rgba(255,255,255,.08)]">
-      <div className="relative h-full w-full overflow-hidden rounded-[2.1rem] bg-black">
+    <div className="games-tilt relative w-[240px] sm:w-[280px] rounded-[2.6rem] bg-[#0d0a1f] p-2.5 shadow-[0_30px_60px_-20px_rgba(0,0,0,.6),0_0_0_3px_rgba(255,255,255,.08)]">
+      <div className="relative aspect-[9/16] w-full overflow-hidden rounded-[2.1rem] bg-black">
         {game.video
-          ? <video src={game.video} poster={game.poster} autoPlay muted loop playsInline className="h-full w-full object-cover" aria-label={`${game.name} trailer`} />
+          ? <video key={en ? "en" : "es"} src={en ? game.video.en : game.video.es} poster={game.poster && (en ? game.poster.en : game.poster.es)} autoPlay muted loop playsInline preload="metadata" className="h-full w-full object-cover" aria-label={`${game.name} trailer`} />
           : <LightPlaceholder color={game.color} label={en ? "Trailer coming soon" : "Tráiler muy pronto"} />}
-        <div className="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-20 rounded-full bg-black/80" aria-hidden />
       </div>
     </div>
   );
