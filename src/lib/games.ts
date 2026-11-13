@@ -16,10 +16,12 @@ export interface Game {
   body: { en: string; es: string };
   /** Genre / platform chips. */
   tags: { en: string; es: string }[];
-  /** Looping trailer (mp4/webm under /public/games/<slug>/). Without one, the card shows an animated placeholder. */
-  video?: string;
-  /** Poster frame for the video, and the image used while it loads. */
-  poster?: string;
+  /** Looping, silent trailer per language (mp4 under /public/games/<slug>/). Without one, the card shows an animated placeholder. */
+  video?: { en: string; es: string };
+  /** Poster frame for the video (its first frame, so there is no jump when it starts), per language. */
+  poster?: { en: string; es: string };
+  /** Planned launch, shown next to "coming soon". */
+  launch?: { en: string; es: string };
   /** App icon (square PNG). */
   icon?: string;
   appStore?: string;
@@ -33,21 +35,28 @@ export const GAMES: Game[] = [
     slug: "lumen-rise",
     name: "Lumen Rise",
     status: "coming-soon",
-    color: "#ffc93c",
-    color2: "#ff7a59",
-    // TODO(Enrique): provisional copy, replace with the real pitch from the Lumen Rise store listing.
+    color: "#3ee8f2",
+    color2: "#ffc94d",
     pitch: {
-      en: "Follow the light and climb as high as you can.",
-      es: "Sigue la luz y sube todo lo alto que puedas.",
+      en: "Match, ignite and launch light to the surface",
+      es: "Alinea, enciende y lanza la luz hacia la superficie",
     },
     body: {
-      en: "A bright little arcade game for quick sessions: clear levels, collect pearls and keep rising. No account, no fuss, just one more try.",
-      es: "Un arcade luminoso para partidas rápidas: supera niveles, recoge perlas y no dejes de subir. Sin registro ni complicaciones, solo una partida más.",
+      en: "Glowing lumens keep sinking to the ocean floor. Line up three to ignite them and launch them upward, then match again mid-flight to chain combos. Eight depth zones, an endless mode and a daily challenge.",
+      es: "Los lúmenes caen sin parar al fondo del mar. Alinea tres iguales para encenderlos y lanzarlos hacia arriba, y vuelve a alinear en pleno vuelo para encadenar. Ocho zonas de profundidad, modo infinito y reto diario.",
     },
     tags: [
+      { en: "Puzzle", es: "Puzle" },
       { en: "Arcade", es: "Arcade" },
       { en: "iOS & Android", es: "iOS y Android" },
     ],
+    video: { en: "/games/lumen-rise/trailer-en.mp4", es: "/games/lumen-rise/trailer-es.mp4" },
+    poster: { en: "/games/lumen-rise/poster-en.jpg", es: "/games/lumen-rise/poster-es.jpg" },
+    icon: "/games/lumen-rise/icon.png",
+    launch: { en: "Planned for December 2026", es: "Previsto para diciembre de 2026" },
+    // Not published yet. When live: Google Play
+    // https://play.google.com/store/apps/details?id=tech.capybaralabs.lumenrise
+    // and App Store https://apps.apple.com/app/id<APPLE_ID>.
     privacy: "https://www.capybaralabs.tech/lumen-rise/privacidad",
     support: "https://www.capybaralabs.tech/lumen-rise/soporte",
   },
